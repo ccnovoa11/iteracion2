@@ -45,7 +45,7 @@ public class ListaAerolineas {
 	 * Método que asigna la lista de videos que entra como parametro
 	 * @param  videos - List con los videos ha agregar
 	 */
-	public void serAerolinea(List<Aerolinea> aerolineas) {
+	public void setAerolinea(List<Aerolinea> aerolineas) {
 		this.aerolineas = aerolineas;
 	}
 	
