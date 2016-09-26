@@ -136,10 +136,10 @@ public class DAOTablaAerolineas {
 	public void addAerolinea(Aerolinea aerolinea) throws SQLException, Exception {
 
 		String sql = "INSERT INTO ISIS2304B041620.AEROLINEA VALUES (";
-		sql += aerolinea.getCodigo() + ",'";
-		sql += aerolinea.getIata() + "',";
-		sql += aerolinea.getNombre() + "',";
-		sql += aerolinea.getPais() + ")";
+		sql += "'" + aerolinea.getCodigo() + "','";
+		sql += aerolinea.getIata() + "','";
+		sql += aerolinea.getNombre() + "','";
+		sql += "'" + aerolinea.getPais()  + "')";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -161,9 +161,9 @@ public class DAOTablaAerolineas {
 
 		String sql = "UPDATE ISIS2304B041620.AEROLINEA SET ";
 		sql += "NOMBRE='" + aerolinea.getNombre() + "',";
-		sql += "IATA=" + aerolinea.getIata()+ "',";
-		sql += "PAIS=" + aerolinea.getPais();
-		sql += " WHERE CODIGO = " + aerolinea.getCodigo();
+		sql += "IATA='" + aerolinea.getIata()+ "',";
+		sql += "PAIS='" + aerolinea.getPais()+ "'";
+		sql += " WHERE CODIGO = '" + aerolinea.getCodigo()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -183,7 +183,7 @@ public class DAOTablaAerolineas {
 	public void deleteAerolinea(Aerolinea aerolinea) throws SQLException, Exception {
 
 		String sql = "DELETE FROM ISIS2304B041620.AEROLINEA";
-		sql += " WHERE CODIGO = " + aerolinea.getCodigo();
+		sql += " WHERE CODIGO = '" + aerolinea.getCodigo()+"'";
 
 		System.out.println("SQL stmt:" + sql);
 
