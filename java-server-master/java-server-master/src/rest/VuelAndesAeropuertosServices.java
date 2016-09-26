@@ -118,7 +118,7 @@ public class VuelAndesAeropuertosServices {
      * @param video - video a agregar
      * @return Json con el video que agrego o Json con el error que se produjo
      */
-	@PUT
+	@POST
 	@Path("/aeropuerto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -158,7 +158,7 @@ public class VuelAndesAeropuertosServices {
      * @param video - video a actualizar. 
      * @return Json con el video que actualizo o Json con el error que se produjo
      */
-	@POST
+	@PUT
 	@Path("/aeropuerto")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

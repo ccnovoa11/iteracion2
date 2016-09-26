@@ -75,7 +75,7 @@ public class DAOTablaAeropuertos {
 			String tipo = rs.getString("TIPO");
 			String capacidad = rs.getString("CAPACIDAD");
 			int idAdmin = rs.getInt("IDADMIN");
-			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad));
+			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad,idAdmin));
 		}
 		return aeropuertos;
 	}
@@ -106,7 +106,7 @@ public class DAOTablaAeropuertos {
 			String tipo = rs.getString("TIPO");
 			String capacidad = rs.getString("CAPACIDAD");
 			int idAdmin = rs.getInt("IDADMIN");
-			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad));
+			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad,idAdmin));
 		}
 
 		return aeropuertos;
@@ -124,9 +124,9 @@ public class DAOTablaAeropuertos {
 
 		String sql = "INSERT INTO ISIS2304B041620.AEROPUERTO VALUES (";
 		sql += aeropuerto.getCodigo() + ",'";
-		sql += aeropuerto.getNombre() + "',";
-		sql += aeropuerto.getPais() + "',";
-		sql += aeropuerto.getTipo() + "',";
+		sql += aeropuerto.getNombre() + "','";
+		sql += aeropuerto.getPais() + "','";
+		sql += aeropuerto.getTipo() + "','";
 		sql += aeropuerto.getCapacidad() + "',";
 		sql += aeropuerto.getIdAdmin() + ")";
 
@@ -151,9 +151,9 @@ public class DAOTablaAeropuertos {
 		String sql = "UPDATE ISIS2304B041620.AEROPUERTO SET ";
 		
 		sql += "NOMBRE='" + aeropuerto.getNombre() + "',";
-		sql += "PAIS=" + aeropuerto.getPais() + "',";
-		sql += "TIPO=" +aeropuerto.getTipo() + "',";
-		sql += "CAPACIDAD=" +aeropuerto.getCapacidad() + "',";
+		sql += "PAIS= '" + aeropuerto.getPais() + "',";
+		sql += "TIPO= '" +aeropuerto.getTipo() + "',";
+		sql += "CAPACIDAD= '" +aeropuerto.getCapacidad() + "',";
 		sql += "IDADMIN=" + aeropuerto.getIdAdmin();
 		sql += " WHERE CODIGO = " + aeropuerto.getCodigo();
 

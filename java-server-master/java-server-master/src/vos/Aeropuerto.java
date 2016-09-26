@@ -49,13 +49,16 @@ public class Aeropuerto {
 	 * @param name - Nombre del video. name != null
 	 * @param duration - Duración en minutos del video.
 	 */
-	public Aeropuerto(@JsonProperty(value="codigo")int codigo, @JsonProperty(value="nombre") String nombre, @JsonProperty(value="pais") String pais, @JsonProperty(value="tipo") String tipo,@JsonProperty(value="capacidad") String capacidad) {
+	public Aeropuerto(@JsonProperty(value="codigo")int codigo, @JsonProperty(value="nombre") String nombre, 
+			@JsonProperty(value="pais") String pais, @JsonProperty(value="tipo") String tipo,
+			@JsonProperty(value="capacidad") String capacidad, @JsonProperty(value="idAdmin") int idAdmin) {
 
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.pais =pais;
 		this.capacidad = capacidad;
 		this.tipo=tipo;
+		this.idAdmin=idAdmin;
 	}
 
 	public int getCodigo() {
