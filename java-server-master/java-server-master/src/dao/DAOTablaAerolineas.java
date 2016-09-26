@@ -139,7 +139,7 @@ public class DAOTablaAerolineas {
 		sql += "'" + aerolinea.getCodigo() + "','";
 		sql += aerolinea.getIata() + "','";
 		sql += aerolinea.getNombre() + "','";
-		sql += "'" + aerolinea.getPais()  + "')";
+		sql += aerolinea.getPais()  + "')";
 
 		System.out.println("SQL stmt:" + sql);
 

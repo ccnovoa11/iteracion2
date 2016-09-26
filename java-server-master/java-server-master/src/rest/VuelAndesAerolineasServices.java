@@ -134,10 +134,10 @@ public class VuelAndesAerolineasServices {
 	@Path("/aerolinea")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addAerolinea(Aerolinea aerolinea) {
+	public Response updateAerolinea(Aerolinea aerolinea) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.addAerolinea(aerolinea);
+			tm.updateAerolinea(aerolinea);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -170,14 +170,14 @@ public class VuelAndesAerolineasServices {
      * @param video - video a actualizar. 
      * @return Json con el video que actualizo o Json con el error que se produjo
      */
-	@PUT
+	@POST
 	@Path("/aerolinea")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updatAerolinea(Aerolinea aerolinea) {
+	public Response addAerolinea(Aerolinea aerolinea) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.updateAerolinea(aerolinea);
+			tm.addAerolinea(aerolinea);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
