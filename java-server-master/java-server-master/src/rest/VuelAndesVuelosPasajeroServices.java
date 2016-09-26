@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.Aeronave;
 import vos.Aeropuerto;
 import vos.ListaAeropuertos;
 import vos.ListaVuelosPasajero;
@@ -72,7 +73,7 @@ public class VuelAndesVuelosPasajeroServices {
      * el error que se produjo
      */
 	@GET
-	@Path("/name/{name}")
+	@Path("/id/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getVueloPasajeroId(@javax.ws.rs.PathParam("id") int id) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
@@ -148,6 +149,36 @@ public class VuelAndesVuelosPasajeroServices {
 		return Response.status(200).entity(vuelos).build();
 	}
 	
+	
+	@PUT
+	@Path("/id/{idVuelo}/idAeronave/{idAeronave}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response asociarVueloPasajeroAeronave(@javax.ws.rs.PathParam("idVuelo") int idVuelo, @javax.ws.rs.PathParam("idAeronave") String idAeronave) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		VueloPasajero vuelo;
+		try {
+			if (idVuelo <= 0)
+				throw new Exception("Id del vuelo no valido");
+			vuelo = tm.buscarVueloPasajeroPorId(idVuelo).getVuelosPasajero().get(0);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		
+		Aeronave aeronave;
+		try {
+			if (idAeronave ==null )
+				throw new Exception("numSerie de la aeronave no valido");
+			aeronave = tm.buscarAeronavePasajeroPorNumSerie(idAeronave).getAeronaves().get(0);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		
+		VueloPasajero respuesta = tm.asociarVueloPasajeroAeronave(vuelo, aeronave);
+		
+		return Response.status(200).entity(respuesta).build();
+	}
+	
+	
     /**
      * Método que expone servicio REST usando POST que actualiza el video que recibe en Json
      * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
@@ -155,7 +186,7 @@ public class VuelAndesVuelosPasajeroServices {
      * @return Json con el video que actualizo o Json con el error que se produjo
      */
 	@PUT
-	@Path("vueloPasajero")
+	@Path("/vueloPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateVueloPasajero(VueloPasajero vuelo) {

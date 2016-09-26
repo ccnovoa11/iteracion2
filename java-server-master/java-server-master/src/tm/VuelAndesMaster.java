@@ -1634,6 +1634,55 @@ public class VuelAndesMaster {
 		return new ListaVuelosPasajero(vuelos);
 	}
 	
+	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
+	{
+		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
+		VueloPasajero rta;
+		
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daovuelo.setConn(conn);
+			daovuelo.asociarAeronaveViajePasajero(aeronave, vuelo);
+			rta = buscarVueloPasajeroPorId(vuelo.getId()).getVuelosPasajero().get(0);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daovuelo.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return rta;
+		
+	}
+	
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro

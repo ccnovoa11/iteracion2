@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import vos.Aeronave;
 import vos.VueloPasajero;
 
 public class DAOTablaVueloPasajero {
@@ -161,6 +162,20 @@ public class DAOTablaVueloPasajero {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 
+	}
+	
+	
+	public void asociarAeronaveViajePasajero(Aeronave aeronave, VueloPasajero vueloP) throws SQLException, Exception{
+		
+		String sql = "UPDATE ISIS2304B041620.VUELO_PASAJERO SET ";
+		sql += "NUMSERIE_AERONAVE='" +aeronave.getNumSerie() + "'";
+		sql += " WHERE ID = " + vueloP.getId();
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();	
 	}
 	
 	/**
