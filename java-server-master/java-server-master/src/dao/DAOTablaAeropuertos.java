@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Aerolinea;
+import vos.Aeropuerto;
 
 public class DAOTablaAeropuertos {
 
@@ -59,23 +59,25 @@ public class DAOTablaAeropuertos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Aerolinea> darAerolineas() throws SQLException, Exception {
-		ArrayList<Aerolinea> aerolineas = new ArrayList<Aerolinea>();
+	public ArrayList<Aeropuerto> darAeropuertos() throws SQLException, Exception {
+		ArrayList<Aeropuerto> aeropuertos = new ArrayList<Aeropuerto>();
 
-		String sql = "SELECT * FROM ISIS2304B041620.AEROLINEA";
+		String sql = "SELECT * FROM ISIS2304B041620.AEROPUERTO";
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-
+		
 		while (rs.next()) {
-			String codigo = rs.getString("CODIGO");
-			String iata = rs.getString("IATA");
+			int codigo = rs.getInt("CODIGO");
 			String nombre = rs.getString("NOMBRE");
 			String pais = rs.getString("PAIS");
-			aerolineas.add(new Aerolinea(codigo, iata, nombre,pais));
+			String tipo = rs.getString("TIPO");
+			String capacidad = rs.getString("CAPACIDAD");
+			int idAdmin = rs.getInt("IDADMIN");
+			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad));
 		}
-		return aerolineas;
+		return aeropuertos;
 	}
 
 
@@ -86,10 +88,10 @@ public class DAOTablaAeropuertos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public ArrayList<Aerolinea> buscarAerolineasPorNombre(String name) throws SQLException, Exception {
-		ArrayList<Aerolinea> aerolineas = new ArrayList<Aerolinea>();
+	public ArrayList<Aeropuerto> buscarAeropuertosPorNombre(String name) throws SQLException, Exception {
+		ArrayList<Aeropuerto> aeropuertos = new ArrayList<Aeropuerto>();
 
-		String sql = "SELECT * FROM ISIS2304B041620.AEROLINEA WHERE NOMBRE ='" + name + "'";
+		String sql = "SELECT * FROM ISIS2304B041620.AEROPUERTO WHERE NOMBRE ='" + name + "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -98,14 +100,16 @@ public class DAOTablaAeropuertos {
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
+			int codigo = rs.getInt("CODIGO");
 			String nombre = rs.getString("NOMBRE");
-			String codigo = rs.getString("CODIGO");
-			String iata = rs.getString("IATA");
 			String pais = rs.getString("PAIS");
-			aerolineas.add(new Aerolinea(codigo,iata,nombre,pais));
+			String tipo = rs.getString("TIPO");
+			String capacidad = rs.getString("CAPACIDAD");
+			int idAdmin = rs.getInt("IDADMIN");
+			aeropuertos.add(new Aeropuerto(codigo,nombre,pais,tipo,capacidad));
 		}
 
-		return aerolineas;
+		return aeropuertos;
 	}
 
 	/**
@@ -116,13 +120,15 @@ public class DAOTablaAeropuertos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo agregar el video a la base de datos
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void addAerolinea(Aerolinea aerolinea) throws SQLException, Exception {
+	public void addAeropuerto(Aeropuerto aeropuerto) throws SQLException, Exception {
 
-		String sql = "INSERT INTO ISIS2304B041620.AEROLINEA VALUES (";
-		sql += aerolinea.getCodigo() + ",'";
-		sql += aerolinea.getIata() + "',";
-		sql += aerolinea.getNombre() + "',";
-		sql += aerolinea.getPais() + ")";
+		String sql = "INSERT INTO ISIS2304B041620.AEROPUERTO VALUES (";
+		sql += aeropuerto.getCodigo() + ",'";
+		sql += aeropuerto.getNombre() + "',";
+		sql += aeropuerto.getPais() + "',";
+		sql += aeropuerto.getTipo() + "',";
+		sql += aeropuerto.getCapacidad() + "',";
+		sql += aeropuerto.getIdAdmin() + ")";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -140,13 +146,17 @@ public class DAOTablaAeropuertos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el video.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void updatAerolinea(Aerolinea aerolinea) throws SQLException, Exception {
+	public void updateAeropuerto(Aeropuerto aeropuerto) throws SQLException, Exception {
 
-		String sql = "UPDATE ISIS2304B041620.AEROLINEA SET ";
-		sql += "NOMBRE='" + aerolinea.getNombre() + "',";
-		sql += "IATA=" + aerolinea.getIata();
-		sql += "PAIS=" + aerolinea.getPais();
-		sql += " WHERE CODIGO = " + aerolinea.getCodigo();
+		String sql = "UPDATE ISIS2304B041620.AEROPUERTO SET ";
+		
+		sql += "NOMBRE='" + aeropuerto.getNombre() + "',";
+		sql += "PAIS=" + aeropuerto.getPais() + "',";
+		sql += "TIPO=" +aeropuerto.getTipo() + "',";
+		sql += "CAPACIDAD=" +aeropuerto.getCapacidad() + "',";
+		sql += "IDADMIN=" + aeropuerto.getIdAdmin();
+		sql += " WHERE CODIGO = " + aeropuerto.getCodigo();
+
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -163,10 +173,10 @@ public class DAOTablaAeropuertos {
 	 * @throws SQLException - Cualquier error que la base de datos arroje. No pudo actualizar el video.
 	 * @throws Exception - Cualquier error que no corresponda a la base de datos
 	 */
-	public void deleteAerolinea(Aerolinea aerolinea) throws SQLException, Exception {
+	public void deleteAeropuerto(Aeropuerto aeropuerto) throws SQLException, Exception {
 
-		String sql = "DELETE FROM ISIS2304B041620.AEROLINEA";
-		sql += " WHERE CODIGO = " + aerolinea.getCodigo();
+		String sql = "DELETE FROM ISIS2304B041620.AEROPUERTO";
+		sql += " WHERE CODIGO = " + aeropuerto.getCodigo();
 
 		System.out.println("SQL stmt:" + sql);
 
