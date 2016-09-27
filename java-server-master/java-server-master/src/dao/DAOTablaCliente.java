@@ -140,7 +140,7 @@ public class DAOTablaCliente {
 	public ArrayList<Viajero> buscarViajerosPorNombre(String name) throws SQLException, Exception {
 		ArrayList<Viajero> viajeros = new ArrayList<Viajero>();
 
-		String sql = "SELECT * FROM FROM ISIS2304B041620.VIAJERO WHERE NOMBRE ='" + name + "'";
+		String sql = "SELECT * FROM ISIS2304B041620.VIAJERO WHERE NOMBRE ='" + name + "'";
 
 		System.out.println("SQL stmt:" + sql);
 
