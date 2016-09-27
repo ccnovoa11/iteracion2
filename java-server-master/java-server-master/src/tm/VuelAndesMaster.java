@@ -24,6 +24,7 @@ import dao.DAOTablaAerolineas;
 import dao.DAOTablaAeronaves;
 import dao.DAOTablaAeropuertos;
 import dao.DAOTablaCliente;
+import dao.DAOTablaReservas;
 import dao.DAOTablaSilla;
 import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloPasajero;
@@ -36,11 +37,13 @@ import vos.ListaAerolineas;
 import vos.ListaAeronaves;
 import vos.ListaAeropuertos;
 import vos.ListaRemitentes;
+import vos.ListaReservasPasajero;
 import vos.ListaSillas;
 import vos.ListaViajeros;
 import vos.ListaVuelosCarga;
 import vos.ListaVuelosPasajero;
 import vos.Remitente;
+import vos.ReservaPasajero;
 import vos.Silla;
 import vos.Viajero;
 import vos.VueloCarga;
@@ -2561,4 +2564,225 @@ public class VuelAndesMaster {
 		}
 	}
 	
+	//Transaccion reserva pasajero
+	
+	
+	public ListaReservasPasajero darReservasPasajero() throws Exception {
+		ArrayList<ReservaPasajero> reservasPasajero;
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			reservasPasajero = daoReservasPasajero.darReservasPasajeros();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaReservasPasajero(reservasPasajero);
+	}
+
+	/**
+	 * Método que modela la transacción que busca el/los videos en la base de datos con el nombre entra como parámetro.
+	 * @param name - Nombre del video a buscar. name != null
+	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
+	 * @throws Exception -  cualquier error que se genere durante la transacción
+	 */
+	public ListaReservasPasajero buscarReservaPorVuelo(int num) throws Exception {
+		ArrayList<ReservaPasajero> reservasPasajero;
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			reservasPasajero = daoReservasPasajero.buscarReservasPorVuelo(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaReservasPasajero(reservasPasajero);
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega un solo video a la base de datos.
+	 * <b> post: </b> se ha agregado el video que entra como parámetro
+	 * @param video - el video a agregar. video != null
+	 * @throws Exception - cualquier error que se genera agregando el video
+	 */
+	public void addReservaPasajero(ReservaPasajero reservaPasajero) throws Exception {
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			daoReservasPasajero.addReserva(reservaPasajero);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
+	 * <b> post: </b> se han agregado los videos que entran como parámetro
+	 * @param videos - objeto que modela una lista de videos y se estos se pretenden agregar. videos != null
+	 * @throws Exception - cualquier error que se genera agregando los videos
+	 */
+	public void addReservasPasajero(ListaReservasPasajero reservasPasajero) throws Exception {
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción - ACID Example
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoReservasPasajero.setConn(conn);
+			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())
+				daoReservasPasajero.addReserva(reservaPasajero);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha actualizado el video que entra como parámetro
+	 * @param video - Video a actualizar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void updateReservaPasajero(ReservaPasajero reservaPasajero) throws Exception {
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			daoReservasPasajero.updatReserva(reservaPasajero);
+			
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	/**
+	 * Método que modela la transacción que elimina el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha eliminado el video que entra como parámetro
+	 * @param video - Video a eliminar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void deleteReservaPasajero(ReservaPasajero reservaPasajero) throws Exception {
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			daoReservasPasajero.deleteReserva(reservaPasajero);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 }
