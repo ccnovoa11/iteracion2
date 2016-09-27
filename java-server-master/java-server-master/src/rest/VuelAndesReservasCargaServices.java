@@ -13,11 +13,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.ListaReservasCarga;
 import vos.ListaReservasPasajero;
+import vos.ReservaCarga;
 import vos.ReservaPasajero;
 
-@Path("reservasPasajero")
-public class VuelAndesReservasPasajeroServices {
+@Path("reservasCarga")
+public class VuelAndesReservasCargaServices {
 
 	// Servicios REST tipo GET:
 
@@ -50,15 +52,15 @@ public class VuelAndesReservasPasajeroServices {
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getReservasPasajero() {
+	public Response getReservasCarga() {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
-		ListaReservasPasajero reservasPasajero;
+		ListaReservasCarga reservasCarga;
 		try {
-			reservasPasajero = tm.darReservasPasajero();
+			reservasCarga = tm.darReservasCarga();
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservasPasajero).build();
+		return Response.status(200).entity(reservasCarga).build();
 	}
 
 
@@ -72,17 +74,17 @@ public class VuelAndesReservasPasajeroServices {
 	@GET
 	@Path("/idVuelo/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getReservaPasajeroPorVuelo(@javax.ws.rs.PathParam("id") int id) {
+	public Response getReservaCargaPorVuelo(@javax.ws.rs.PathParam("id") int id) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
-		ListaReservasPasajero reservasPasajero;
+		ListaReservasCarga reservasCarga;
 		try {
 			if (id <=-1 )
 				throw new Exception("Id del vuelo no valido");
-			reservasPasajero = tm.buscarReservaPorVuelo(id);
+			reservasCarga = tm.buscarReservaPorVueloCarga(id);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservasPasajero).build();
+		return Response.status(200).entity(reservasCarga).build();
 	}
 	
 //    /**
@@ -113,17 +115,17 @@ public class VuelAndesReservasPasajeroServices {
      * @return Json con el video que agrego o Json con el error que se produjo
      */
 	@PUT
-	@Path("/reservaPasajero")
+	@Path("/reservaCarga")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateReservaPasajero(ReservaPasajero reservaPasajero) {
+	public Response updateReservaCarga(ReservaCarga reservaCarga) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.updateReservaPasajero(reservaPasajero);
+			tm.updateReservaCarga(reservaCarga);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservaPasajero).build();
+		return Response.status(200).entity(reservaCarga).build();
 	}
 	
     /**
@@ -133,17 +135,17 @@ public class VuelAndesReservasPasajeroServices {
      * @return Json con el video que agrego o Json con el error que se produjo
      */
 	@POST
-	@Path("/reservasPasajero")
+	@Path("/reservasCarga")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addRemitente(ListaReservasPasajero reservasPasajero) {
+	public Response addReservaCarga(ListaReservasCarga reservasCarga) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.addReservasPasajero(reservasPasajero);
+			tm.addReservasCarga(reservasCarga);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservasPasajero).build();
+		return Response.status(200).entity(reservasCarga).build();
 	}
 	
     /**
@@ -153,17 +155,17 @@ public class VuelAndesReservasPasajeroServices {
      * @return Json con el video que actualizo o Json con el error que se produjo
      */
 	@POST
-	@Path("/reservaPasajero")
+	@Path("/reservaCarga")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addReservaPasajero(ReservaPasajero reservaPasajero) {
+	public Response addReservaCarga(ReservaCarga reservaCarga) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.addReservaPasajero(reservaPasajero);
+			tm.addReservaCarga(reservaCarga);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservaPasajero).build();
+		return Response.status(200).entity(reservaCarga).build();
 	}
 	
     /**
@@ -173,17 +175,17 @@ public class VuelAndesReservasPasajeroServices {
      * @return Json con el video que elimino o Json con el error que se produjo
      */
 	@DELETE
-	@Path("/reservaPasajero")
+	@Path("/reservaCarga")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteReservaPasajero(ReservaPasajero reservaPasajero) {
+	public Response deleteReservaCarga(ReservaCarga reservaCarga) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
-			tm.deleteReservaPasajero(reservaPasajero);
+			tm.deleteReservaCarga(reservaCarga);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservaPasajero).build();
+		return Response.status(200).entity(reservaCarga).build();
 	}
 
 

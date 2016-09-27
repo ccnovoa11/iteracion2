@@ -130,7 +130,7 @@ public class DAOTablaReservas {
 	public ArrayList<ReservaCarga> buscarReservasPorVueloCarga(int vuelo) throws SQLException, Exception {
 		ArrayList<ReservaCarga> reservas = new ArrayList<ReservaCarga>();
 
-		String sql = "SELECT * FROM ISIS2304B041620.RESERVA_CARGA WHERE ID_VUELO_CARGA ='" + vuelo + "'";
+		String sql = "SELECT * FROM ISIS2304B041620.RESERVA_CARGA WHERE ID_VUELO_CARGA =" + vuelo;
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -141,7 +141,7 @@ public class DAOTablaReservas {
 		while (rs.next()) {
 			int id = rs.getInt("ID");
 			int idViajero = rs.getInt("ID_REMITENTE");
-			int idVPasajero = rs.getInt("ID_VUELO_PASAJERO");
+			int idVPasajero = rs.getInt("ID_VUELO_CARGA");
 			reservas.add(new ReservaCarga(id, idViajero,idVPasajero));
 		}
 
@@ -175,7 +175,7 @@ public class DAOTablaReservas {
 	public void addReservaCarga(ReservaCarga reserva) throws SQLException, Exception {
 
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_CARGA VALUES (";
-		sql += reserva.getId() + ",'";
+		sql += reserva.getId() + ",";
 		sql += reserva.getIdRemi() + ",";
 		sql += reserva.getIdVueloCarga() + ")";
 
@@ -213,7 +213,7 @@ public class DAOTablaReservas {
 	public void updatReservaCarga(ReservaCarga reserva) throws SQLException, Exception {
 
 		String sql = "UPDATE ISIS2304B041620.RESERVA_CARGA SET ";
-		sql += "ID_REMITENTE='" +reserva.getIdRemi()+ ",";
+		sql += "ID_REMITENTE=" +reserva.getIdRemi()+ ",";
 		sql += "ID_VUELO_CARGA=" +reserva.getIdVueloCarga();
 		sql += " WHERE ID = " + reserva.getId();
 
