@@ -24,6 +24,7 @@ import dao.DAOTablaAerolineas;
 import dao.DAOTablaAeronaves;
 import dao.DAOTablaAeropuertos;
 import dao.DAOTablaCliente;
+import dao.DAOTablaSilla;
 import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloPasajero;
 import vos.Admin;
@@ -35,10 +36,12 @@ import vos.ListaAerolineas;
 import vos.ListaAeronaves;
 import vos.ListaAeropuertos;
 import vos.ListaRemitentes;
+import vos.ListaSillas;
 import vos.ListaViajeros;
 import vos.ListaVuelosCarga;
 import vos.ListaVuelosPasajero;
 import vos.Remitente;
+import vos.Silla;
 import vos.Viajero;
 import vos.VueloCarga;
 import vos.VueloPasajero;
@@ -2112,7 +2115,8 @@ public class VuelAndesMaster {
 		}
 	}
 	
-	//Usuario
+	
+	//Transaccion Admin
 	
 	public ListaAdmins darAdmins() throws Exception {
 		ArrayList<Admin> admins;
@@ -2324,6 +2328,229 @@ public class VuelAndesMaster {
 		} finally {
 			try {
 				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	
+	
+	// Transaccion Silla
+	
+	public ListaSillas darSillas() throws Exception {
+		ArrayList<Silla> sillas;
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			sillas = daoSillas.darSillas();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaSillas(sillas);
+	}
+
+	/**
+	 * Método que modela la transacción que busca el/los videos en la base de datos con el nombre entra como parámetro.
+	 * @param name - Nombre del video a buscar. name != null
+	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
+	 * @throws Exception -  cualquier error que se genere durante la transacción
+	 */
+	public ListaSillas buscarSillaPorTipo(String tipo) throws Exception {
+		ArrayList<Silla> sillas;
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			sillas = daoSillas.buscarSillasPorTipo(tipo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaSillas(sillas);
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega un solo video a la base de datos.
+	 * <b> post: </b> se ha agregado el video que entra como parámetro
+	 * @param video - el video a agregar. video != null
+	 * @throws Exception - cualquier error que se genera agregando el video
+	 */
+	public void addSilla(Silla silla) throws Exception {
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			daoSillas.addSilla(silla);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
+	 * <b> post: </b> se han agregado los videos que entran como parámetro
+	 * @param videos - objeto que modela una lista de videos y se estos se pretenden agregar. videos != null
+	 * @throws Exception - cualquier error que se genera agregando los videos
+	 */
+	public void addSillas(ListaSillas sillas) throws Exception {
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción - ACID Example
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoSillas.setConn(conn);
+			for(Silla silla : sillas.getSillas())
+				daoSillas.addSilla(silla);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha actualizado el video que entra como parámetro
+	 * @param video - Video a actualizar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void updateSilla(Silla silla) throws Exception {
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			daoSillas.updateSilla(silla);
+			
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	/**
+	 * Método que modela la transacción que elimina el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha eliminado el video que entra como parámetro
+	 * @param video - Video a eliminar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void deleteSilla(Silla silla) throws Exception {
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			daoSillas.deleteSilla(silla);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
 				if(this.conn!=null)
 					this.conn.close();
 			} catch (SQLException exception) {
