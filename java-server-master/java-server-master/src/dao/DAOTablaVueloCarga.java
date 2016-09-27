@@ -86,7 +86,7 @@ public class DAOTablaVueloCarga {
 
 			
 			vuelos.add(new VueloCarga(id, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
 		}
 		return vuelos;
 	}
@@ -125,7 +125,7 @@ public class DAOTablaVueloCarga {
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
 			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
 			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
 		}
 
 		return vuelos;

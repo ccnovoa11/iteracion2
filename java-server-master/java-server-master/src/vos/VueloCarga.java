@@ -87,7 +87,8 @@ public class VueloCarga {
 	public VueloCarga(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
 			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
 			@JsonProperty(value="precioDensidad")int precioDensidad, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
-			@JsonProperty(value="idAeroDestino")int idAeroDestino,@JsonProperty(value="numSerieAeronave") String numSerieAeronave) {
+			@JsonProperty(value="idAeroDestino")int idAeroDestino,@JsonProperty(value="numSerieAeronave") String numSerieAeronave,
+			@JsonProperty(value="capacidadActual")int capacidadActual,@JsonProperty(value="tipo") String tipo) {
 		super();
 		this.id = id;
 		this.horaLlegada = horaLlegada;
@@ -100,6 +101,8 @@ public class VueloCarga {
 		this.idAeroOrigen = idAeroOrigen;
 		this.idAeroDestino = idAeroDestino;
 		this.numSerieAeronave=numSerieAeronave;
+		this.capacidadActual=capacidadActual;
+		this.tipo=tipo;
 	}
 
 	public int getId() {

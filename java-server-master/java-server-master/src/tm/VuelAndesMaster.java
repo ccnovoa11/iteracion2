@@ -716,6 +716,39 @@ public class VuelAndesMaster {
 		}
 		return new ListaRemitentes(remitentes);
 	}
+	
+	
+	public ListaRemitentes buscarRemitentesPorId(int id) throws Exception {
+		ArrayList<Remitente> remitentes;
+		DAOTablaCliente daoRemitentes = new DAOTablaCliente();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoRemitentes.setConn(conn);
+			remitentes = daoRemitentes.buscarRemitentesPorId(id);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoRemitentes.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaRemitentes(remitentes);
+	}
 
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
