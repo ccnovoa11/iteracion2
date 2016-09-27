@@ -102,6 +102,7 @@ public class VueloPasajero {
 		this.idAeroDestino = idAeroDestino;
 		this.numSerieAeronave = numSerieAeronave;
 	}
+	
 
 	public int getId() {
 		return id;
@@ -206,6 +207,5 @@ public class VueloPasajero {
 	public void setNumSerieAeronave(String numSerieAeronave) {
 		this.numSerieAeronave = numSerieAeronave;
 	}
-	
 
 }

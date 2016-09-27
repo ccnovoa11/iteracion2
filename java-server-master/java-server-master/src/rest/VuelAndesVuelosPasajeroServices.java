@@ -14,8 +14,6 @@ import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
 import vos.Aeronave;
-import vos.Aeropuerto;
-import vos.ListaAeropuertos;
 import vos.ListaVuelosPasajero;
 import vos.VueloPasajero;
 
@@ -87,6 +85,7 @@ public class VuelAndesVuelosPasajeroServices {
 		}
 		return Response.status(200).entity(vuelos).build();
 	}
+	
 	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado

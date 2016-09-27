@@ -127,6 +127,7 @@ public class DAOTablaReservas {
 		return reservas;
 	}
 	
+	
 	public ArrayList<ReservaCarga> buscarReservasPorVueloCarga(int vuelo) throws SQLException, Exception {
 		ArrayList<ReservaCarga> reservas = new ArrayList<ReservaCarga>();
 

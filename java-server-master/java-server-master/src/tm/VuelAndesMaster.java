@@ -87,7 +87,7 @@ public class VuelAndesMaster {
 	 * Atributo que guarda el driver que se va a usar para conectarse a la base de datos.
 	 */
 	private String driver;
-	
+
 	/**
 	 * Conexión a la base de datos
 	 */
@@ -216,7 +216,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAerolineas(aerolineas);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -253,7 +253,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -293,7 +293,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -367,46 +367,46 @@ public class VuelAndesMaster {
 		}
 	}
 
-//	/**
-//	 * Método que modela la transacción que retorna el/los videos mas alquilados
-//	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
-//	 * @throws Exception -  cualquier error que se genere durante la transacción
-//	 */
-//	public ListaVideos videosMasAlquilados() throws Exception {
-//		ArrayList<Video> videos;
-//		DAOTablaVideos daoVideos = new DAOTablaVideos();
-//		try 
-//		{
-//			//////Transacción
-//			this.conn = darConexion();
-//			daoVideos.setConn(conn);
-//			videos = daoVideos.darVideoMasAlquilado();
-//
-//		} catch (SQLException e) {
-//			System.err.println("SQLException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} catch (Exception e) {
-//			System.err.println("GeneralException:" + e.getMessage());
-//			e.printStackTrace();
-//			throw e;
-//		} finally {
-//			try {
-//				daoVideos.cerrarRecursos();
-//				if(this.conn!=null)
-//					this.conn.close();
-//			} catch (SQLException exception) {
-//				System.err.println("SQLException closing resources:" + exception.getMessage());
-//				exception.printStackTrace();
-//				throw exception;
-//			}
-//		}
-//		return new ListaVideos(videos);
-//	}
-	
-	
+	//	/**
+	//	 * Método que modela la transacción que retorna el/los videos mas alquilados
+	//	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
+	//	 * @throws Exception -  cualquier error que se genere durante la transacción
+	//	 */
+	//	public ListaVideos videosMasAlquilados() throws Exception {
+	//		ArrayList<Video> videos;
+	//		DAOTablaVideos daoVideos = new DAOTablaVideos();
+	//		try 
+	//		{
+	//			//////Transacción
+	//			this.conn = darConexion();
+	//			daoVideos.setConn(conn);
+	//			videos = daoVideos.darVideoMasAlquilado();
+	//
+	//		} catch (SQLException e) {
+	//			System.err.println("SQLException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			throw e;
+	//		} catch (Exception e) {
+	//			System.err.println("GeneralException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			throw e;
+	//		} finally {
+	//			try {
+	//				daoVideos.cerrarRecursos();
+	//				if(this.conn!=null)
+	//					this.conn.close();
+	//			} catch (SQLException exception) {
+	//				System.err.println("SQLException closing resources:" + exception.getMessage());
+	//				exception.printStackTrace();
+	//				throw exception;
+	//			}
+	//		}
+	//		return new ListaVideos(videos);
+	//	}
+
+
 	////Transacciones aeropuertos////
-	
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -481,7 +481,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAeropuertos(aeropuertos);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -518,7 +518,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -558,7 +558,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -631,17 +631,17 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	////Transacciones remitentes////
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -716,7 +716,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaRemitentes(remitentes);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -753,7 +753,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -793,7 +793,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -866,17 +866,17 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-////Transacciones viajeros////
-	
-	
-	
-	
-	
+
+
+
+
+
+	////Transacciones viajeros////
+
+
+
+
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -951,7 +951,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaViajeros(viajeros);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -988,7 +988,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -1028,7 +1028,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -1101,15 +1101,15 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
-	
-////Transacciones aeronaves////
-	
-	
-	
-	
-	
+
+
+
+	////Transacciones aeronaves////
+
+
+
+
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -1184,7 +1184,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAeronaves(aeronaves);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -1221,7 +1221,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -1261,7 +1261,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -1334,13 +1334,13 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-////Transacciones aeronaves////
-	
-	
-	
-	
-	
+
+	////Transacciones aeronaves////
+
+
+
+
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -1415,7 +1415,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAeronaves(aeronaves);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -1452,7 +1452,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -1492,7 +1492,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -1566,14 +1566,14 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
-////Transacciones vuelo pasajeros////
-	
-	
-	
-	
-	
+
+
+	////Transacciones vuelo pasajeros////
+
+
+
+
+
 	/**
 	 * Método que modela la transacción que retorna todos los videos de la base de datos.
 	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
@@ -1648,12 +1648,14 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
+
+
 	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
 	{
 		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
 		VueloPasajero rta;
-		
+
 		try
 		{
 			//////Transacción
@@ -1695,9 +1697,9 @@ public class VuelAndesMaster {
 			}
 		}
 		return rta;
-		
+
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -1734,7 +1736,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -1774,7 +1776,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -1847,10 +1849,10 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
+
+
 	//Transaccion vueloCarga
-	
+
 	public ListaVuelosCarga darVuelosCarga() throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -1920,56 +1922,56 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
-//	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
-//	{
-//		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
-//		VueloPasajero rta;
-//		
-//		try
-//		{
-//			//////Transacción
-//			this.conn = darConexion();
-//			conn.setAutoCommit(false);
-//			daovuelo.setConn(conn);
-//			daovuelo.asociarAeronaveViajePasajero(aeronave, vuelo);
-//			rta = buscarVueloPasajeroPorId(vuelo.getId()).getVuelosPasajero().get(0);
-//			conn.commit();
-//
-//		}
-//		catch (SQLException e)
-//		{
-//			System.err.println("SQLException:" + e.getMessage());
-//			e.printStackTrace();
-//			conn.rollback();
-//			throw e;
-//		}
-//		catch (Exception e)
-//		{
-//			System.err.println("GeneralException:" + e.getMessage());
-//			e.printStackTrace();
-//			conn.rollback();
-//			throw e;
-//		}
-//		finally
-//		{
-//			try
-//			{
-//				daovuelo.cerrarRecursos();
-//				if (this.conn != null)
-//					this.conn.close();
-//			}
-//			catch (SQLException exception)
-//			{
-//				System.err.println("SQLException closing resources:" + exception.getMessage());
-//				exception.printStackTrace();
-//				throw exception;
-//			}
-//		}
-//		return rta;
-//		
-//	}
-	
+
+	//	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
+	//	{
+	//		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
+	//		VueloPasajero rta;
+	//		
+	//		try
+	//		{
+	//			//////Transacción
+	//			this.conn = darConexion();
+	//			conn.setAutoCommit(false);
+	//			daovuelo.setConn(conn);
+	//			daovuelo.asociarAeronaveViajePasajero(aeronave, vuelo);
+	//			rta = buscarVueloPasajeroPorId(vuelo.getId()).getVuelosPasajero().get(0);
+	//			conn.commit();
+	//
+	//		}
+	//		catch (SQLException e)
+	//		{
+	//			System.err.println("SQLException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			conn.rollback();
+	//			throw e;
+	//		}
+	//		catch (Exception e)
+	//		{
+	//			System.err.println("GeneralException:" + e.getMessage());
+	//			e.printStackTrace();
+	//			conn.rollback();
+	//			throw e;
+	//		}
+	//		finally
+	//		{
+	//			try
+	//			{
+	//				daovuelo.cerrarRecursos();
+	//				if (this.conn != null)
+	//					this.conn.close();
+	//			}
+	//			catch (SQLException exception)
+	//			{
+	//				System.err.println("SQLException closing resources:" + exception.getMessage());
+	//				exception.printStackTrace();
+	//				throw exception;
+	//			}
+	//		}
+	//		return rta;
+	//		
+	//	}
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2006,7 +2008,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -2046,7 +2048,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -2119,10 +2121,10 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
+
+
 	//Transaccion Admin
-	
+
 	public ListaAdmins darAdmins() throws Exception {
 		ArrayList<Admin> admins;
 		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
@@ -2192,7 +2194,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAdmins(admins);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2229,7 +2231,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -2269,7 +2271,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -2342,11 +2344,11 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	// Transaccion Silla
-	
+
 	public ListaSillas darSillas() throws Exception {
 		ArrayList<Silla> sillas;
 		DAOTablaSilla daoSillas = new DAOTablaSilla();
@@ -2416,7 +2418,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaSillas(sillas);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2453,7 +2455,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -2493,7 +2495,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -2508,7 +2510,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoSillas.setConn(conn);
 			daoSillas.updateSilla(silla);
-			
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -2565,10 +2567,10 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	//Transaccion reserva pasajero
-	
-	
+
+
 	public ListaReservasPasajero darReservasPasajero() throws Exception {
 		ArrayList<ReservaPasajero> reservasPasajero;
 		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
@@ -2638,7 +2640,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaReservasPasajero(reservasPasajero);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2675,7 +2677,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -2715,7 +2717,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -2730,7 +2732,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasPasajero.setConn(conn);
 			daoReservasPasajero.updatReserva(reservaPasajero);
-			
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -2787,11 +2789,11 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
-	
+
+
 	//Transaccion Reserva Carga
-	
-	
+
+
 	public ListaReservasCarga darReservasCarga() throws Exception {
 		ArrayList<ReservaCarga> reservasCarga;
 		DAOTablaReservas daoReservasCarga = new DAOTablaReservas();
@@ -2861,7 +2863,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaReservasCarga(reservasCarga);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2898,7 +2900,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como parámetro
@@ -2938,7 +2940,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	/**
 	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha actualizado el video que entra como parámetro
@@ -2953,7 +2955,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasCarga.setConn(conn);
 			daoReservasCarga.updatReservaCarga(reservaCarga);
-			
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
