@@ -114,7 +114,7 @@ public class DAOTablaCliente {
 	public ArrayList<Remitente> buscarRemitentesPorNombre(String name) throws SQLException, Exception {
 		ArrayList<Remitente> remitentes = new ArrayList<Remitente>();
 
-		String sql = "SELECT * FROM FROM ISIS2304B041620.REMITENTE WHERE NOMBRE ='" + name + "'";
+		String sql = "SELECT * FROM ISIS2304B041620.REMITENTE WHERE NOMBRE ='" + name + "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -174,12 +174,12 @@ public class DAOTablaCliente {
 
 		String sql = "INSERT INTO ISIS2304B041620.REMITENTE VALUES (";
 		sql += remitente.getId() + ",'";
-		sql += remitente.getNombre() + "',";
-		sql += remitente.getTipoIdent() + "',";
+		sql += remitente.getNombre() + "','";
+		sql += remitente.getTipoIdent() + "','";
 		sql += remitente.getNacionalidad() + "',";
-		sql += remitente.getPeso() + "',";
-		sql += remitente.getVolumen() + "',";
-		sql += remitente.getContenido() + ")";
+		sql += remitente.getPeso() + ",";
+		sql += remitente.getVolumen() + ",'";
+		sql += remitente.getContenido() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -221,10 +221,10 @@ public class DAOTablaCliente {
 		sql += "NOMBRE='" +remitente.getNombre() + "',";
 		sql += "TIPO_IDENT='" +remitente.getTipoIdent() + "',";
 		sql += "NACIONALIDAD='" +remitente.getNacionalidad() + "',";
-		sql += "PESOCARGA='" +remitente.getPeso() + "',";
-		sql += "VOLUMEN='" +remitente.getVolumen() + "',";
+		sql += "PESOCARGA=" +remitente.getPeso() + ",";
+		sql += "VOLUMEN=" +remitente.getVolumen() + ",";
 		sql += "CONTENIDO='" +remitente.getContenido();		
-		sql += " WHERE IDENTIFICACION = " + remitente.getId();
+		sql += "' WHERE IDENTIFICACION = " + remitente.getId();
 
 		System.out.println("SQL stmt:" + sql);
 

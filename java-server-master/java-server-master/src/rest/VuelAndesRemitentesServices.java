@@ -136,7 +136,7 @@ public class VuelAndesRemitentesServices {
 	@Path("/remitentes")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addRemitente(ListaRemitentes remitentes) {
+	public Response addRemitentes(ListaRemitentes remitentes) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
 			tm.addRemitentes(remitentes);
