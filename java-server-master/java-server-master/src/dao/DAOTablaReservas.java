@@ -129,6 +129,29 @@ public class DAOTablaReservas {
 	}
 	
 	
+	public ArrayList<ReservaPasajero> buscarReservasPorViajero(int vuelo) throws SQLException, Exception {
+		ArrayList<ReservaPasajero> reservas = new ArrayList<ReservaPasajero>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.RESERVA_PASAJERO WHERE ID_VIAJERO ='" + vuelo + "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id = rs.getInt("ID");
+			String numSilla = rs.getString("NUMSILLA");
+			int idViajero = rs.getInt("ID_VIAJERO");
+			int idVPasajero = rs.getInt("ID_VUELO_PASAJERO");
+			reservas.add(new ReservaPasajero(id, numSilla, idViajero,idVPasajero));
+		}
+
+		return reservas;
+	}
+	
+	
 	public ArrayList<ReservaCarga> buscarReservasPorVueloCarga(int vuelo) throws SQLException, Exception {
 		ArrayList<ReservaCarga> reservas = new ArrayList<ReservaCarga>();
 
