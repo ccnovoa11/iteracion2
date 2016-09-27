@@ -121,9 +121,9 @@ public class DAOTablaAdmin {
 
 		String sql = "INSERT INTO ISIS2304B041620.ADMIN VALUES (";
 		sql += admin.getId() + ",'";
-		sql += admin.getNombre() + "',";
-		sql += admin.getCorreo() + "',";
-		sql += admin.getRol() + ")";
+		sql += admin.getNombre() + "','";
+		sql += admin.getCorreo() + "','";
+		sql += admin.getRol() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -145,9 +145,9 @@ public class DAOTablaAdmin {
 
 		String sql = "UPDATE ISIS2304B041620.ADMIN SET ";
 		sql += "NOMBRE='" + admin.getNombre() + "',";
-		sql += "CORREO=" + admin.getCorreo()+ "',";
-		sql += "ROL=" + admin.getRol();
-		sql += " WHERE IDENTIFICACION = " + admin.getId();
+		sql += "CORREO='" + admin.getCorreo()+ "',";
+		sql += "ROL='" + admin.getRol();
+		sql += "' WHERE IDENTIFICACION = " + admin.getId();
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -167,7 +167,7 @@ public class DAOTablaAdmin {
 	public void deleteAdmin(Admin admin) throws SQLException, Exception {
 
 		String sql = "DELETE FROM ISIS2304B041620.ADMIN";
-		sql += " WHERE CODIGO = " + admin.getId();
+		sql += " WHERE IDENTIFICACION = " + admin.getId();
 
 		System.out.println("SQL stmt:" + sql);
 
