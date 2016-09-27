@@ -19,15 +19,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import dao.DAOTablaAdmin;
 import dao.DAOTablaAerolineas;
 import dao.DAOTablaAeronaves;
 import dao.DAOTablaAeropuertos;
 import dao.DAOTablaCliente;
 import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloPasajero;
+import vos.Admin;
 import vos.Aerolinea;
 import vos.Aeronave;
 import vos.Aeropuerto;
+import vos.ListaAdmins;
 import vos.ListaAerolineas;
 import vos.ListaAeronaves;
 import vos.ListaAeropuertos;
@@ -2099,6 +2102,228 @@ public class VuelAndesMaster {
 		} finally {
 			try {
 				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	//Usuario
+	
+	public ListaAdmins darAdmins() throws Exception {
+		ArrayList<Admin> admins;
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoAdmins.setConn(conn);
+			admins = daoAdmins.darAdmins();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaAdmins(admins);
+	}
+
+	/**
+	 * Método que modela la transacción que busca el/los videos en la base de datos con el nombre entra como parámetro.
+	 * @param name - Nombre del video a buscar. name != null
+	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
+	 * @throws Exception -  cualquier error que se genere durante la transacción
+	 */
+	public ListaAdmins buscarAdminsPorName(String name) throws Exception {
+		ArrayList<Admin> admins;
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoAdmins.setConn(conn);
+			admins = daoAdmins.buscarAdmisPorNombre(name);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaAdmins(admins);
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega un solo video a la base de datos.
+	 * <b> post: </b> se ha agregado el video que entra como parámetro
+	 * @param video - el video a agregar. video != null
+	 * @throws Exception - cualquier error que se genera agregando el video
+	 */
+	public void addAdmin(Admin admin) throws Exception {
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoAdmins.setConn(conn);
+			daoAdmins.addAdmin(admin);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
+	 * <b> post: </b> se han agregado los videos que entran como parámetro
+	 * @param videos - objeto que modela una lista de videos y se estos se pretenden agregar. videos != null
+	 * @throws Exception - cualquier error que se genera agregando los videos
+	 */
+	public void addAdmins(ListaAdmins admins) throws Exception {
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción - ACID Example
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoAdmins.setConn(conn);
+			for(Admin admin : admins.getAdmins())
+				daoAdmins.addAdmin(admin);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha actualizado el video que entra como parámetro
+	 * @param video - Video a actualizar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void updateAdmin(Admin admin) throws Exception {
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoAdmins.setConn(conn);
+			daoAdmins.updatAdmin(admin);
+			;
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	/**
+	 * Método que modela la transacción que elimina el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha eliminado el video que entra como parámetro
+	 * @param video - Video a eliminar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void deleteAdmin(Admin admin) throws Exception {
+		DAOTablaAdmin daoAdmins = new DAOTablaAdmin();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoAdmins.setConn(conn);
+			daoAdmins.deleteAdmin(admin);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoAdmins.cerrarRecursos();
 				if(this.conn!=null)
 					this.conn.close();
 			} catch (SQLException exception) {
