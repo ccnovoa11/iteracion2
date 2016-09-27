@@ -108,6 +108,51 @@ public class DAOTablaSilla {
 		return sillas;
 	}
 
+	public ArrayList<Silla> buscarSillasPorAeronave(String num) throws SQLException, Exception {
+		ArrayList<Silla> sillas = new ArrayList<Silla>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.SILLA WHERE NUMSERIE_AERONAVE ='" + num + "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String numero = rs.getString("NUMERO");
+			String tipo2 = rs.getString("TIPO");
+			String numAeronave = rs.getString("NUMSERIE_AERONAVE");
+			int ocupada = rs.getInt("OCUPADA");
+			sillas.add(new Silla(numero,tipo2,numAeronave,ocupada));
+		}
+		
+
+		return sillas;
+	}
+	
+	public Silla buscarSillasPorNumero(String num) throws SQLException, Exception {
+		Silla silla=new Silla("", "", "", 0);
+
+		String sql = "SELECT * FROM ISIS2304B041620.SILLA WHERE NUMERO ='" + num + "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String numero = rs.getString("NUMERO");
+			String tipo2 = rs.getString("TIPO");
+			String numAeronave = rs.getString("NUMSERIE_AERONAVE");
+			int ocupada = rs.getInt("OCUPADA");
+			silla=new Silla(numero,tipo2,numAeronave,ocupada);
+		}
+
+		return silla;
+	}
+	
 	/**
 	 * Método que agrega el video que entra como parámetro a la base de datos.
 	 * @param video - el video a agregar. video !=  null
@@ -144,9 +189,24 @@ public class DAOTablaSilla {
 
 		String sql = "UPDATE ISIS2304B041620.SILLA SET ";
 		sql += "TIPO='" + silla.getTipo() + "',";
-		sql += "NUMSERIE_AERONAVE=" + silla.getNumSerieAeronave()+ "',";
-		sql += "OCUPADA=" + silla.getOcupada();
-		sql += " WHERE NUMERO = " + silla.getNumero();
+		sql += "NUMSERIE_AERONAVE='" + silla.getNumSerieAeronave()+ "',";
+		sql += "OCUPADA=" + 1;
+		sql += " WHERE NUMERO= '" + silla.getNumero()+ "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+	
+	public void updateSillaE(Silla silla) throws SQLException, Exception {
+
+		String sql = "UPDATE ISIS2304B041620.SILLA SET ";
+		sql += "TIPO='" + silla.getTipo() + "',";
+		sql += "NUMSERIE_AERONAVE='" + silla.getNumSerieAeronave()+ "',";
+		sql += "OCUPADA=" + 0;
+		sql += " WHERE NUMERO= '" + silla.getNumero()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 

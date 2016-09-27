@@ -2419,6 +2419,38 @@ public class VuelAndesMaster {
 		return new ListaSillas(sillas);
 	}
 
+	public ListaSillas buscarSillaPorAeronave(String tipo) throws Exception {
+		ArrayList<Silla> sillas;
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			sillas = daoSillas.buscarSillasPorAeronave(tipo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaSillas(sillas);
+	}
+	
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2532,6 +2564,36 @@ public class VuelAndesMaster {
 		}
 	}
 
+	
+	public void updateSillaE(Silla silla) throws Exception {
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			daoSillas.updateSillaE(silla);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 	/**
 	 * Método que modela la transacción que elimina el video que entra como parámetro a la base de datos.
 	 * <b> post: </b> se ha eliminado el video que entra como parámetro
@@ -2864,6 +2926,39 @@ public class VuelAndesMaster {
 		return new ListaReservasCarga(reservasCarga);
 	}
 
+	
+	public Silla buscarSillaPorNumero(String num) throws Exception {
+		Silla silla;
+		DAOTablaSilla daoSillas = new DAOTablaSilla();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoSillas.setConn(conn);
+			silla = daoSillas.buscarSillasPorNumero(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoSillas.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return silla;
+	}
+	
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro

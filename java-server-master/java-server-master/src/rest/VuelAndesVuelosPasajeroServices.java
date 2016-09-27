@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
 import vos.Aeronave;
+import vos.ListaSillas;
 import vos.ListaVuelosPasajero;
 import vos.VueloPasajero;
 
@@ -86,6 +87,23 @@ public class VuelAndesVuelosPasajeroServices {
 		return Response.status(200).entity(vuelos).build();
 	}
 	
+	@GET
+	@Path("/id/{id}/sillas")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getSillasVueloPasajeroId(@javax.ws.rs.PathParam("id") int id) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		ListaSillas sillas;
+		try {
+			if (id <=-1 )
+				throw new Exception("Id del vuelo no valido");
+			vuelos = tm.buscarVueloPasajeroPorId(id);
+			sillas= tm.buscarSillaPorAeronave(vuelos.getVuelosPasajero().get(0).getNumSerieAeronave());
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(sillas).build();
+	}
 	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado

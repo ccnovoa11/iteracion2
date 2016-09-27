@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import vos.ReservaCarga;
 import vos.ReservaPasajero;
+import vos.Silla;
 
 public class DAOTablaReservas {
 
@@ -160,7 +161,7 @@ public class DAOTablaReservas {
 	public void addReserva(ReservaPasajero reserva) throws SQLException, Exception {
 
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_PASAJERO VALUES (";
-		sql += reserva.getId() + ",'";
+		sql += "(select abs(dbms_random.random) AS numReserva from dual)" + ",'";
 		sql += reserva.getNumSilla() + "',";
 		sql += reserva.getIdViajero() + ",";
 		sql += reserva.getIdVueloPasajero() + ")";
@@ -176,7 +177,7 @@ public class DAOTablaReservas {
 	public void addReservaCarga(ReservaCarga reserva) throws SQLException, Exception {
 
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_CARGA VALUES (";
-		sql += reserva.getId() + ",";
+		sql += "(select abs(dbms_random.random) AS numReserva from dual)" + ",";
 		sql += reserva.getIdRemi() + ",";
 		sql += reserva.getIdVueloCarga() + ")";
 

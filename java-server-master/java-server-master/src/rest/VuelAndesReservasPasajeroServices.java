@@ -159,7 +159,13 @@ public class VuelAndesReservasPasajeroServices {
 	public Response addReservaPasajero(ReservaPasajero reservaPasajero) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
+			if(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()).getOcupada()==0){
 			tm.addReservaPasajero(reservaPasajero);
+			tm.updateSilla(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
+			}
+			else{
+				throw new Exception("La silla ya está ocupada");
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -180,6 +186,7 @@ public class VuelAndesReservasPasajeroServices {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
 			tm.deleteReservaPasajero(reservaPasajero);
+			tm.updateSillaE(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
