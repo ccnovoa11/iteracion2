@@ -161,7 +161,7 @@ public class DAOTablaReservas {
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_PASAJERO VALUES (";
 		sql += reserva.getId() + ",'";
 		sql += reserva.getNumSilla() + "',";
-		sql += reserva.getIdViajero() + "',";
+		sql += reserva.getIdViajero() + ",";
 		sql += reserva.getIdVueloPasajero() + ")";
 
 		System.out.println("SQL stmt:" + sql);
@@ -176,7 +176,7 @@ public class DAOTablaReservas {
 
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_CARGA VALUES (";
 		sql += reserva.getId() + ",'";
-		sql += reserva.getIdRemi() + "',";
+		sql += reserva.getIdRemi() + ",";
 		sql += reserva.getIdVueloCarga() + ")";
 
 		System.out.println("SQL stmt:" + sql);
@@ -199,8 +199,8 @@ public class DAOTablaReservas {
 
 		String sql = "UPDATE ISIS2304B041620.RESERVA_PASAJERO SET ";
 		sql += "NUMSILLA='" +reserva.getNumSilla() + "',";
-		sql += "ID_VIAJERO='" +reserva.getIdViajero() + "',";
-		sql += "ID_VUELO_PASAJERO='" +reserva.getIdVueloPasajero() + ")";
+		sql += "ID_VIAJERO=" +reserva.getIdViajero() + ",";
+		sql += "ID_VUELO_PASAJERO=" +reserva.getIdVueloPasajero();
 		sql += " WHERE ID = " + reserva.getId();
 
 		System.out.println("SQL stmt:" + sql);
@@ -213,8 +213,8 @@ public class DAOTablaReservas {
 	public void updatReservaCarga(ReservaCarga reserva) throws SQLException, Exception {
 
 		String sql = "UPDATE ISIS2304B041620.RESERVA_CARGA SET ";
-		sql += "ID_REMITENTE='" +reserva.getIdRemi()+ "',";
-		sql += "ID_VUELO_CARGA='" +reserva.getIdVueloCarga() + ")";
+		sql += "ID_REMITENTE='" +reserva.getIdRemi()+ ",";
+		sql += "ID_VUELO_CARGA=" +reserva.getIdVueloCarga();
 		sql += " WHERE ID = " + reserva.getId();
 
 		System.out.println("SQL stmt:" + sql);

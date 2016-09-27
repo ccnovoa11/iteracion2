@@ -193,8 +193,8 @@ public class DAOTablaCliente {
 
 		String sql = "INSERT INTO ISIS2304B041620.VIAJERO VALUES (";
 		sql += viajero.getId() + ",'";
-		sql += viajero.getNombre() + "',";
-		sql += viajero.getTipoIdent() + "',";
+		sql += viajero.getNombre() + "','";
+		sql += viajero.getTipoIdent() + "','";
 		sql += viajero.getNacionalidad() + "',";
 		sql += viajero.getEsFrecuente() + ")";
 
@@ -240,7 +240,7 @@ public class DAOTablaCliente {
 		sql += "NOMBRE='" +viajero.getNombre() + "',";
 		sql += "TIPO_IDENT='" +viajero.getTipoIdent() + "',";
 		sql += "NACIONALIDAD='" +viajero.getNacionalidad() + "',";
-		sql += "ESFRECUENTE='" +viajero.getEsFrecuente();		
+		sql += "ESFRECUENTE=" +viajero.getEsFrecuente();		
 		sql += " WHERE IDENTIFICACION = " + viajero.getId();
 
 		System.out.println("SQL stmt:" + sql);

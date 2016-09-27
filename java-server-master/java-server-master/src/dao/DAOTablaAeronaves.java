@@ -188,14 +188,14 @@ public class DAOTablaAeronaves {
 	 */
 	public void addAeronaveCarga(Aeronave aeronave) throws SQLException, Exception {
 
-		String sql = "INSERT INTO ISIS2304B041620.AERONAVE_CARGA VALUES (";
-		sql += aeronave.getNumSerie() + ",'";
-		sql += aeronave.getMarca() + "',";
+		String sql = "INSERT INTO ISIS2304B041620.AERONAVE_CARGA VALUES ('";
+		sql += aeronave.getNumSerie() + "','";
+		sql += aeronave.getMarca() + "','";
 		sql += aeronave.getModelo() + "',";
-		sql += aeronave.getAnoFabricacion() + "',";
+		sql += aeronave.getAnoFabricacion() + ",'";
 		sql += aeronave.getTamano() + "',";
-		sql += aeronave.getCapacidad() + "',";
-		sql += aeronave.getEnArriendo() + "',";
+		sql += aeronave.getCapacidad() + ",";
+		sql += aeronave.getEnArriendo() + ",'";
 		sql += aeronave.getCodAerolinea() + "',";
 		sql += aeronave.getIdAdmin() + ")";
 
@@ -209,14 +209,14 @@ public class DAOTablaAeronaves {
 	
 	public void addAeronavePasajero(Aeronave aeronave) throws SQLException, Exception {
 
-		String sql = "INSERT INTO ISIS2304B041620.AERONAVE_PASAJERO VALUES (";
-		sql += aeronave.getNumSerie() + ",'";
-		sql += aeronave.getMarca() + "',";
+		String sql = "INSERT INTO ISIS2304B041620.AERONAVE_PASAJERO VALUES ('";
+		sql += aeronave.getNumSerie() + "','";
+		sql += aeronave.getMarca() + "','";
 		sql += aeronave.getModelo() + "',";
-		sql += aeronave.getAnoFabricacion() + "',";
+		sql += aeronave.getAnoFabricacion() + ",'";
 		sql += aeronave.getTamano() + "',";
-		sql += aeronave.getCapacidad() + "',";
-		sql += aeronave.getEnArriendo() + "',";
+		sql += aeronave.getCapacidad() + ",";
+		sql += aeronave.getEnArriendo() + ",'";
 		sql += aeronave.getCodAerolinea() + "',";
 		sql += aeronave.getIdAdmin() + ")";
 
@@ -240,14 +240,14 @@ public class DAOTablaAeronaves {
 
 		String sql = "UPDATE ISIS2304B041620.AERONAVE_CARGA SET ";
 		sql += "MARCA='" + aeronave.getMarca() + "',";
-		sql += "MODELO=" + aeronave.getModelo()+ "',";
-		sql += "ANOFABRICACION=" + aeronave.getAnoFabricacion()+ "',";
-		sql += "TAMANO=" + aeronave.getTamano()+ "',";
-		sql += "CAPACIDAD_CARGA=" + aeronave.getCapacidad()+ "',";
-		sql += "EN_ARRIENDO=" + aeronave.getEnArriendo()+ "',";
-		sql += "COD_AEROLINEA=" + aeronave.getCodAerolinea()+ "',";
+		sql += "MODELO= '" + aeronave.getModelo()+ "',";
+		sql += "ANOFABRICACION=" + aeronave.getAnoFabricacion()+ ",";
+		sql += "TAMANO='" + aeronave.getTamano()+ "',";
+		sql += "CAPACIDAD_CARGA=" + aeronave.getCapacidad()+ ",";
+		sql += "EN_ARRIENDO=" + aeronave.getEnArriendo()+ ",";
+		sql += "COD_AEROLINEA='" + aeronave.getCodAerolinea()+ "',";
 		sql += "ID_ADMIN=" + aeronave.getIdAdmin();
-		sql += " WHERE NUMSERIE = " + aeronave.getNumSerie();
+		sql += " WHERE NUMSERIE = '" + aeronave.getNumSerie()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -260,14 +260,14 @@ public class DAOTablaAeronaves {
 
 		String sql = "UPDATE ISIS2304B041620.AERONAVE_PASAJERO SET ";
 		sql += "MARCA='" + aeronave.getMarca() + "',";
-		sql += "MODELO=" + aeronave.getModelo()+ "',";
-		sql += "ANOFABRICACION=" + aeronave.getAnoFabricacion()+ "',";
-		sql += "TAMANO=" + aeronave.getTamano()+ "',";
-		sql += "CAPACIDAD_CARGA=" + aeronave.getCapacidad()+ "',";
-		sql += "EN_ARRIENDO=" + aeronave.getEnArriendo()+ "',";
-		sql += "COD_AEROLINEA=" + aeronave.getCodAerolinea()+ "',";
+		sql += "MODELO= '" + aeronave.getModelo()+ "',";
+		sql += "ANOFABRICACION=" + aeronave.getAnoFabricacion()+ ",";
+		sql += "TAMANO='" + aeronave.getTamano()+ "',";
+		sql += "CAPACIDAD_CARGA=" + aeronave.getCapacidad()+ ",";
+		sql += "EN_ARRIENDO=" + aeronave.getEnArriendo()+ ",";
+		sql += "COD_AEROLINEA='" + aeronave.getCodAerolinea()+ "',";
 		sql += "ID_ADMIN=" + aeronave.getIdAdmin();
-		sql += " WHERE NUMSERIE = " + aeronave.getNumSerie();
+		sql += " WHERE NUMSERIE = '" + aeronave.getNumSerie()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -287,7 +287,7 @@ public class DAOTablaAeronaves {
 	public void deleteAeronaveCarga(Aeronave aeronave) throws SQLException, Exception {
 
 		String sql = "DELETE FROM ISIS2304B041620.AERONAVE_CARGA";
-		sql += " WHERE NUMSERIE = " + aeronave.getNumSerie();
+		sql += " WHERE NUMSERIE = '" + aeronave.getNumSerie()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -299,7 +299,7 @@ public class DAOTablaAeronaves {
 	public void deleteAeronavePasajero(Aeronave aeronave) throws SQLException, Exception {
 
 		String sql = "DELETE FROM ISIS2304B041620.AERONAVE_PASAJERO";
-		sql += " WHERE NUMSERIE = " + aeronave.getNumSerie();
+		sql += " WHERE NUMSERIE = '" + aeronave.getNumSerie()+ "'";
 
 		System.out.println("SQL stmt:" + sql);
 

@@ -77,11 +77,17 @@ public class VueloPasajero {
 	 */
 	@JsonProperty(value="idAeroDestino")
 	private int idAeroDestino;
+	
+	/**
+	 * Numero de serie de la aeronave
+	 */
+	@JsonProperty(value="numSerieAeronave")
+	private String numSerieAeronave;
 
 	public VueloPasajero(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
 			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
 			@JsonProperty(value="precioEjecutiva")int precioEjecutiva,@JsonProperty(value="precioEconomica")int precioEconomica, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
-			@JsonProperty(value="idAeroDestino")int idAeroDestino) {
+			@JsonProperty(value="idAeroDestino")int idAeroDestino, @JsonProperty(value="numSerieAeronave") String numSerieAeronave) {
 		
 		this.id = id;
 		this.horaLlegada = horaLlegada;
@@ -94,6 +100,7 @@ public class VueloPasajero {
 		this.codAerolinea = codAerolinea;
 		this.idAeroOrigen = idAeroOrigen;
 		this.idAeroDestino = idAeroDestino;
+		this.numSerieAeronave = numSerieAeronave;
 	}
 
 	public int getId() {
@@ -191,7 +198,14 @@ public class VueloPasajero {
 	public void setIdAeroDestino(int idAeroDestino) {
 		this.idAeroDestino = idAeroDestino;
 	}
-	
 
+	public String getNumSerieAeronave() {
+		return numSerieAeronave;
+	}
+
+	public void setNumSerieAeronave(String numSerieAeronave) {
+		this.numSerieAeronave = numSerieAeronave;
+	}
+	
 
 }

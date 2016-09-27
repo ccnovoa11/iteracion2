@@ -82,10 +82,11 @@ public class DAOTablaVueloCarga {
 			String codAerolinea = rs.getString("CODAEROLINEA");
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
 
 			
 			vuelos.add(new VueloCarga(id, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino));
+					idOrigen,idDestino,numSerieAeronave));
 		}
 		return vuelos;
 	}
@@ -101,7 +102,7 @@ public class DAOTablaVueloCarga {
 	public ArrayList<VueloCarga> buscarVuelosPorId(int id) throws SQLException, Exception {
 		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
 
-		String sql = "SELECT * FROM ISIS2304B041620.VUELO_CARGA WHERE ID ='" + id + "'";
+		String sql = "SELECT * FROM ISIS2304B041620.VUELO_CARGA WHERE ID =" + id ;
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -122,8 +123,9 @@ public class DAOTablaVueloCarga {
 			String codAerolinea = rs.getString("CODAEROLINEA");
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
 			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino));
+					idOrigen,idDestino,numSerieAeronave));
 		}
 
 		return vuelos;
@@ -142,17 +144,18 @@ public class DAOTablaVueloCarga {
 		
 		String sql = "INSERT INTO ISIS2304B041620.VUELO_CARGA VALUES (";
 		sql += vuelo.getId() + ",'";
-		sql += vuelo.getHoraLlegada() + "',";
+		sql += vuelo.getHoraLlegada() + "','";
 		sql += vuelo.getHoraSalida() + "',";
-		sql += vuelo.getFrecuencia() + "',";
-		sql += vuelo.getDistancia() + "',";
-		sql += vuelo.getDuracion() + "',";
+		sql += vuelo.getFrecuencia() + ",";
+		sql += vuelo.getDistancia() + ",";
+		sql += vuelo.getDuracion() + ",'";
 		sql += vuelo.getTipo() + "',";
-		sql += vuelo.getPrecioDensidad() + "',";
-		sql += vuelo.getCapacidadActual() + "',";
+		sql += vuelo.getPrecioDensidad() + ",";
+		sql += vuelo.getCapacidadActual() + ",'";
 		sql += vuelo.getCodAerolinea() + "',";
-		sql += vuelo.getIdAeroOrigen() + "',";
-		sql += vuelo.getIdAeroDestino() + ")";
+		sql += vuelo.getIdAeroOrigen() + ",";
+		sql += vuelo.getIdAeroDestino() + ",'";
+		sql += vuelo.getNumSerieAeronave() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -174,15 +177,16 @@ public class DAOTablaVueloCarga {
 
 		String sql = "UPDATE ISIS2304B041620.VUELO_CARGA SET ";
 		sql += "HORALLEGADA='" +vuelo.getHoraLlegada() + "',";
-		sql += "HORASALIDA" +vuelo.getHoraSalida() + "',";
-		sql += "FRECUENCIA='" +vuelo.getFrecuencia() + "',";
-		sql += "DISTANCIA='" +vuelo.getDistancia() + "',";
-		sql += "DURACION='" +vuelo.getDuracion() + "',";
+		sql += "HORASALIDA='" +vuelo.getHoraSalida() + "',";
+		sql += "FRECUENCIA=" +vuelo.getFrecuencia() + ",";
+		sql += "DISTANCIA=" +vuelo.getDistancia() + ",";
+		sql += "DURACION=" +vuelo.getDuracion() + ",";
 		sql += "TIPO='" +vuelo.getTipo() + "',";
-		sql += "PRECIO_DENSIDAD='" +vuelo.getPrecioDensidad() + "',";
-		sql += "CAPACIDAD_ACTUAL='" +vuelo.getCapacidadActual() + "',";
-		sql += "CODAEROLINEA" +vuelo.getCodAerolinea() + "',";
-		sql += "ID_AERO_ORIGEN='" +vuelo.getIdAeroOrigen() + "',";
+		sql += "PRECIO_DENSIDAD=" +vuelo.getPrecioDensidad() + ",";
+		sql += "CAPACIDAD_ACTUAL=" +vuelo.getCapacidadActual() + ",";
+		sql += "CODAEROLINEA='" +vuelo.getCodAerolinea() + "',";
+		sql += "NUMSERIE_AERONAVE='" +vuelo.getNumSerieAeronave() + "',";
+		sql += "ID_AERO_ORIGEN=" +vuelo.getIdAeroOrigen() + ",";
 		sql += "ID_AERO_DESTINO=" + vuelo.getIdAeroDestino();
 		sql += " WHERE ID = " + vuelo.getId();
 
