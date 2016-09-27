@@ -23,6 +23,7 @@ import dao.DAOTablaAerolineas;
 import dao.DAOTablaAeronaves;
 import dao.DAOTablaAeropuertos;
 import dao.DAOTablaCliente;
+import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloPasajero;
 import vos.Aerolinea;
 import vos.Aeronave;
@@ -32,9 +33,11 @@ import vos.ListaAeronaves;
 import vos.ListaAeropuertos;
 import vos.ListaRemitentes;
 import vos.ListaViajeros;
+import vos.ListaVuelosCarga;
 import vos.ListaVuelosPasajero;
 import vos.Remitente;
 import vos.Viajero;
+import vos.VueloCarga;
 import vos.VueloPasajero;
 
 /**
@@ -1522,7 +1525,8 @@ public class VuelAndesMaster {
 	 * @param video - Video a eliminar. video != null
 	 * @throws Exception - cualquier error que se genera actualizando los videos
 	 */
-	public void deleteAeronavePasajero(Aeronave aeronave) throws Exception {
+	public void deleteAeronavePasajero(Aeronave aeronave) throws Exception 
+	{
 		DAOTablaAeronaves daoAeronaves = new DAOTablaAeronaves();
 		try 
 		{
@@ -1811,6 +1815,278 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
 			daoVuelos.deleteVueloPasajero(vuelo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	
+	//Transaccion vueloCarga
+	
+	public ListaVuelosCarga darVuelosCarga() throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.darVuelosCarga();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+
+	/**
+	 * Método que modela la transacción que busca el/los videos en la base de datos con el nombre entra como parámetro.
+	 * @param name - Nombre del video a buscar. name != null
+	 * @return ListaVideos - objeto que modela  un arreglo de videos. este arreglo contiene el resultado de la búsqueda
+	 * @throws Exception -  cualquier error que se genere durante la transacción
+	 */
+	public ListaVuelosCarga buscarVueloCargaPorId(int num) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+//	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
+//	{
+//		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
+//		VueloPasajero rta;
+//		
+//		try
+//		{
+//			//////Transacción
+//			this.conn = darConexion();
+//			conn.setAutoCommit(false);
+//			daovuelo.setConn(conn);
+//			daovuelo.asociarAeronaveViajePasajero(aeronave, vuelo);
+//			rta = buscarVueloPasajeroPorId(vuelo.getId()).getVuelosPasajero().get(0);
+//			conn.commit();
+//
+//		}
+//		catch (SQLException e)
+//		{
+//			System.err.println("SQLException:" + e.getMessage());
+//			e.printStackTrace();
+//			conn.rollback();
+//			throw e;
+//		}
+//		catch (Exception e)
+//		{
+//			System.err.println("GeneralException:" + e.getMessage());
+//			e.printStackTrace();
+//			conn.rollback();
+//			throw e;
+//		}
+//		finally
+//		{
+//			try
+//			{
+//				daovuelo.cerrarRecursos();
+//				if (this.conn != null)
+//					this.conn.close();
+//			}
+//			catch (SQLException exception)
+//			{
+//				System.err.println("SQLException closing resources:" + exception.getMessage());
+//				exception.printStackTrace();
+//				throw exception;
+//			}
+//		}
+//		return rta;
+//		
+//	}
+	
+	/**
+	 * Método que modela la transacción que agrega un solo video a la base de datos.
+	 * <b> post: </b> se ha agregado el video que entra como parámetro
+	 * @param video - el video a agregar. video != null
+	 * @throws Exception - cualquier error que se genera agregando el video
+	 */
+	public void addVueloCarga(VueloCarga vuelo) throws Exception {
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			daoVuelos.addVueloCarga(vuelo);
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que agrega los videos que entran como parámetro a la base de datos.
+	 * <b> post: </b> se han agregado los videos que entran como parámetro
+	 * @param videos - objeto que modela una lista de videos y se estos se pretenden agregar. videos != null
+	 * @throws Exception - cualquier error que se genera agregando los videos
+	 */
+	public void addVuelosCarga(ListaVuelosCarga vuelos) throws Exception {
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción - ACID Example
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoVuelos.setConn(conn);
+			for(VueloCarga vuelo : vuelos.getVuelosCarga())
+				daoVuelos.addVueloCarga(vuelo);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+	
+	/**
+	 * Método que modela la transacción que actualiza el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha actualizado el video que entra como parámetro
+	 * @param video - Video a actualizar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void updateVueloCarga(VueloCarga vuelo) throws Exception {
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			daoVuelos.updatVueloCarga(vuelo);
+			;
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	/**
+	 * Método que modela la transacción que elimina el video que entra como parámetro a la base de datos.
+	 * <b> post: </b> se ha eliminado el video que entra como parámetro
+	 * @param video - Video a eliminar. video != null
+	 * @throws Exception - cualquier error que se genera actualizando los videos
+	 */
+	public void deleteVueloCarga(VueloCarga vuelo) throws Exception {
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			daoVuelos.deleteVueloCarga(vuelo);
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
