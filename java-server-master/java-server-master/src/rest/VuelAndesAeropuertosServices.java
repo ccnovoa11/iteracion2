@@ -17,6 +17,8 @@ import vos.Aerolinea;
 import vos.Aeropuerto;
 import vos.ListaAerolineas;
 import vos.ListaAeropuertos;
+import vos.ListaVuelosCarga;
+import vos.ListaVuelosPasajero;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/VideoAndes/rest/videos/...
@@ -89,6 +91,70 @@ public class VuelAndesAeropuertosServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(aeropuertos).build();
+	}
+	
+	@GET
+	@Path("/id/{id}/vuelos")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVuelosAeropuertoId(@javax.ws.rs.PathParam("id") int id) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (id<=0)
+				throw new Exception("Nombre del aeropuerto no valido");
+			vuelos = tm.buscarVueloPasajeroPorIdAeropuerto(id);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/id/{id}/vuelosCarga")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVuelosCargaAeropuertoId(@javax.ws.rs.PathParam("id") int id) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosCarga vuelos;
+		try {
+			if (id<=0)
+				throw new Exception("Nombre del aeropuerto no valido");
+			vuelos = tm.buscarVueloCargaPorIdAeropuerto(id);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/id/{id}/aerolinea/{aerolinea}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVuelosAeropuertoIdAerolinea(@javax.ws.rs.PathParam("id") int id,@javax.ws.rs.PathParam("aerolinea") String aerolinea) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (id<=0)
+				throw new Exception("Nombre del aeropuerto no valido");
+			vuelos = tm.buscarVueloPasajeroPorIdAeropuertoAerolinea(id,aerolinea);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/id/{id}/aerolineaCarga/{aerolinea}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVuelosCargaAeropuertoIdAerolinea(@javax.ws.rs.PathParam("id") int id,@javax.ws.rs.PathParam("aerolinea") String aerolinea) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosCarga vuelos;
+		try {
+			if (id<=0)
+				throw new Exception("Nombre del aeropuerto no valido");
+			vuelos = tm.buscarVueloCargaPorIdAeropuertoAerolinea(id,aerolinea);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
 	}
 	
 //    /**
