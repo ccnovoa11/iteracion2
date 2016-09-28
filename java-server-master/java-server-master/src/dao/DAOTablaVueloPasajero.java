@@ -232,11 +232,15 @@ public class DAOTablaVueloPasajero {
 	}
 	
 	
-	public void asociarAeronaveViajePasajero(Aeronave aeronave, VueloPasajero vueloP) throws SQLException, Exception{
+	public void asociarAeronaveViajePasajero(String aeronave, int vueloP) throws SQLException, Exception{
+		
+//		String sql = "UPDATE ISIS2304B041620.VUELO_PASAJERO SET ";
+//		sql += "NUMSERIE_AERONAVE='" +aeronave.getNumSerie() + "'";
+//		sql += " WHERE ID = " + vueloP.getId();
 		
 		String sql = "UPDATE ISIS2304B041620.VUELO_PASAJERO SET ";
-		sql += "NUMSERIE_AERONAVE='" +aeronave.getNumSerie() + "'";
-		sql += " WHERE ID = " + vueloP.getId();
+		sql += "NUMSERIE_AERONAVE= (SELECT NUMSERIE FROM (SELECT COUNT(*)AS CUENTA FROM ISIS2304B041620.RESERVA_PASAJERO WHERE ID_VUELO_PASAJERO ='" + vueloP;
+		sql +=	"')T1, ISIS2304B041620.AERONAVE_PASAJERO aerP WHERE aerP.NUMSERIE = '"+aeronave+"' AND T1.CUENTA <= aerP.CAPACIDAD_CARGA)WHERE ID ='"+vueloP+ "'" ;
 
 		System.out.println("SQL stmt:" + sql);
 
