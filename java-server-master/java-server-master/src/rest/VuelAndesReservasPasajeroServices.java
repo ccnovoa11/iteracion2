@@ -85,6 +85,22 @@ public class VuelAndesReservasPasajeroServices {
 		return Response.status(200).entity(reservasPasajero).build();
 	}
 	
+	@GET
+	@Path("/idViajero/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getReservaPasajeroPorViajero(@javax.ws.rs.PathParam("id") int id) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaReservasPasajero reservasPasajero;
+		try {
+			if (id <=-1 )
+				throw new Exception("Id del vuelo no valido");
+			reservasPasajero = tm.buscarReservaPorViajero(id);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(reservasPasajero).build();
+	}
+	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado
 //     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado

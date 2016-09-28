@@ -17,6 +17,7 @@ import vos.ListaReservasCarga;
 import vos.ListaReservasPasajero;
 import vos.ReservaCarga;
 import vos.ReservaPasajero;
+import vos.VueloCarga;
 
 @Path("reservasCarga")
 public class VuelAndesReservasCargaServices {
@@ -162,6 +163,16 @@ public class VuelAndesReservasCargaServices {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
 			tm.addReservaCarga(reservaCarga);
+			if(tm.buscarRemitentesPorId(reservaCarga.getIdRemi()).getRemitentes().get(0).getPeso() <= 
+					tm.buscarVueloCargaPorId(reservaCarga.getIdVueloCarga()).getVuelosCarga().get(0).getCapacidadActual()){
+				tm.addReservaCarga(reservaCarga);
+				VueloCarga otro = tm.buscarVueloCargaPorId(reservaCarga.getIdVueloCarga()).getVuelosCarga().get(0);
+				otro.setCapacidadActual(otro.getCapacidadActual()- tm.buscarRemitentesPorId(reservaCarga.getIdRemi()).getRemitentes().get(0).getPeso());
+				tm.updateVueloCarga(otro);
+			}
+			else{
+				throw new Exception("La capacidad actual no es suficiente");
+			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

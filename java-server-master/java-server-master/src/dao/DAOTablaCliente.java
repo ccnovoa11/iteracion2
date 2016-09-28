@@ -137,6 +137,34 @@ public class DAOTablaCliente {
 		return remitentes;
 	}
 
+	
+	public ArrayList<Remitente> buscarRemitentesPorId(int id) throws SQLException, Exception {
+		ArrayList<Remitente> remitentes = new ArrayList<Remitente>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.REMITENTE WHERE IDENTIFICACION =" + id ;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+
+		while (rs.next()) {
+			int id2 = rs.getInt("IDENTIFICACION");
+			String nombre = rs.getString("NOMBRE");
+			String tipo = rs.getString("TIPO_IDENT");
+			String nacionalidad = rs.getString("NACIONALIDAD");
+			int peso = rs.getInt("PESOCARGA");
+			int volumen = rs.getInt("VOLUMEN");
+			String contenido = rs.getString("CONTENIDO");
+			remitentes.add(new Remitente(id2, nombre, tipo,nacionalidad,peso,volumen,contenido));
+		}
+
+		return remitentes;
+	}
+	
+	
 	public ArrayList<Viajero> buscarViajerosPorNombre(String name) throws SQLException, Exception {
 		ArrayList<Viajero> viajeros = new ArrayList<Viajero>();
 
