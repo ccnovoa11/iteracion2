@@ -168,31 +168,20 @@ public class VuelAndesVuelosPasajeroServices {
 	
 	
 	@PUT
-	@Path("/id/{idVuelo}/idAeronave/{idAeronave}")
+	@Path("/id/{vuelo}/idA/{aeronave}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response asociarVueloPasajeroAeronave(@javax.ws.rs.PathParam("idVuelo") int idVuelo, @javax.ws.rs.PathParam("idAeronave") String idAeronave) throws Exception {
+	public Response asociarVueloPasajeroAeronave(@javax.ws.rs.PathParam("aeronave")String aeronave,@javax.ws.rs.PathParam("vuelo")int vuelo) throws Exception {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
-		VueloPasajero vuelo;
+		ListaVuelosPasajero vuelos;
 		try {
-			if (idVuelo <= 0)
+			if (vuelo <=-1 )
 				throw new Exception("Id del vuelo no valido");
-			vuelo = tm.buscarVueloPasajeroPorId(idVuelo).getVuelosPasajero().get(0);
+			vuelos = tm.darVuelosPasajero();
+			tm.asociarVueloPasajeroAeronave(aeronave, vuelo);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		
-		Aeronave aeronave;
-		try {
-			if (idAeronave ==null )
-				throw new Exception("numSerie de la aeronave no valido");
-			aeronave = tm.buscarAeronavePasajeroPorNumSerie(idAeronave).getAeronaves().get(0);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		
-		VueloPasajero respuesta = tm.asociarVueloPasajeroAeronave(vuelo, aeronave);
-		
-		return Response.status(200).entity(respuesta).build();
+		return Response.status(200).entity(vuelos).build();
 	}
 	
 	

@@ -1651,10 +1651,9 @@ public class VuelAndesMaster {
 
 
 
-	public VueloPasajero asociarVueloPasajeroAeronave(VueloPasajero vuelo, Aeronave aeronave) throws Exception
+	public void asociarVueloPasajeroAeronave(String aeronave,int vuelo) throws Exception
 	{
 		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
-		VueloPasajero rta;
 
 		try
 		{
@@ -1663,7 +1662,6 @@ public class VuelAndesMaster {
 			conn.setAutoCommit(false);
 			daovuelo.setConn(conn);
 			daovuelo.asociarAeronaveViajePasajero(aeronave, vuelo);
-			rta = buscarVueloPasajeroPorId(vuelo.getId()).getVuelosPasajero().get(0);
 			conn.commit();
 
 		}
@@ -1696,7 +1694,6 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		return rta;
 
 	}
 
