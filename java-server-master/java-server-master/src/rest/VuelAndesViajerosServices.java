@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
 import vos.ListaViajeros;
+import vos.ListaVuelosPasajero;
 import vos.Viajero;
 
 @Path("viajeros")
@@ -85,6 +86,22 @@ public class VuelAndesViajerosServices {
 		return Response.status(200).entity(viajeros).build();
 	}
 	
+	@GET
+	@Path("/ide/{ide}/cod/{cod}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarVuelosPorCodAeroliena(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("cod")String cod) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (ide <=-1 )
+				throw new Exception("Id del usuario no valido");
+			vuelos = tm.buscarVuelosPorCodAeroliena(ide, cod);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado
 //     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado
@@ -125,6 +142,7 @@ public class VuelAndesViajerosServices {
 		}
 		return Response.status(200).entity(viajero).build();
 	}
+
 	
     /**
      * Método que expone servicio REST usando PUT que agrega los videos que recibe en Json
