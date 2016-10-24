@@ -6,14 +6,14 @@ GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/
 2) Elegir el vuelo que sea conveniente
 GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/id/10
 
-3) Consultar las sillas asociadas a ese vuelo. Ese listado contiene todas las sillas sin importar el tipo ni si est·n ocupadas.
-Se da toda la informaciÛn de las sillas para que el viajero pueda elegir que tipo de silla quiere(economica, ejecutiva)
+3) Consultar las sillas asociadas a ese vuelo. Ese listado contiene todas las sillas sin importar el tipo ni si est√°n ocupadas.
+Se da toda la informaci√≥n de las sillas para que el viajero pueda elegir que tipo de silla quiere(economica, ejecutiva)
 GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/id/10/sillas
 
 4) Una vez el viajero haya decidido que silla quiere, se dirige a crear una nueva reserva de pasajero
 POST http://localhost:8080/VideoAndes/rest/reservasPasajero/reservaPasajero
-AllÌ debe indicar su identificaciÛn de viajero, la identificacion del vuelo que eligiÛ y el n˙mero de silla que quiere
-Si la silla est· disponible, se crea la reserva, de lo contrario, no se crea.
+All√≠ debe indicar su identificaci√≥n de viajero, la identificacion del vuelo que eligi√≥ y el n√∫mero de silla que quiere
+Si la silla est√° disponible, se crea la reserva, de lo contrario, no se crea.
 
 5)Para ver el identificador unico de la reserva que acaba de crear debe seguir la siguiente ruta cambiando "" por su id
 GET http://localhost:8080/VideoAndes/rest/reservasPasajero/idViajero/""
@@ -28,8 +28,8 @@ GET http://localhost:8080/VideoAndes/rest/vuelosCarga/id/1
 
 3) Una vez el remitente haya decidido que vuelo quiere, crea una nueva reserva de carga
 POST http://localhost:8080/VideoAndes/rest/reservasCarga/reservaCarga
-AllÌ se debe indicar la identificacion del remitente y la identificacion del vuelo que eligiÛ.
-Si el peso de lo que quiere enviar no supera la capacidad actual del aviÛn, se crea la reserva. No se crea en caso contrario.
+All√≠ se debe indicar la identificacion del remitente y la identificacion del vuelo que eligi√≥.
+Si el peso de lo que quiere enviar no supera la capacidad actual del avi√≥n, se crea la reserva. No se crea en caso contrario.
 
 RFC1
 
@@ -42,8 +42,8 @@ GET http://localhost:8080/VideoAndes/rest/aeropuertos/id/100/aerolinea/JK
 GET http://localhost:8080/VideoAndes/rest/aeropuertos/id/100/aerolineaCarga/JK
 
 RF12
-Se aseguran las propiedades ACID porque se va agregando de a una reserva, todo en una transacciÛn de forma atÛmica.
-De igual forma, la consistencia se asegura ya que se envÌan mensajes de error cada vez que se intenta agregar un dato que tiene por ejemplo,
+Se aseguran las propiedades ACID porque se va agregando de a una reserva, todo en una transacci√≥n de forma at√≥mica.
+De igual forma, la consistencia se asegura ya que se env√≠an mensajes de error cada vez que se intenta agregar un dato que tiene por ejemplo,
 una llave foranea inexistente.
 Tambien la durabilidad se asegura porque el proyecto tiene unos web services que se conectan con la base da datos, por lo tanto los
 datos son persistences.
@@ -54,7 +54,7 @@ RF13
 
 Para asegurar las ACID, se hace todo el proceso dentro de una transaccion, se ejecutan todos los pasos completos o no se ejecuta
 ninguno, si llega a haber algun error durante el proceso, no se elimina la reserva. Esto por lo tanto, asegura la consistencia
-porque no deja reservas a medio borrar. Adem·s, la durabilidad se asegura porque se conecta a la base de datos y se recuperan todas
+porque no deja reservas a medio borrar. Adem√°s, la durabilidad se asegura porque se conecta a la base de datos y se recuperan todas
 las reservas pero cuando se elimina, se elimina de forma permanente.
 DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservaPasajero
 
@@ -72,4 +72,18 @@ La durabilidad se asegura por lo web services que permiten las persistencia de l
 DELETE http://localhost:8080/VideoAndes/rest/vuelosPasajero/vueloPasajero
 
 RF16
+
+RC5
+Consultar los vuelos del usuario dado un codigo de aerol√≠nea, esto con el fin por ver los vuelos que ha realizado con la respectiva aerol√≠nea. En este caso, dado que el usuario conoce el n√∫mero de identificaci√≥n, s√≥lo aquellos con acceso a su n√∫mero pueden consultar los vuelos que √©l ha realizado.
+
+GET http://localhost:8080/VideoAndes/rest/viajeros/ide/443/cod/NE
+
+*Las demas consultas por par√°metros cuentan con la fecha en la que fue realizado un vuelo.
+
+RC6
+Consultar las aeronaves del administrador de un c√≥digo propio dado, y el n√∫mero de serie dado.
+
+GET http://localhost:8080/VideoAndes/rest/admins/ide/88/num/Y9M5
+
+*Las demas consultas cuentas con par√°metros como lo son el tama√±o o la capacidad de la aeronave. 
 
