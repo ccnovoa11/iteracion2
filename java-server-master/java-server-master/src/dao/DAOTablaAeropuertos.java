@@ -111,6 +111,55 @@ public class DAOTablaAeropuertos {
 
 		return aeropuertos;
 	}
+	
+	public ArrayList<Aeropuerto> buscarAeropuertosPorPais(String pais) throws SQLException, Exception {
+		ArrayList<Aeropuerto> aeropuertos = new ArrayList<Aeropuerto>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.AEROPUERTO WHERE PAIS ='" + pais + "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int codigo = rs.getInt("CODIGO");
+			String nombre = rs.getString("NOMBRE");
+			String pais2 = rs.getString("PAIS");
+			String tipo = rs.getString("TIPO");
+			String capacidad = rs.getString("CAPACIDAD");
+			int idAdmin = rs.getInt("IDADMIN");
+			aeropuertos.add(new Aeropuerto(codigo,nombre,pais2,tipo,capacidad,idAdmin));
+		}
+
+		return aeropuertos;
+	}
+	
+	public Aeropuerto buscarAeropuertosPorCodigo(int codigo) throws SQLException, Exception {
+
+		Aeropuerto aeropuerto= null;
+
+		String sql = "SELECT * FROM ISIS2304B041620.AEROPUERTO WHERE CODIGO =" + codigo + "";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int codigo1 = rs.getInt("CODIGO");
+			String nombre = rs.getString("NOMBRE");
+			String pais2 = rs.getString("PAIS");
+			String tipo = rs.getString("TIPO");
+			String capacidad = rs.getString("CAPACIDAD");
+			int idAdmin = rs.getInt("IDADMIN");
+			aeropuerto =new Aeropuerto(codigo1,nombre,pais2,tipo,capacidad,idAdmin);
+		}
+
+		return aeropuerto;
+	}
 
 	/**
 	 * Método que agrega el video que entra como parámetro a la base de datos.

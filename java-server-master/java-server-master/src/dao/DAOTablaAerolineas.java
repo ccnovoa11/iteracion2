@@ -90,7 +90,9 @@ public class DAOTablaAerolineas {
 			String iata = rs.getString("IATA");
 			String nombre = rs.getString("NOMBRE");
 			String pais = rs.getString("PAIS");
-			aerolineas.add(new Aerolinea(codigo, iata, nombre,pais));
+			String correo = rs.getString("CORREO");
+			String persona = rs.getString("PERSONA");
+			aerolineas.add(new Aerolinea(codigo, iata, nombre,pais,correo,persona));
 		}
 		return aerolineas;
 	}
@@ -119,7 +121,9 @@ public class DAOTablaAerolineas {
 			String codigo = rs.getString("CODIGO");
 			String iata = rs.getString("IATA");
 			String pais = rs.getString("PAIS");
-			aerolineas.add(new Aerolinea(codigo,iata,nombre,pais));
+			String correo = rs.getString("CORREO");
+			String persona = rs.getString("PERSONA");
+			aerolineas.add(new Aerolinea(codigo,iata,nombre,pais,correo,persona));
 		}
 
 		return aerolineas;
@@ -139,7 +143,9 @@ public class DAOTablaAerolineas {
 		sql += "'" + aerolinea.getCodigo() + "','";
 		sql += aerolinea.getIata() + "','";
 		sql += aerolinea.getNombre() + "','";
-		sql += aerolinea.getPais()  + "')";
+		sql += aerolinea.getPais()  + "','";
+		sql += aerolinea.getCorreo() + "','";
+		sql += aerolinea.getPersona() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -162,7 +168,9 @@ public class DAOTablaAerolineas {
 		String sql = "UPDATE ISIS2304B041620.AEROLINEA SET ";
 		sql += "NOMBRE='" + aerolinea.getNombre() + "',";
 		sql += "IATA='" + aerolinea.getIata()+ "',";
-		sql += "PAIS='" + aerolinea.getPais()+ "'";
+		sql += "PAIS='" + aerolinea.getPais()+ "',";
+		sql += "CORREO='" + aerolinea.getCorreo()+ "',";
+		sql += "PERSONA='" + aerolinea.getPersona()+ "'";
 		sql += " WHERE CODIGO = '" + aerolinea.getCodigo()+ "'";
 
 		System.out.println("SQL stmt:" + sql);

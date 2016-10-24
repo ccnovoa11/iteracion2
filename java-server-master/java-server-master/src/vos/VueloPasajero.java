@@ -84,6 +84,12 @@ public class VueloPasajero {
 	@JsonProperty(value="numSerieAeronave")
 	private String numSerieAeronave;
 
+	@JsonProperty(value="fechaLlegada")
+	private java.sql.Date fechaLlegada;
+
+	@JsonProperty(value="fechaSalida")
+	private java.sql.Date fechaSalida;
+	
 	public VueloPasajero(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
 			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
 			@JsonProperty(value="precioEjecutiva")int precioEjecutiva,@JsonProperty(value="precioEconomica")int precioEconomica, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
@@ -103,6 +109,48 @@ public class VueloPasajero {
 		this.numSerieAeronave = numSerieAeronave;
 	}
 	
+	
+	public VueloPasajero(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
+			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
+			@JsonProperty(value="precioEjecutiva")int precioEjecutiva,@JsonProperty(value="precioEconomica")int precioEconomica, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
+			@JsonProperty(value="idAeroDestino")int idAeroDestino, @JsonProperty(value="numSerieAeronave") String numSerieAeronave, @JsonProperty(value="fechaLlegada") java.sql.Date fechaLlegada, @JsonProperty(value="fechaSalida") java.sql.Date fechaSalida) {
+		
+		this.id = id;
+		this.horaLlegada = horaLlegada;
+		this.horaSalida = horaSalida;
+		this.frecuencia = frecuencia;
+		this.distancia = distancia;
+		this.duracion = duracion;
+		this.precioEjecutiva = precioEjecutiva;
+		this.precioEconomica = precioEconomica;
+		this.codAerolinea = codAerolinea;
+		this.idAeroOrigen = idAeroOrigen;
+		this.idAeroDestino = idAeroDestino;
+		this.numSerieAeronave = numSerieAeronave;
+		this.fechaLlegada = fechaLlegada;
+		this.fechaSalida = fechaSalida;
+		
+	}
+
+	public java.sql.Date getFechaLlegada() {
+		return fechaLlegada;
+	}
+
+
+	public void setFechaLlegada(java.sql.Date fechaLlegada) {
+		this.fechaLlegada = fechaLlegada;
+	}
+
+
+	public java.sql.Date getFechaSalida() {
+		return fechaSalida;
+	}
+
+
+	public void setFechaSalida(java.sql.Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
 
 	public int getId() {
 		return id;

@@ -83,10 +83,13 @@ public class DAOTablaVueloCarga {
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
 			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			
 
 			
 			vuelos.add(new VueloCarga(id, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
 		}
 		return vuelos;
 	}
@@ -124,8 +127,10 @@ public class DAOTablaVueloCarga {
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
 			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
 			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
 		}
 
 		return vuelos;
@@ -157,8 +162,10 @@ public class DAOTablaVueloCarga {
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
 			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
 			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
 		}
 
 		return vuelos;
@@ -189,12 +196,15 @@ public class DAOTablaVueloCarga {
 			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
 			int idDestino = rs.getInt("ID_AERO_DESTINO");
 			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
 			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
-					idOrigen,idDestino,numSerieAeronave,capacidad,tipo));
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
 		}
 
 		return vuelos;
 	}
+
 
 	/**
 	 * Método que agrega el video que entra como parámetro a la base de datos.
@@ -220,7 +230,10 @@ public class DAOTablaVueloCarga {
 		sql += vuelo.getCodAerolinea() + "',";
 		sql += vuelo.getIdAeroOrigen() + ",";
 		sql += vuelo.getIdAeroDestino() + ",'";
-		sql += vuelo.getNumSerieAeronave() + "')";
+		sql += vuelo.getNumSerieAeronave() + "',";
+		sql += vuelo.getFechaLlegada() + ",";
+		sql += vuelo.getFechaSalida() +")";
+
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -252,7 +265,9 @@ public class DAOTablaVueloCarga {
 		sql += "CODAEROLINEA='" +vuelo.getCodAerolinea() + "',";
 		sql += "NUMSERIE_AERONAVE='" +vuelo.getNumSerieAeronave() + "',";
 		sql += "ID_AERO_ORIGEN=" +vuelo.getIdAeroOrigen() + ",";
-		sql += "ID_AERO_DESTINO=" + vuelo.getIdAeroDestino();
+		sql += "ID_AERO_DESTINO=" + vuelo.getIdAeroDestino()+ ",";
+		sql += "FECHALLEGADA=" + vuelo.getFechaLlegada()+ ",";
+		sql += "FECHASALIDA=" + vuelo.getFechaSalida();
 		sql += " WHERE ID = " + vuelo.getId();
 
 		System.out.println("SQL stmt:" + sql);

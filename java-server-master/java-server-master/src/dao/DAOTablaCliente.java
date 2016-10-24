@@ -203,11 +203,11 @@ public class DAOTablaCliente {
 		String sql = "INSERT INTO ISIS2304B041620.REMITENTE VALUES (";
 		sql += remitente.getId() + ",'";
 		sql += remitente.getNombre() + "','";
-		sql += remitente.getTipoIdent() + "','";
-		sql += remitente.getNacionalidad() + "',";
+		sql += remitente.getTipoIdent() + "',";
 		sql += remitente.getPeso() + ",";
 		sql += remitente.getVolumen() + ",'";
-		sql += remitente.getContenido() + "')";
+		sql += remitente.getContenido() + "','";
+		sql += remitente.getNacionalidad() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 

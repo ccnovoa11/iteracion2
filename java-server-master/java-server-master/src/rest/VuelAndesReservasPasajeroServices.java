@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import tm.VuelAndesMaster;
 import vos.ListaReservasPasajero;
 import vos.ReservaPasajero;
+import vos.Vuelo;
 
 @Path("reservasPasajero")
 public class VuelAndesReservasPasajeroServices {
@@ -154,12 +155,15 @@ public class VuelAndesReservasPasajeroServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addRemitente(ListaReservasPasajero reservasPasajero) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		Vuelo total;
+		
 		try {
 			tm.addReservasPasajero(reservasPasajero);
+			total = tm.addReservasVueloTotal(reservasPasajero);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(reservasPasajero).build();
+		return Response.status(200).entity(total).build();
 	}
 	
     /**

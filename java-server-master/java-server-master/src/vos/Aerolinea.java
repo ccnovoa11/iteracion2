@@ -43,6 +43,14 @@ public class Aerolinea {
 	 */
 	@JsonProperty(value="pais")
 	private String pais;
+	
+	@JsonProperty(value="correo")
+	private String correo;
+	
+	@JsonProperty(value="persona")
+	private String persona;
+	
+	
 
 	/**
 	 * Método constructor de la clase aerolinea
@@ -57,6 +65,35 @@ public class Aerolinea {
 		this.iata = iata;
 		this.nombre = nombre;
 		this.pais =pais;
+	}
+	
+	public Aerolinea(@JsonProperty(value="codigo")String codigo, @JsonProperty(value="iata")String iata,@JsonProperty(value="nombre") String nombre, @JsonProperty(value="pais") String pais,
+			@JsonProperty(value="correo") String correo,@JsonProperty(value="persona") String persona) {
+
+		this.codigo = codigo;
+		this.iata = iata;
+		this.nombre = nombre;
+		this.pais =pais;
+		this.correo = correo;
+		this.persona = persona;
+		
+	}
+
+	
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public String getPersona() {
+		return persona;
+	}
+
+	public void setPersona(String persona) {
+		this.persona = persona;
 	}
 
 	public String getCodigo() {

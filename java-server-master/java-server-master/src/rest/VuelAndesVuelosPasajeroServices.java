@@ -88,6 +88,22 @@ public class VuelAndesVuelosPasajeroServices {
 	}
 	
 	@GET
+	@Path("/{id1}/{id2}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVueloPasajerOrigenDestino(@javax.ws.rs.PathParam("id1") int origen, @javax.ws.rs.PathParam("id2") int destino ) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (origen <0 || destino<0 )
+				throw new Exception("Ciudad no valida");
+			vuelos = tm.buscarVueloPasajeroOrigenDestino(origen, destino);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
 	@Path("/id/{id}/sillas")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getSillasVueloPasajeroId(@javax.ws.rs.PathParam("id") int id) {
