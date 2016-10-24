@@ -1,0 +1,10 @@
+Esquema
+Primero, se propone tener una conexion segura y bien implementada con la base da datos, para asegurar la persistencia.
+Segundo, hacer un análisis de los datos que se van a usar para los distintos procesos y experimentos. Es decir, verificar
+que los tipos de datos sean los indicados, que si se van a usar datos de otras tables se verifique primero que existan para evitar
+transacciones fallidas.
+Tercero, para la recuperacion de datos, hacer savepoints en los métodos que actualicen, inserten o borren, para recuperar
+datos en caso de que haya problemas.
+Cuarto, despues de finalizado un proceso, proceder a verificar que los datos que se ingresaron sean consistentes.
+Quinto, verificar el buen funcionamiento, es decir, que el usuario cuando use la aplicacion obtenga lo que desea y no
+información innecesario.
