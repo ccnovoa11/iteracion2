@@ -102,6 +102,22 @@ public class VuelAndesViajerosServices {
 		return Response.status(200).entity(vuelos).build();
 	}
 	
+	@GET
+	@Path("/ide/{ide}/fecha/{fech}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarVuelosPorFecha(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("fech")String fecha) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (ide <=-1 )
+				throw new Exception("Id del usuario no valido");
+			vuelos = tm.buscarVuelosPorCodAeroliena(ide, fecha);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado
 //     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado

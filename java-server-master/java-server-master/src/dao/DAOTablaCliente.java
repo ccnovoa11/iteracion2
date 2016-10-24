@@ -238,7 +238,7 @@ public class DAOTablaCliente {
 	public ArrayList<VueloPasajero> buscarVuelosPorCodAeroliena(int ide, String cod) throws SQLException, Exception {
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
 
-		String sql = "SELECT * FROM ((SELECT * FROM ISIS2304B041620.RESERVA_PASAJERO WHERE ID_VIAJERO =" +ide+")T1 INNER JOIN(SELECT* FROM VUELO_PASAJERO WHERE CODAEROLINEA = '"+cod+"' )T2 ON T1.ID_VUELO_PASAJERO = T2.ID)";
+		String sql = "SELECT * FROM ((SELECT ID_VUELO_PASAJERO FROM ISIS2304B041620.RESERVA_PASAJERO WHERE ID_VIAJERO =" +ide+")T1 INNER JOIN(SELECT* FROM VUELO_PASAJERO WHERE CODAEROLINEA = '"+cod+"' )T2 ON T1.ID_VUELO_PASAJERO = T2.ID)";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -247,7 +247,41 @@ public class DAOTablaCliente {
 		ResultSet rs = prepStmt.executeQuery();
 
 		while (rs.next()) {
-			int id2 = rs.getInt("ID_1");
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precioEj = rs.getInt("PRECIO_EJECUTIVO");
+			int precioEc = rs.getInt("PRECIO_ECONOMICO");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloPasajero(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precioEj,precioEc,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
+	
+	public ArrayList<VueloPasajero> buscarVuelosPorFecha(int ide, String fecha) throws SQLException, Exception {
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+
+		String sql = "SELECT * FROM ((SELECT ID_VUELO_PASAJERO FROM ISIS2304B041620.RESERVA_PASAJERO WHERE ID_VIAJERO =" +ide+")T1 INNER JOIN(SELECT* FROM VUELO_PASAJERO WHERE FECHASALIDA = '"+fecha+"' )T2 ON T1.ID_VUELO_PASAJERO = T2.ID)";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
 			String horaLlegada = rs.getString("HORALLEGADA");
 			String horaSalida = rs.getString("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
