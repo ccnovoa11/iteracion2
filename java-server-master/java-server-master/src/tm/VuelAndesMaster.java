@@ -1018,6 +1018,56 @@ public class VuelAndesMaster {
 		}
 		return new ListaViajeros(viajeros);
 	}
+	
+	public ListaVuelosPasajero buscarVuelosPorCodAeroliena(int ide, String cod) throws Exception
+	{
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+		DAOTablaCliente daocliente = new DAOTablaCliente();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daocliente.setConn(conn);
+			vuelos = daocliente.buscarVuelosPorCodAeroliena(ide, cod);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daocliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaVuelosPasajero(vuelos);
+		
+	}
+
 
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
