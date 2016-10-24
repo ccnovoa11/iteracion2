@@ -41,3 +41,35 @@ GET http://localhost:8080/VideoAndes/rest/aeropuertos/id/100/vuelosCarga
 GET http://localhost:8080/VideoAndes/rest/aeropuertos/id/100/aerolinea/JK
 GET http://localhost:8080/VideoAndes/rest/aeropuertos/id/100/aerolineaCarga/JK
 
+RF12
+Se aseguran las propiedades ACID porque se va agregando de a una reserva, todo en una transacción de forma atómica.
+De igual forma, la consistencia se asegura ya que se envían mensajes de error cada vez que se intenta agregar un dato que tiene por ejemplo,
+una llave foranea inexistente.
+Tambien la durabilidad se asegura porque el proyecto tiene unos web services que se conectan con la base da datos, por lo tanto los
+datos son persistences.
+
+GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/92/100
+
+RF13
+
+Para asegurar las ACID, se hace todo el proceso dentro de una transaccion, se ejecutan todos los pasos completos o no se ejecuta
+ninguno, si llega a haber algun error durante el proceso, no se elimina la reserva. Esto por lo tanto, asegura la consistencia
+porque no deja reservas a medio borrar. Además, la durabilidad se asegura porque se conecta a la base de datos y se recuperan todas
+las reservas pero cuando se elimina, se elimina de forma permanente.
+DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservaPasajero
+
+RF14
+
+La atomicidad se asegura porque esta transaccion no permite que se borre una sola reserva, sino que se borran todas o ninguna.
+Tambien, los datos quedan consistentes, porque al borrarse de forma completa, no quedan reservas a medio borrar.
+DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservasPasajero
+
+RF15
+Para cancelar un viaje se asegura la atomicidad porque no se permite que se borre solo el vuelo, sino que se tienen que borrar
+las reservas asociadas. No se puede borrar solo una cosa, sino que tiene que ser todo o no se borra.
+La consistencia se asegura tambien porque no quedan reservas asociadas a un vuelo inexistente sino que se asocian a otro vuelo.
+La durabilidad se asegura por lo web services que permiten las persistencia de los datos.
+DELETE http://localhost:8080/VideoAndes/rest/vuelosPasajero/vueloPasajero
+
+RF16
+

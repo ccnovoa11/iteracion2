@@ -1,0 +1,5 @@
+Análisis
+Los únicos cambios fueron que se pusieron en la clase aerolinea dos nuevos atributos, de la persona encargada y el correo.
+Además, se pusieron las fechas como date en los vuelos.
+Se creo una clase vuelo, que tiene la reserva con otras reservas. En el caso de que se haga escala, se hace un reserva grande,
+llamada Vuelo, que tiene su propio id y el de las reservas escala.
