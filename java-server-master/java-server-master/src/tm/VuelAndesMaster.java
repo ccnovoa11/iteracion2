@@ -483,7 +483,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaAeropuertos(aeropuertos);
 	}
-	
+
 	public Aeropuerto buscarAeropuertosPorId(int id) throws Exception {
 		Aeropuerto aeropuertos;
 		DAOTablaAeropuertos daoAeropuertos = new DAOTablaAeropuertos();
@@ -750,8 +750,8 @@ public class VuelAndesMaster {
 		}
 		return new ListaRemitentes(remitentes);
 	}
-	
-	
+
+
 	public ListaRemitentes buscarRemitentesPorId(int id) throws Exception {
 		ArrayList<Remitente> remitentes;
 		DAOTablaCliente daoRemitentes = new DAOTablaCliente();
@@ -1715,31 +1715,63 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
+
 	
-	
+	public ListaVuelosPasajero buscarVueloPasajeroPorAerolinea(String aerolinea) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPorAerolinea(aerolinea);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+
 	public ArrayList buscarVueloEscala(int origen, int destino)throws Exception {
 		ArrayList<VueloPasajero> vuelosOrigen = null;
 		ArrayList<VueloPasajero> vuelosDestino = null;
 		ArrayList<VueloPasajero> vuelos = new ArrayList<>();
 
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
-		
+
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
-			
+
 			vuelosOrigen= daoVuelos.buscarVuelosPorIdAeropuertoOrigen(origen);
 			vuelosDestino= daoVuelos.buscarVuelosPorIdAeropuertoDestino(destino);
-		
+
 			int total = 500000;
-			
+
 			for (int i = 0; i < vuelosOrigen.size(); i++) {
 				VueloPasajero ori = vuelosOrigen.get(i);
 				for (int j = 0; j < vuelosDestino.size(); j++) {
 					VueloPasajero dest = vuelosDestino.get(j);
-					
+
 					if(ori.getIdAeroDestino()==dest.getIdAeroOrigen()){
 						int precio1=ori.getPrecioEconomica();
 						int precio2=dest.getPrecioEconomica();
@@ -1773,7 +1805,7 @@ public class VuelAndesMaster {
 		}
 		return vuelos;
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroOrigenDestino(int origen, int destino) throws Exception {
 		ArrayList<VueloPasajero> vuelos = null;
 
@@ -1783,7 +1815,7 @@ public class VuelAndesMaster {
 			//////Transacción
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
-			
+
 			if(daoVuelos.buscarVuelosOrigenDestino(origen, destino) != null){
 				vuelos = daoVuelos.buscarVuelosOrigenDestino(origen, destino);
 			}
@@ -1791,7 +1823,7 @@ public class VuelAndesMaster {
 				ArrayList escalas = buscarVueloEscala(origen, destino);
 				vuelos = escalas;
 			}
-			
+
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -1848,7 +1880,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaPorIdAeropuerto(int num) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -1880,7 +1912,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroPorIdAeropuertoAerolinea(int num,String aerolinea) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -1912,7 +1944,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaPorIdAeropuertoAerolinea(int num,String aerolinea) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2741,7 +2773,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaSillas(sillas);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2855,7 +2887,7 @@ public class VuelAndesMaster {
 		}
 	}
 
-	
+
 	public void updateSillaE(Silla silla) throws Exception {
 		DAOTablaSilla daoSillas = new DAOTablaSilla();
 		try 
@@ -3025,7 +3057,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaReservasPasajero(reservasPasajero);
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -3102,7 +3134,7 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	public Vuelo addReservasVueloTotal(ListaReservasPasajero reservasPasajero) throws Exception {
 		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
 		Vuelo vuelo = new Vuelo(0, 0);
@@ -3121,7 +3153,7 @@ public class VuelAndesMaster {
 			if (reservasPasajero.getReservasPasajero().size()>=2) {
 				vuelo.setId2(reservasPasajero.getReservasPasajero().get(1).getId());
 			}
-			
+
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3219,6 +3251,38 @@ public class VuelAndesMaster {
 		}
 	}
 
+	public void deleteReservasPasajero(ListaReservasPasajero reservasPasajero) throws Exception {
+		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoReservasPasajero.setConn(conn);
+			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())			
+				daoReservasPasajero.deleteReserva(reservaPasajero);
+
+			conn.commit();
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoReservasPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 
 	//Transaccion Reserva Carga
 
@@ -3293,7 +3357,7 @@ public class VuelAndesMaster {
 		return new ListaReservasCarga(reservasCarga);
 	}
 
-	
+
 	public Silla buscarSillaPorNumero(String num) throws Exception {
 		Silla silla;
 		DAOTablaSilla daoSillas = new DAOTablaSilla();
@@ -3325,7 +3389,7 @@ public class VuelAndesMaster {
 		}
 		return silla;
 	}
-	
+
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro

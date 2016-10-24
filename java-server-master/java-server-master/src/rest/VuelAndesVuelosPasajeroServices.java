@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.Random;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,8 +16,10 @@ import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
 import vos.Aeronave;
+import vos.ListaReservasPasajero;
 import vos.ListaSillas;
 import vos.ListaVuelosPasajero;
+import vos.ReservaPasajero;
 import vos.VueloPasajero;
 
 @Path("vuelosPasajero")
@@ -226,15 +230,28 @@ public class VuelAndesVuelosPasajeroServices {
      * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
      * @param video - video a aliminar. 
      * @return Json con el video que elimino o Json con el error que se produjo
+     * @throws Exception 
      */
 	@DELETE
 	@Path("/vueloPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteVueloPasajero(VueloPasajero vuelo) {
+	public Response deleteVueloPasajero(VueloPasajero vuelo) throws Exception {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaReservasPasajero reservas = tm.buscarReservaPorVuelo(vuelo.getId());
 		try {
+			Random randomGenerator = new Random();
+			ListaVuelosPasajero nuevosVuelos = tm.buscarVueloPasajeroPorAerolinea(vuelo.getCodAerolinea());
+			nuevosVuelos.getVuelosPasajero().remove(vuelo);
+			for (int i = 0; i < reservas.getReservasPasajero().size(); i++) {
+				ReservaPasajero re = reservas.getReservasPasajero().get(i);
+				ReservaPasajero nuevo = new ReservaPasajero(randomGenerator.nextInt(), re.getNumSilla(), re.getIdViajero(), nuevosVuelos.getVuelosPasajero().get(0).getId());
+				tm.addReservaPasajero(nuevo);
+			}
+			
 			tm.deleteVueloPasajero(vuelo);
+			tm.deleteReservasPasajero(reservas);
+			
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

@@ -213,5 +213,20 @@ public class VuelAndesReservasPasajeroServices {
 		return Response.status(200).entity(reservaPasajero).build();
 	}
 
+	@DELETE
+	@Path("/reservasPasajeros")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteReservasPasajero(ListaReservasPasajero reservasPasajero) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		try {
+			tm.deleteReservasPasajero(reservasPasajero);
+			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())
+			tm.updateSillaE(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(reservasPasajero).build();
+	}
 
 }
