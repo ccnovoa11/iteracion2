@@ -1816,7 +1816,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
 
-			if(daoVuelos.buscarVuelosOrigenDestino(origen, destino) != null){
+			if(daoVuelos.buscarVuelosOrigenDestino(origen, destino) != null && daoVuelos.buscarVuelosOrigenDestino(origen, destino).size()>=1 ){
 				vuelos = daoVuelos.buscarVuelosOrigenDestino(origen, destino);
 			}
 			else{
