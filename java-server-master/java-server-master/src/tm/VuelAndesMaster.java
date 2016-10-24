@@ -1068,7 +1068,54 @@ public class VuelAndesMaster {
 		
 	}
 
+	public ListaVuelosPasajero buscarVuelosPorFecha(int ide, String fech) throws Exception
+	{
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+		DAOTablaCliente daocliente = new DAOTablaCliente();
 
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daocliente.setConn(conn);
+			vuelos = daocliente.buscarVuelosPorCodAeroliena(ide, fech);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daocliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaVuelosPasajero(vuelos);
+		
+	}
 	/**
 	 * Método que modela la transacción que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como parámetro
@@ -2497,6 +2544,153 @@ public class VuelAndesMaster {
 
 
 	//Transaccion Admin
+	
+	public ListaAeronaves buscarAeronaveNumSerie(int ide, String num) throws Exception
+	{
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+		DAOTablaAdmin daoadmin = new DAOTablaAdmin();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoadmin.setConn(conn);
+			aeronaves = daoadmin.buscarAeronaveNumSerie(ide, num);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoadmin.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaAeronaves(aeronaves);
+		
+	}
+	
+	public ListaAeronaves buscarAeronaveCapacidad(int ide, int cap) throws Exception
+	{
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+		DAOTablaAdmin daoadmin = new DAOTablaAdmin();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoadmin.setConn(conn);
+			aeronaves = daoadmin.buscarAeronaveCapacidad(ide, cap);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoadmin.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaAeronaves(aeronaves);
+		
+	}
+	
+	public ListaAeronaves buscarAeronaveTamano(int ide, String tam) throws Exception
+	{
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+		DAOTablaAdmin daoadmin = new DAOTablaAdmin();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoadmin.setConn(conn);
+			aeronaves = daoadmin.buscarAeronaveTamano(ide, tam);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoadmin.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaAeronaves(aeronaves);
+		
+	}
 
 	public ListaAdmins darAdmins() throws Exception {
 		ArrayList<Admin> admins;

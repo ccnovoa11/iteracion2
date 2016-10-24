@@ -15,6 +15,8 @@ import javax.ws.rs.core.Response;
 import tm.VuelAndesMaster;
 import vos.Admin;
 import vos.ListaAdmins;
+import vos.ListaAeronaves;
+import vos.ListaVuelosPasajero;
 
 @Path("admins")
 public class VuelAndesAdminsServices {
@@ -83,6 +85,54 @@ public class VuelAndesAdminsServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(admins).build();
+	}
+	
+	@GET
+	@Path("/ide/{ide}/num/{num}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarAeronavesNumSerie(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("num")String num) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaAeronaves aeronaves;
+		try {
+			if (ide <=-1 )
+				throw new Exception("Id del usuario no valido");
+			aeronaves = tm.buscarAeronaveNumSerie(ide, num);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(aeronaves).build();
+	}
+	
+	@GET
+	@Path("/ide/{ide}/tam/{tam}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarAeronavesTamano(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("tam")String tam) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaAeronaves aeronaves;
+		try {
+			if (ide <=-1 )
+				throw new Exception("Id del usuario no valido");
+			aeronaves = tm.buscarAeronaveTamano(ide, tam);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(aeronaves).build();
+	}
+	
+	@GET
+	@Path("/ide/{ide}/cap/{cap}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarAeronavesCapacidad(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("cap")int cap) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaAeronaves aeronaves;
+		try {
+			if (ide <=-1 )
+				throw new Exception("Id del usuario no valido");
+			aeronaves = tm.buscarAeronaveCapacidad(ide, cap);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(aeronaves).build();
 	}
 	
 //    /**

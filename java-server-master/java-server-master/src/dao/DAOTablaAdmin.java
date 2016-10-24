@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import vos.Admin;
+import vos.Aeronave;
 
 public class DAOTablaAdmin {
 
@@ -107,6 +108,90 @@ public class DAOTablaAdmin {
 		}
 
 		return admins;
+	}
+	
+	public ArrayList<Aeronave> buscarAeronaveNumSerie(int ide, String num) throws SQLException, Exception {
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+
+		String sql = "SELECT * FROM AERONAVE_PASAJERO WHERE ID_ADMIN =" +ide +"AND NUMSERIE = '"+num+"'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String numSerie = rs.getString("NUMSERIE");
+			String marca = rs.getString("MARCA");
+			String modelo = rs.getString("MODELO");
+			int anoFabricacion = rs.getInt("ANOFABRICACION");
+			String tamano = rs.getString("TAMANO");
+			int capacidadCarga = rs.getInt("CAPACIDAD_CARGA");
+			int enArriendo = rs.getInt("EN_ARRIENDO");
+			String codAerolinea = rs.getString("COD_AEROLINEA");
+			int idAdmin = rs.getInt("ID_ADMIN");
+			aeronaves.add(new Aeronave(numSerie, marca, modelo,anoFabricacion,tamano,capacidadCarga,enArriendo,codAerolinea,idAdmin));
+			
+		}
+
+		return aeronaves;
+	}
+	
+	public ArrayList<Aeronave> buscarAeronaveTamano(int ide, String cap) throws SQLException, Exception {
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+
+		String sql = "SELECT * FROM AERONAVE_PASAJERO WHERE ID_ADMIN =" +ide +"AND TAMANO = '"+cap+"'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String numSerie = rs.getString("NUMSERIE");
+			String marca = rs.getString("MARCA");
+			String modelo = rs.getString("MODELO");
+			int anoFabricacion = rs.getInt("ANOFABRICACION");
+			String tamano = rs.getString("TAMANO");
+			int capacidadCarga = rs.getInt("CAPACIDAD_CARGA");
+			int enArriendo = rs.getInt("EN_ARRIENDO");
+			String codAerolinea = rs.getString("COD_AEROLINEA");
+			int idAdmin = rs.getInt("ID_ADMIN");
+			aeronaves.add(new Aeronave(numSerie, marca, modelo,anoFabricacion,tamano,capacidadCarga,enArriendo,codAerolinea,idAdmin));
+			
+		}
+
+		return aeronaves;
+	}
+	
+	public ArrayList<Aeronave> buscarAeronaveCapacidad(int ide, int num) throws SQLException, Exception {
+		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
+
+		String sql = "SELECT * FROM AERONAVE_PASAJERO WHERE ID_ADMIN =" +ide +"CAPACIDAD_CARGA >="+num;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			String numSerie = rs.getString("NUMSERIE");
+			String marca = rs.getString("MARCA");
+			String modelo = rs.getString("MODELO");
+			int anoFabricacion = rs.getInt("ANOFABRICACION");
+			String tamano = rs.getString("TAMANO");
+			int capacidadCarga = rs.getInt("CAPACIDAD_CARGA");
+			int enArriendo = rs.getInt("EN_ARRIENDO");
+			String codAerolinea = rs.getString("COD_AEROLINEA");
+			int idAdmin = rs.getInt("ID_ADMIN");
+			aeronaves.add(new Aeronave(numSerie, marca, modelo,anoFabricacion,tamano,capacidadCarga,enArriendo,codAerolinea,idAdmin));
+			
+		}
+
+		return aeronaves;
 	}
 
 	/**
