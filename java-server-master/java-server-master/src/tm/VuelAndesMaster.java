@@ -2264,7 +2264,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
 			daoVuelos.deleteVueloPasajero(vuelo);
-			dao.createSavepoint(String.valueOf(vuelo.getId()));
+			//dao.createSavepoint(String.valueOf(vuelo.getId()));
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3333,7 +3333,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasPasajero.setConn(conn);
 			daoReservasPasajero.addReserva(reservaPasajero);
-			daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
+			//daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -3373,7 +3373,7 @@ public class VuelAndesMaster {
 			daoReservasPasajero.setConn(conn);
 			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())
 				daoReservasPasajero.addReserva(reservaPasajero);
-			daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
+			//daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3456,7 +3456,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasPasajero.setConn(conn);
 			daoReservasPasajero.updatReserva(reservaPasajero);
-			daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
+			//daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3493,7 +3493,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasPasajero.setConn(conn);
 			daoReservasPasajero.deleteReserva(reservaPasajero);
-			daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
+			//daoReservasPasajero.createSavepoint(String.valueOf(reservaPasajero.getId()));
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3669,7 +3669,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasCarga.setConn(conn);
 			daoReservasCarga.addReservaCarga(reservaCarga);
-			daoReservasCarga.createSavepoint(String.valueOf(reservaCarga.getId()));
+			//daoReservasCarga.createSavepoint(String.valueOf(reservaCarga.getId()));
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -3709,7 +3709,7 @@ public class VuelAndesMaster {
 			daoReservasCarga.setConn(conn);
 			for(ReservaCarga reservaCarga : reservasCarga.getReservasCarga())
 				daoReservasCarga.addReservaCarga(reservaCarga);
-			daoReservasCarga.createSavepoint(String.valueOf(reservasCarga.getReservasCarga().get(0).getId()));
+			//daoReservasCarga.createSavepoint(String.valueOf(reservasCarga.getReservasCarga().get(0).getId()));
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -3784,7 +3784,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoReservasCarga.setConn(conn);
 			daoReservasCarga.deleteReservaCarga(reservaCarga);
-			daoReservasCarga.createSavepoint(String.valueOf(reservaCarga.getId()));
+			//daoReservasCarga.createSavepoint(String.valueOf(reservaCarga.getId()));
 
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());

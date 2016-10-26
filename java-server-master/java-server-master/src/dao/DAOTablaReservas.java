@@ -198,7 +198,7 @@ public class DAOTablaReservas {
 	}
 	
 	public void createSavepoint(String hola) throws SQLException, Exception{
-		String sql = "SAVEPOINT "+ hola +" ;";
+		String sql = "SAVEPOINT b ;";
 		System.out.println("SQL stmt:" + sql);
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);

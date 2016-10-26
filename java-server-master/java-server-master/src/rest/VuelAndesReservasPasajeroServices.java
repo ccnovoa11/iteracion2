@@ -36,18 +36,18 @@ public class VuelAndesReservasPasajeroServices {
 	private String getPath() {
 		return context.getRealPath("WEB-INF/ConnectionData");
 	}
-	
-	
+
+
 	private String doErrorMessage(Exception e){
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
-	
+
 
 	/**
 	 * Método que expone servicio REST usando GET que da todos los videos de la base de datos.
 	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos
 	 * @return Json con todos los videos de la base de datos O json con 
-     * el error que se produjo
+	 * el error que se produjo
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -63,13 +63,13 @@ public class VuelAndesReservasPasajeroServices {
 	}
 
 
-    /**
-     * Método que expone servicio REST usando GET que busca el video con el nombre que entra como parámetro
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/name/"name para la busqueda"
-     * @param name - Nombre del video a buscar que entra en la URL como parámetro 
-     * @return Json con el/los videos encontrados con el nombre que entra como parámetro o json con 
-     * el error que se produjo
-     */
+	/**
+	 * Método que expone servicio REST usando GET que busca el video con el nombre que entra como parámetro
+	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/name/"name para la busqueda"
+	 * @param name - Nombre del video a buscar que entra en la URL como parámetro 
+	 * @return Json con el/los videos encontrados con el nombre que entra como parámetro o json con 
+	 * el error que se produjo
+	 */
 	@GET
 	@Path("/idVuelo/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -85,7 +85,7 @@ public class VuelAndesReservasPasajeroServices {
 		}
 		return Response.status(200).entity(reservasPasajero).build();
 	}
-	
+
 	@GET
 	@Path("/idViajero/{id}")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -101,34 +101,34 @@ public class VuelAndesReservasPasajeroServices {
 		}
 		return Response.status(200).entity(reservasPasajero).build();
 	}
-	
-//    /**
-//     * Método que expone servicio REST usando GET que busca el video mas alquilado
-//     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado
-//     * @return Json con el/los videos encontrados con el nombre que entra como parámetro o json con 
-//     * el error que se produjo
-//     */
-//	@GET
-//	@Path("/MayorAlquilado")
-//	@Produces({ MediaType.APPLICATION_JSON })
-//	public Response getVideoMayorAlquilado() {
-//		VuelAndesMaster tm = new VuelAndesMaster(getPath());
-//		ListaAerolineas videos;
-//		try {
-//			videos = tm.videosMasAlquilados();
-//		} catch (Exception e) {
-//			return Response.status(500).entity(doErrorMessage(e)).build();
-//		}
-//		return Response.status(200).entity(videos).build();
-//	}
+
+	//    /**
+	//     * Método que expone servicio REST usando GET que busca el video mas alquilado
+	//     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado
+	//     * @return Json con el/los videos encontrados con el nombre que entra como parámetro o json con 
+	//     * el error que se produjo
+	//     */
+	//	@GET
+	//	@Path("/MayorAlquilado")
+	//	@Produces({ MediaType.APPLICATION_JSON })
+	//	public Response getVideoMayorAlquilado() {
+	//		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+	//		ListaAerolineas videos;
+	//		try {
+	//			videos = tm.videosMasAlquilados();
+	//		} catch (Exception e) {
+	//			return Response.status(500).entity(doErrorMessage(e)).build();
+	//		}
+	//		return Response.status(200).entity(videos).build();
+	//	}
 
 
-    /**
-     * Método que expone servicio REST usando PUT que agrega el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
-     * @param video - video a agregar
-     * @return Json con el video que agrego o Json con el error que se produjo
-     */
+	/**
+	 * Método que expone servicio REST usando PUT que agrega el video que recibe en Json
+	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
+	 * @param video - video a agregar
+	 * @return Json con el video que agrego o Json con el error que se produjo
+	 */
 	@PUT
 	@Path("/reservaPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -142,13 +142,13 @@ public class VuelAndesReservasPasajeroServices {
 		}
 		return Response.status(200).entity(reservaPasajero).build();
 	}
-	
-    /**
-     * Método que expone servicio REST usando PUT que agrega los videos que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/videos
-     * @param videos - videos a agregar. 
-     * @return Json con el video que agrego o Json con el error que se produjo
-     */
+
+	/**
+	 * Método que expone servicio REST usando PUT que agrega los videos que recibe en Json
+	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/videos
+	 * @param videos - videos a agregar. 
+	 * @return Json con el video que agrego o Json con el error que se produjo
+	 */
 	@POST
 	@Path("/reservasPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -156,7 +156,7 @@ public class VuelAndesReservasPasajeroServices {
 	public Response addRemitente(ListaReservasPasajero reservasPasajero) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		Vuelo total;
-		
+
 		try {
 			tm.addReservasPasajero(reservasPasajero);
 			total = tm.addReservasVueloTotal(reservasPasajero);
@@ -165,13 +165,13 @@ public class VuelAndesReservasPasajeroServices {
 		}
 		return Response.status(200).entity(total).build();
 	}
-	
-    /**
-     * Método que expone servicio REST usando POST que actualiza el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
-     * @param video - video a actualizar. 
-     * @return Json con el video que actualizo o Json con el error que se produjo
-     */
+
+	/**
+	 * Método que expone servicio REST usando POST que actualiza el video que recibe en Json
+	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
+	 * @param video - video a actualizar. 
+	 * @return Json con el video que actualizo o Json con el error que se produjo
+	 */
 	@POST
 	@Path("/reservaPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -180,8 +180,8 @@ public class VuelAndesReservasPasajeroServices {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
 			if(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()).getOcupada()==0){
-			tm.addReservaPasajero(reservaPasajero);
-			tm.updateSilla(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
+				tm.addReservaPasajero(reservaPasajero);
+				tm.updateSilla(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
 			}
 			else{
 				throw new Exception("La silla ya est� ocupada");
@@ -191,13 +191,13 @@ public class VuelAndesReservasPasajeroServices {
 		}
 		return Response.status(200).entity(reservaPasajero).build();
 	}
-	
-    /**
-     * Método que expone servicio REST usando DELETE que actualiza el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
-     * @param video - video a aliminar. 
-     * @return Json con el video que elimino o Json con el error que se produjo
-     */
+
+	/**
+	 * Método que expone servicio REST usando DELETE que actualiza el video que recibe en Json
+	 * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/video
+	 * @param video - video a aliminar. 
+	 * @return Json con el video que elimino o Json con el error que se produjo
+	 */
 	@DELETE
 	@Path("/reservaPasajero")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -220,9 +220,12 @@ public class VuelAndesReservasPasajeroServices {
 	public Response deleteReservasPasajero(ListaReservasPasajero reservasPasajero) {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		try {
+
 			tm.deleteReservasPasajero(reservasPasajero);
-			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())
-			tm.updateSillaE(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
+//			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero()){
+//				
+//				tm.updateSillaE(tm.buscarSillaPorNumero(reservaPasajero.getNumSilla()));
+//			}
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

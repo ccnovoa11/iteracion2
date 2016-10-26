@@ -61,12 +61,22 @@ GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/92/100
 
 2) Consultar las sillas asociadas a ese vuelo. Ese listado contiene todas las sillas sin importar el tipo ni si están ocupadas.
 Se da toda la información de las sillas para que el viajero pueda elegir que tipo de silla quiere(economica, ejecutiva)
-GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/id/10/sillas
+GET http://localhost:8080/VideoAndes/rest/vuelosPasajero/id/2/sillas
 
 4) Una vez el viajero haya decidido que silla quiere, se dirige a crear una nueva reserva de pasajero
+
 POST http://localhost:8080/VideoAndes/rest/reservasPasajero/reservaPasajero
 Allí debe indicar su identificación de viajero, la identificacion del vuelo que eligió y el número de silla que quiere
 Si la silla está disponible, se crea la reserva, de lo contrario, no se crea.
+
+
+{
+      "id": 1,
+      "numSilla": "87",
+      "idViajero": 443,
+      "idVueloPasajero": 2
+    }
+
 
 5)Para ver el identificador unico de la reserva que acaba de crear debe seguir la siguiente ruta cambiando "" por su id
 GET http://localhost:8080/VideoAndes/rest/reservasPasajero/idViajero/""
@@ -84,6 +94,14 @@ las reservas pero cuando se elimina, se elimina de forma permanente.
 
 DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservaPasajero
 
+
+{
+      "id": 1,
+      "numSilla": "87",
+      "idViajero": 443,
+      "idVueloPasajero": 2
+    }
+
 RF14
 
 En este requerimiento se quiere borrar un listado de reservas, por eso el usuario debe saber cuales son las reservas que quiere
@@ -95,7 +113,21 @@ Tambien, los datos quedan consistentes, porque al borrarse de forma completa, no
 La durabilidad se asegura porque tiene unos web services que se conectan a la base de datos y se puede recuperar datos pero 
 también borrarlos de forma permanente.
 
-DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservasPasajero
+DELETE http://localhost:8080/VideoAndes/rest/reservasPasajero/reservasPasajeros
+
+
+{
+      "id": 1062228011,
+      "numSilla": "87",
+      "idViajero": 443,
+      "idVueloPasajero": 2
+    },
+    {
+      "id": 1549263461,
+      "numSilla": "87",
+      "idViajero": 443,
+      "idVueloPasajero": 2
+    }
 
 RF15
 
@@ -111,6 +143,7 @@ La consistencia se asegura tambien porque no quedan reservas asociadas a un vuel
 reservas asociadas a otro vuelo.
 La durabilidad se asegura por los web services que permiten las persistencia de los datos.
 En caso de que haya fallos, hay savepoints cuando se crean reservas, cuando se eliminan y cuando se elimina un vuelo.
+En addReservaPasajero en el tm.
 
 DELETE http://localhost:8080/VideoAndes/rest/vuelosPasajero/vueloPasajero
 
