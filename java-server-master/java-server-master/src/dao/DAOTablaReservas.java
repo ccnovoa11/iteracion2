@@ -197,6 +197,15 @@ public class DAOTablaReservas {
 
 	}
 	
+	public void createSavepoint(String hola) throws SQLException, Exception{
+		String sql = "SAVEPOINT "+ hola +" ;";
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();			
+	}
+	
 	public void addReservaCarga(ReservaCarga reserva) throws SQLException, Exception {
 
 		String sql = "INSERT INTO ISIS2304B041620.RESERVA_CARGA VALUES (";
