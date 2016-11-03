@@ -1122,6 +1122,101 @@ public class VuelAndesMaster {
 	 * @param video - el video a agregar. video != null
 	 * @throws Exception - cualquier error que se genera agregando el video
 	 */
+	
+	public void addReservasVueloGrupal (ListaViajeros viajeros,int nSilla, int idVP,int idVC) throws Exception {
+		DAOTablaReservas daoReserva = new DAOTablaReservas();
+		DAOTablaVueloPasajero daoVueloPasajero = new DAOTablaVueloPasajero();
+		DAOTablaVueloCarga daoVueloCarga = new DAOTablaVueloCarga();
+		
+		try{
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoReserva.setConn(conn);
+			daoVueloPasajero.setConn(conn);
+			daoVueloCarga.setConn(conn);
+			for(Viajero viajero : viajeros.getViajeros()){
+				daoReserva.addReservaCargaVuelo(viajero.getId(), idVC);
+				daoReserva.addReservaVuelo(nSilla, viajero.getId(), idVP);
+			}
+			ReservaCarga reservaCarga = null;
+			ReservaPasajero reservaPasajero = null;
+			
+			ArrayList<ReservaCarga> res = daoReserva.buscarReservasPorVueloCarga(idVC);
+			for (int i=0; i<res.size();i++)
+			{
+				ReservaCarga resC = res.get(i);
+				if (resC.getIdVueloCarga()==idVC)
+				{
+					reservaCarga = resC;
+				}
+			}
+			
+			ArrayList<ReservaPasajero> res2 = daoReserva.buscarReservasPorVuelo(idVP);
+			for (int i=0; i<res2.size();i++)
+			{
+				ReservaPasajero resP = res2.get(i);
+				if (resP.getIdVueloPasajero()==idVP)
+				{
+					reservaPasajero = resP;
+				}
+			}
+			
+			VueloCarga vueloCarga = null;
+			VueloPasajero vueloPasajero = null;
+			
+			ArrayList<VueloCarga> vue = daoVueloCarga.buscarVuelosPorId(idVC);
+			for (int i=0; i<vue.size();i++)
+			{
+				VueloCarga vueC = vue.get(i);
+				if (vueC.getId()==idVC)
+				{
+					vueloCarga = vueC;
+				}
+			}
+			
+			ArrayList<VueloPasajero> vueP = daoVueloPasajero.buscarVuelosPorId(idVP);
+			for (int i=0; i<vueP.size();i++)
+			{
+				VueloPasajero vuePa = vueP.get(i);
+				if (vuePa.getId()==idVP)
+				{
+					vueloPasajero = vuePa;
+				}
+			}
+			
+			if (reservaPasajero != null && reservaCarga!=null && vueloCarga.getFechaSalida().getTime() == vueloPasajero.getFechaSalida().getTime())
+			{
+				conn.commit();
+			}
+			else {
+				conn.rollback();
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoReserva.cerrarRecursos();
+				daoVueloPasajero.cerrarRecursos();
+				daoVueloCarga.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+	}
 	public void addViajero(Viajero viajero) throws Exception {
 		DAOTablaCliente daoViajeros = new DAOTablaCliente();
 		try 

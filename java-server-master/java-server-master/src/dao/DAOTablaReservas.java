@@ -197,6 +197,22 @@ public class DAOTablaReservas {
 
 	}
 	
+	public void addReservaVuelo(int nSilla, int id, int idVP) throws SQLException, Exception {
+
+		String sql = "INSERT INTO ISIS2304B041620.RESERVA_PASAJERO VALUES (";
+		sql += "(select abs(dbms_random.random) AS numReserva from dual)" + ",'";
+		sql += nSilla + "',";
+		sql += id + ",";
+		sql += idVP + ")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+
+	}
+	
 	public void createSavepoint(String hola) throws SQLException, Exception{
 		String sql = "SAVEPOINT b ;";
 		System.out.println("SQL stmt:" + sql);
@@ -212,6 +228,21 @@ public class DAOTablaReservas {
 		sql += "(select abs(dbms_random.random) AS numReserva from dual)" + ",";
 		sql += reserva.getIdRemi() + ",";
 		sql += reserva.getIdVueloCarga() + ")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+
+	}
+	
+	public void addReservaCargaVuelo(int id, int idVC) throws SQLException, Exception {
+
+		String sql = "INSERT INTO ISIS2304B041620.RESERVA_CARGA VALUES (";
+		sql += "(select abs(dbms_random.random) AS numReserva from dual)" + ",";
+		sql += id + ",";
+		sql += idVC + ")";
 
 		System.out.println("SQL stmt:" + sql);
 

@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.ListaReservasPasajero;
 import vos.ListaViajeros;
 import vos.ListaVuelosPasajero;
 import vos.Viajero;
@@ -198,6 +199,22 @@ public class VuelAndesViajerosServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(viajero).build();
+	}
+	
+	
+	@POST
+	@Path("/idVP/{vueloPasajero}/idVP/{vueloPasajero}/nS/{numeroSilla}/idVC/{vueloCarga}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addReservaGrupal(ListaViajeros viajeros, @javax.ws.rs.PathParam("vueloPasajero")int vueloPasajero,@javax.ws.rs.PathParam("numeroSilla")int numeroSilla,@javax.ws.rs.PathParam("vueloCarga")int vueloCarga) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaReservasPasajero reservas;
+		try {
+			tm.addReservasVueloGrupal(viajeros, numeroSilla, vueloPasajero, vueloCarga);
+			reservas = tm.darReservasPasajero();
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(reservas).build();
 	}
 	
     /**
