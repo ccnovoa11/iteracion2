@@ -136,6 +136,141 @@ public class DAOTablaVueloCarga {
 		return vuelos;
 	}
 	
+	public ArrayList<VueloCarga> buscarVuelosMedianaPorId(int id) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT u.* FROM (SELECT * FROM AERONAVE_CARGA WHERE TAMANO='Mediana') INNER JOIN (SELECT * FROM VUELO_CARGA)u ON NUMSERIE=NUMSERIE_AERONAVE WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
+	
+	public ArrayList<VueloCarga> buscarVuelosCargaAAFT(int id, String comienzo, String fin,String aerolinea, String tipo) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT u.* FROM (SELECT * FROM AERONAVE_CARGA WHERE TAMANO='"+tipo+"') INNER JOIN (SELECT * FROM VUELO_CARGA)u ON NUMSERIE=NUMSERIE_AERONAVE WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+") AND FECHASALIDA BETWEEN TO_DATE('"+comienzo+"','DD-MM-YYYY') AND TO_DATE('"+fin+"','DD-MM-YYYY') AND CODAEROLINEA='"+aerolinea+"'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo2 = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo2,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
+	
+	public ArrayList<VueloCarga> buscarVuelosPequenaPorId(int id) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT u.* FROM (SELECT * FROM AERONAVE_CARGA WHERE TAMANO='Pequena') INNER JOIN (SELECT * FROM VUELO_CARGA)u ON NUMSERIE=NUMSERIE_AERONAVE WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
+	
+	public ArrayList<VueloCarga> buscarVuelosGrandePorId(int id) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT u.* FROM (SELECT * FROM AERONAVE_CARGA WHERE TAMANO='Grande') INNER JOIN (SELECT * FROM VUELO_CARGA)u ON NUMSERIE=NUMSERIE_AERONAVE WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
 	public ArrayList<VueloCarga> buscarVuelosPorIdAeropuerto(int id) throws SQLException, Exception {
 		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
 
@@ -204,7 +339,75 @@ public class DAOTablaVueloCarga {
 
 		return vuelos;
 	}
+	
 
+	public ArrayList<VueloCarga> buscarVuelosPorIdAeropuertoFecha(int id,String comienzo, String fin) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.VUELO_CARGA WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+") AND FECHASALIDA BETWEEN TO_DATE('"+comienzo+"','DD-MM-YYYY') AND TO_DATE('"+fin+"','DD-MM-YYYY')";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
+	
+	public ArrayList<VueloCarga> buscarVuelosCargaPorAeropuertoAerolineaFecha(int id,String aerolinea,String comienzo, String fin) throws SQLException, Exception {
+		ArrayList<VueloCarga> vuelos = new ArrayList<VueloCarga>();
+
+		String sql = "SELECT * FROM ISIS2304B041620.VUELO_CARGA WHERE (ID_AERO_ORIGEN =" + id+ " OR ID_AERO_DESTINO="+id+") AND CODAEROLINEA='"+aerolinea+"' AND FECHASALIDA BETWEEN TO_DATE('"+comienzo+"','DD-MM-YYYY') AND TO_DATE('"+fin+"','DD-MM-YYYY')";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id2 = rs.getInt("ID");
+			String horaLlegada = rs.getString("HORALLEGADA");
+			String horaSalida = rs.getString("HORASALIDA");
+			int frecuencia = rs.getInt("FRECUENCIA");
+			int distancia = rs.getInt("DISTANCIA");
+			int duracion = rs.getInt("DURACION");
+			String tipo = rs.getString("TIPO");
+			int precio = rs.getInt("PRECIO_DENSIDAD");
+			int capacidad = rs.getInt("CAPACIDAD_ACTUAL");
+			String codAerolinea = rs.getString("CODAEROLINEA");
+			int idOrigen = rs.getInt("ID_AERO_ORIGEN");
+			int idDestino = rs.getInt("ID_AERO_DESTINO");
+			String numSerieAeronave = rs.getString("NUMSERIE_AERONAVE");
+			java.sql.Date fechaLlegada = rs.getDate("FECHALLEGADA");
+			java.sql.Date fechaSalida = rs.getDate("FECHASALIDA");
+			vuelos.add(new VueloCarga(id2, horaLlegada, horaSalida,frecuencia,distancia,duracion,precio,codAerolinea,
+					idOrigen,idDestino,numSerieAeronave,capacidad,tipo,fechaLlegada,fechaSalida));
+		}
+
+		return vuelos;
+	}
 
 	/**
 	 * Método que agrega el video que entra como parámetro a la base de datos.

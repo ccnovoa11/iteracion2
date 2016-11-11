@@ -2119,7 +2119,328 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
+	
+	public ListaVuelosCarga buscarVueloCargaMedianaAeropuerto(int num) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosMedianaPorId(num);
 
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+	public ListaVuelosCarga buscarVueloCargaAAFT(int num,String comienzo,String fin,String aerolinea,String tipo) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosCargaAAFT(num, comienzo, fin, aerolinea, tipo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+	
+	public ListaVuelosPasajero buscarVueloPasajeroAAFT(int num,String comienzo,String fin,String aerolinea,String tipo) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroAAFT(num, comienzo, fin, aerolinea, tipo);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
+	public ListaVuelosCarga buscarVueloCargaPequenaAeropuerto(int num) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPequenaPorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+	public ListaVuelosCarga buscarVueloCargaGrandeAeropuerto(int num) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosGrandePorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+	public ListaVuelosPasajero buscarVueloPasajeroGrandeAeropuerto(int num) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroGrandePorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
+	public ListaVuelosPasajero buscarVueloPasajeroMedianaAeropuerto(int num) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroMedianaPorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
+	public ListaVuelosPasajero buscarVueloPasajeroPequenaAeropuerto(int num) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroPequenaPorId(num);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
+	public ListaVuelosCarga buscarVueloCargaAeropuertoFecha(int num, String comienzo, String fin) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPorIdAeropuertoFecha(num, comienzo, fin);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+
+	public ListaVuelosPasajero buscarVueloPasajeroAeropuertoFecha(int num, String comienzo, String fin) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroPorIdAeropuertoFecha(num, comienzo, fin);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
 	public ListaVuelosPasajero buscarVueloPasajeroPorIdAeropuertoAerolinea(int num,String aerolinea) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2184,6 +2505,71 @@ public class VuelAndesMaster {
 		return new ListaVuelosCarga(vuelos);
 	}
 
+	public ListaVuelosCarga buscarVueloCargaPorAeropuertoAerolineaFecha(int num,String aerolinea,String comienzo, String fin) throws Exception {
+		ArrayList<VueloCarga> vuelos;
+		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosCargaPorAeropuertoAerolineaFecha(num, aerolinea, comienzo, fin);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosCarga(vuelos);
+	}
+	
+	public ListaVuelosPasajero buscarVueloPasajeroPorAeropuertoAerolineaFecha(int num,String aerolinea,String comienzo, String fin) throws Exception {
+		ArrayList<VueloPasajero> vuelos;
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPasajeroPorAeropuertoAerolineaFecha(num, aerolinea, comienzo, fin);
+
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoVuelos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaVuelosPasajero(vuelos);
+	}
+	
+	
 	public void asociarVueloPasajeroAeronave(String aeronave,int vuelo) throws Exception
 	{
 		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
@@ -3803,8 +4189,8 @@ public class VuelAndesMaster {
 			conn.setAutoCommit(false);
 			daoReservasCarga.setConn(conn);
 			for(ReservaCarga reservaCarga : reservasCarga.getReservasCarga())
-				daoReservasCarga.addReservaCarga(reservaCarga);
-			//daoReservasCarga.createSavepoint(String.valueOf(reservasCarga.getReservasCarga().get(0).getId()));
+				daoReservasCarga.addReservaCarga(reservaCarga);			//daoReservasCarga.createSavepoint(String.valueOf(reservasCarga.getReservasCarga().get(0).getId()));
+			conn.setSavepoint();
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
