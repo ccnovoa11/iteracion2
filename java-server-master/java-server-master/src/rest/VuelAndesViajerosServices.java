@@ -88,15 +88,16 @@ public class VuelAndesViajerosServices {
 	}
 	
 	@GET
-	@Path("/ide/{ide}/cod/{cod}")
+	@Path("/ide/{ide}/cod/{cod}/clase/{clase}/distancia/{distancia}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscarVuelosPorCodAeroliena(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("cod")String cod) throws Exception {
+	public Response buscarVuelosPorCodAerolienaViajero(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("cod")String cod,
+			@javax.ws.rs.PathParam("distancia")int distancia,@javax.ws.rs.PathParam("clase")String clase) throws Exception {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		ListaVuelosPasajero vuelos;
 		try {
 			if (ide <=-1 )
 				throw new Exception("Id del usuario no valido");
-			vuelos = tm.buscarVuelosPorCodAeroliena(ide, cod);
+			vuelos = tm.buscarVuelosPorCodAerolienaViajero(ide, cod, clase, distancia);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -104,15 +105,50 @@ public class VuelAndesViajerosServices {
 	}
 	
 	@GET
-	@Path("/ide/{ide}/fecha/{fech}")
+	@Path("/idg/{idg}/cod/{cod}/clase/{clase}/distancia/{distancia}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response buscarVuelosPorFecha(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("fech")String fecha) throws Exception {
+	public Response buscarVuelosPorCodAerolienaGerente(@javax.ws.rs.PathParam("idg")int idg,@javax.ws.rs.PathParam("cod")String cod,
+			@javax.ws.rs.PathParam("distancia")int distancia,@javax.ws.rs.PathParam("clase")String clase) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (idg <=-1 )
+				throw new Exception("Id del usuario no valido");
+			vuelos = tm.buscarVuelosPorCodAerolienaGerente(cod, clase, distancia);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/ide/{ide}/fecha/{comienzo}/{fin}/clase/{clase}/distancia{distancia}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarVuelosPorFechaViajero(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("comienzo")String comienzo,
+			@javax.ws.rs.PathParam("fin")String fin,@javax.ws.rs.PathParam("clase")String clase,@javax.ws.rs.PathParam("distancia")int distancia) throws Exception {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		ListaVuelosPasajero vuelos;
 		try {
 			if (ide <=-1 )
 				throw new Exception("Id del usuario no valido");
-			vuelos = tm.buscarVuelosPorCodAeroliena(ide, fecha);
+			vuelos = tm.buscarVuelosPorFechaViajero(ide, comienzo,fin,clase,distancia);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/idg/{idg}/fecha/{comienzo}/{fin}/clase/{clase}/distancia{distancia}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarVuelosPorFechGerente(@javax.ws.rs.PathParam("idg")int idg,@javax.ws.rs.PathParam("comienzo")String comienzo,
+			@javax.ws.rs.PathParam("fin")String fin,@javax.ws.rs.PathParam("clase")String clase,@javax.ws.rs.PathParam("distancia")int distancia) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosPasajero vuelos;
+		try {
+			if (idg <=-1 )
+				throw new Exception("Id del usuario no valido");
+			vuelos = tm.buscarVuelosPorFechaGerente(comienzo,fin,clase,distancia);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

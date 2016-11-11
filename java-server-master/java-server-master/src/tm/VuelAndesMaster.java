@@ -1019,7 +1019,7 @@ public class VuelAndesMaster {
 		return new ListaViajeros(viajeros);
 	}
 	
-	public ListaVuelosPasajero buscarVuelosPorCodAeroliena(int ide, String cod) throws Exception
+	public ListaVuelosPasajero buscarVuelosPorCodAerolienaViajero(int ide, String cod, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
 		DAOTablaCliente daocliente = new DAOTablaCliente();
@@ -1030,7 +1030,56 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daocliente.setConn(conn);
-			vuelos = daocliente.buscarVuelosPorCodAeroliena(ide, cod);
+			vuelos = daocliente.buscarVuelosPorCodAerolienaViajero(ide, cod,clase,distancia);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daocliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaVuelosPasajero(vuelos);
+		
+	}
+	
+	public ListaVuelosPasajero buscarVuelosPorCodAerolienaGerente(String cod, String clase, int distancia) throws Exception
+	{
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+		DAOTablaCliente daocliente = new DAOTablaCliente();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daocliente.setConn(conn);
+			vuelos = daocliente.buscarVuelosPorCodAerolienaGerente(cod,clase,distancia);
 			conn.commit();
 
 		}
@@ -1068,7 +1117,7 @@ public class VuelAndesMaster {
 		
 	}
 
-	public ListaVuelosPasajero buscarVuelosPorFecha(int ide, String fech) throws Exception
+	public ListaVuelosPasajero buscarVuelosPorFechaViajero(int ide, String comienzo, String fin, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
 		DAOTablaCliente daocliente = new DAOTablaCliente();
@@ -1079,7 +1128,56 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daocliente.setConn(conn);
-			vuelos = daocliente.buscarVuelosPorCodAeroliena(ide, fech);
+			vuelos = daocliente.buscarVuelosPorFechaViajero(ide, comienzo,fin,clase,distancia);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daocliente.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		
+		return new ListaVuelosPasajero(vuelos);
+		
+	}
+	
+	public ListaVuelosPasajero buscarVuelosPorFechaGerente(String comienzo, String fin, String clase, int distancia) throws Exception
+	{
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+		DAOTablaCliente daocliente = new DAOTablaCliente();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daocliente.setConn(conn);
+			vuelos = daocliente.buscarVuelosPorFechaGerente(comienzo,fin,clase,distancia);
 			conn.commit();
 
 		}
@@ -1965,7 +2063,7 @@ public class VuelAndesMaster {
 			vuelosOrigen= daoVuelos.buscarVuelosPorIdAeropuertoOrigen(origen);
 			vuelosDestino= daoVuelos.buscarVuelosPorIdAeropuertoDestino(destino);
 
-			int total = 500000;
+			int total = vuelosOrigen.get(0).getPrecioEconomica();
 
 			for (int i = 0; i < vuelosOrigen.size(); i++) {
 				VueloPasajero ori = vuelosOrigen.get(i);

@@ -55,3 +55,14 @@ http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelosCarga/31-12-2014/31
 
 Aeropuerto, rango de fechas, no tipo, no aerolinea, pasajero:
 http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelos/31-12-2014/31-12-2017/aerolinea/PI/tipo/Grande
+
+
+RFC9
+
+Vuelos, viajero, aerolinea, clase, distancia:
+http://localhost:8080/VideoAndes/rest/viajeros/ide/443/cod/NE/clase/Economica/distancia/10
+
+Vuelos, gerente, aerolinea, clase, distancia:
+http://localhost:8080/VideoAndes/rest/viajeros/idg/1/cod/NE/clase/Economica/distancia/10
+
+
