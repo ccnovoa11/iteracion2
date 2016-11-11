@@ -33,3 +33,25 @@ http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/aerolineaCarga/PI/31-12-2
 
 Aeropueto, pasajero, aerolinea, rango de fechas, tipo
 http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/aerolinea/PI/31-12-2014/31-12-2017/Mediana
+
+
+
+RFC8
+
+Aeropuerto,rango de fechas, no aerolinea,carga:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelosCarga/31-12-2014/31-12-2017/PI
+
+Aeropuerto,rango de fechas, no aerolinea,pasajero:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelos/31-12-2014/31-12-2017/PI
+
+Aeropuerto, rango de fechas, no tipo, carga:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelosCarga/31-12-2014/31-12-2017/tipo/Mediana
+
+Aeropuerto, rango de fechas, no tipo, pasajero:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelos/31-12-2014/31-12-2017/tipo/Mediana
+
+Aeropuerto, rango de fechas, no tiepo, no aerolinea, carga:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelosCarga/31-12-2014/31-12-2017/aerolinea/PI/tipo/Grande
+
+Aeropuerto, rango de fechas, no tipo, no aerolinea, pasajero:
+http://localhost:8080/VideoAndes/rest/aeropuertos/id/2/vuelos/31-12-2014/31-12-2017/aerolinea/PI/tipo/Grande
