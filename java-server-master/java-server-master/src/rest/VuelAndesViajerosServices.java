@@ -122,7 +122,7 @@ public class VuelAndesViajerosServices {
 	}
 	
 	@GET
-	@Path("/ide/{ide}/fecha/{comienzo}/{fin}/clase/{clase}/distancia{distancia}")
+	@Path("/ide/{ide}/fecha/{comienzo}/{fin}/clase/{clase}/distancia/{distancia}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response buscarVuelosPorFechaViajero(@javax.ws.rs.PathParam("ide")int ide,@javax.ws.rs.PathParam("comienzo")String comienzo,
 			@javax.ws.rs.PathParam("fin")String fin,@javax.ws.rs.PathParam("clase")String clase,@javax.ws.rs.PathParam("distancia")int distancia) throws Exception {
@@ -139,7 +139,7 @@ public class VuelAndesViajerosServices {
 	}
 	
 	@GET
-	@Path("/idg/{idg}/fecha/{comienzo}/{fin}/clase/{clase}/distancia{distancia}")
+	@Path("/idg/{idg}/fecha/{comienzo}/{fin}/clase/{clase}/distancia/{distancia}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response buscarVuelosPorFechGerente(@javax.ws.rs.PathParam("idg")int idg,@javax.ws.rs.PathParam("comienzo")String comienzo,
 			@javax.ws.rs.PathParam("fin")String fin,@javax.ws.rs.PathParam("clase")String clase,@javax.ws.rs.PathParam("distancia")int distancia) throws Exception {

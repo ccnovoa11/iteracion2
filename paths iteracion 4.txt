@@ -65,4 +65,8 @@ http://localhost:8080/VideoAndes/rest/viajeros/ide/443/cod/NE/clase/Economica/di
 Vuelos, gerente, aerolinea, clase, distancia:
 http://localhost:8080/VideoAndes/rest/viajeros/idg/1/cod/NE/clase/Economica/distancia/10
 
+Vuelos, viajero, fecha, clase, distancia:
+http://localhost:8080/VideoAndes/rest/viajeros/ide/443/fecha/31-12-2000/31-12-2017/clase/Economica/distancia/10
 
+Vuelos, gerente, fecha, clase, distancia:
+http://localhost:8080/VideoAndes/rest/viajeros/idg/443/fecha/31-12-2000/31-12-2017/clase/Economica/distancia/10
