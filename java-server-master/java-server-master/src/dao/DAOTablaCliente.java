@@ -247,8 +247,8 @@ public class DAOTablaCliente {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia2 = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -280,8 +280,8 @@ public class DAOTablaCliente {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia2 = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -314,8 +314,8 @@ public class DAOTablaCliente {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -348,8 +348,8 @@ public class DAOTablaCliente {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
