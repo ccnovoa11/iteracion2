@@ -16,13 +16,13 @@ public class VueloCarga {
 	 * Hora llegada
 	 */
 	@JsonProperty(value="horaLlegada")
-	private String horaLlegada;
+	private int horaLlegada;
 	
 	/**
 	 * Hora salida
 	 */
 	@JsonProperty(value="horaSalida")
-	private String horaSalida;
+	private int horaSalida;
 	
 	/**
 	 * Frecuencia
@@ -90,7 +90,7 @@ public class VueloCarga {
 	@JsonProperty(value="fechaSalida")
 	private java.sql.Date fechaSalida;
 	
-	public VueloCarga(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
+	public VueloCarga(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")int horaLlegada, @JsonProperty(value="horaSalida")int horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
 			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
 			@JsonProperty(value="precioDensidad")int precioDensidad, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
 			@JsonProperty(value="idAeroDestino")int idAeroDestino,@JsonProperty(value="numSerieAeronave") String numSerieAeronave,
@@ -111,7 +111,7 @@ public class VueloCarga {
 		this.tipo=tipo;
 	}
 	
-	public VueloCarga(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")String horaLlegada, @JsonProperty(value="horaSalida")String horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
+	public VueloCarga(@JsonProperty(value="id")int id, @JsonProperty(value="horaLlegada")int horaLlegada, @JsonProperty(value="horaSalida")int horaSalida, @JsonProperty(value="frecuencia")int frecuencia, 
 			@JsonProperty(value="distancia")int distancia,@JsonProperty(value="duracion") int duracion,
 			@JsonProperty(value="precioDensidad")int precioDensidad, @JsonProperty(value="codAerolinea") String codAerolinea, @JsonProperty(value="idAeroOrigen")int idAeroOrigen,
 			@JsonProperty(value="idAeroDestino")int idAeroDestino,@JsonProperty(value="numSerieAeronave") String numSerieAeronave,
@@ -159,19 +159,19 @@ public class VueloCarga {
 		this.id = id;
 	}
 
-	public String getHoraLlegada() {
+	public int getHoraLlegada() {
 		return horaLlegada;
 	}
 
-	public void setHoraLlegada(String horaLlegada) {
+	public void setHoraLlegada(int horaLlegada) {
 		this.horaLlegada = horaLlegada;
 	}
 
-	public String getHoraSalida() {
+	public int getHoraSalida() {
 		return horaSalida;
 	}
 
-	public void setHoraSalida(String horaSalida) {
+	public void setHoraSalida(int horaSalida) {
 		this.horaSalida = horaSalida;
 	}
 

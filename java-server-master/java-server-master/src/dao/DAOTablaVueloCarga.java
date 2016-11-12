@@ -71,8 +71,8 @@ public class DAOTablaVueloCarga {
 		
 		while (rs.next()) {
 			int id = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -115,8 +115,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -149,8 +149,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -183,8 +183,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -217,8 +217,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -251,8 +251,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -285,8 +285,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -319,8 +319,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -353,8 +353,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -387,8 +387,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -422,8 +422,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -456,8 +456,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -490,8 +490,8 @@ public class DAOTablaVueloCarga {
 
 		while (rs.next()) {
 			int id2 = rs.getInt("ID");
-			String horaLlegada = rs.getString("HORALLEGADA");
-			String horaSalida = rs.getString("HORASALIDA");
+			int horaLlegada = rs.getInt("HORALLEGADA");
+			int horaSalida = rs.getInt("HORASALIDA");
 			int frecuencia = rs.getInt("FRECUENCIA");
 			int distancia = rs.getInt("DISTANCIA");
 			int duracion = rs.getInt("DURACION");
@@ -523,9 +523,9 @@ public class DAOTablaVueloCarga {
 
 		
 		String sql = "INSERT INTO ISIS2304B041620.VUELO_CARGA VALUES (";
-		sql += vuelo.getId() + ",'";
-		sql += vuelo.getHoraLlegada() + "','";
-		sql += vuelo.getHoraSalida() + "',";
+		sql += vuelo.getId() + ",";
+		sql += vuelo.getHoraLlegada() + ",";
+		sql += vuelo.getHoraSalida() + ",";
 		sql += vuelo.getFrecuencia() + ",";
 		sql += vuelo.getDistancia() + ",";
 		sql += vuelo.getDuracion() + ",'";
@@ -559,8 +559,8 @@ public class DAOTablaVueloCarga {
 	public void updatVueloCarga(VueloCarga vuelo) throws SQLException, Exception {
 
 		String sql = "UPDATE ISIS2304B041620.VUELO_CARGA SET ";
-		sql += "HORALLEGADA='" +vuelo.getHoraLlegada() + "',";
-		sql += "HORASALIDA='" +vuelo.getHoraSalida() + "',";
+		sql += "HORALLEGADA=" +vuelo.getHoraLlegada() + ",";
+		sql += "HORASALIDA=" +vuelo.getHoraSalida() + ",";
 		sql += "FRECUENCIA=" +vuelo.getFrecuencia() + ",";
 		sql += "DISTANCIA=" +vuelo.getDistancia() + ",";
 		sql += "DURACION=" +vuelo.getDuracion() + ",";
