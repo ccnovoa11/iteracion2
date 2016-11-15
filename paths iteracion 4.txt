@@ -70,3 +70,11 @@ http://localhost:8080/VideoAndes/rest/viajeros/ide/443/fecha/31-12-2000/31-12-20
 
 Vuelos, gerente, fecha, clase, distancia:
 http://localhost:8080/VideoAndes/rest/viajeros/idg/443/fecha/31-12-2000/31-12-2017/clase/Economica/distancia/10
+
+RFC10
+
+Para pasajeros
+http://localhost:8080/VideoAndes/rest/vuelosGeneral/Pasajero/Argentina/Chile/14-08-16/29-09-17
+
+Para carga
+http://localhost:8080/VideoAndes/rest/vuelosGeneral/Carga/Argentina/Chile/14-08-16/29-09-17
