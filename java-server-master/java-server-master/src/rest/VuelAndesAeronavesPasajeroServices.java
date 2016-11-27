@@ -13,8 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.Aeronave;
-import vos.ListaAeronaves;
+import vos1.Aeronave;
+import vos1.ListaAeronaves;
 
 @Path("aeronavesPasajero")
 public class VuelAndesAeronavesPasajeroServices {

@@ -13,13 +13,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.Aerolinea;
-import vos.Aeropuerto;
-import vos.ListaAerolineas;
-import vos.ListaAeropuertos;
-import vos.ListaVuelosCarga;
-import vos.ListaVuelosPasajero;
-import vos.VueloPasajero;
+import vos1.Aerolinea;
+import vos1.Aeropuerto;
+import vos1.ListaAerolineas;
+import vos1.ListaAeropuertos;
+import vos1.ListaVuelosCarga;
+import vos1.ListaVuelosPasajero;
+import vos1.VueloPasajero;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/VideoAndes/rest/videos/...

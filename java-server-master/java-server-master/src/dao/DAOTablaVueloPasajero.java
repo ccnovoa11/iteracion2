@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Aeronave;
-import vos.Aeropuerto;
-import vos.VueloCarga;
-import vos.VueloPasajero;
+import vos1.Aeronave;
+import vos1.Aeropuerto;
+import vos1.VueloCarga;
+import vos1.VueloPasajero;
 
 public class DAOTablaVueloPasajero {
 

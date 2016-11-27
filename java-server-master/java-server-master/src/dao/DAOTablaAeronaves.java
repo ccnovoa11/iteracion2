@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Aeronave;
-import vos.VueloPasajero;
+import vos1.Aeronave;
+import vos1.VueloPasajero;
 
 public class DAOTablaAeronaves {
 

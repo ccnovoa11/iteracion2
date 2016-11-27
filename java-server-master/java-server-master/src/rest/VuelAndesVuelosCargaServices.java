@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.Aeronave;
-import vos.ListaVuelosCarga;
-import vos.VueloCarga;
+import vos1.Aeronave;
+import vos1.ListaVuelosCarga;
+import vos1.VueloCarga;
 
 @Path("vuelosCarga")
 public class VuelAndesVuelosCargaServices {

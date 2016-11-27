@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Aeropuerto;
+import vos1.Aeropuerto;
 
 public class DAOTablaAeropuertos {
 

@@ -13,11 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.ListaReservasCarga;
-import vos.ListaReservasPasajero;
-import vos.ReservaCarga;
-import vos.ReservaPasajero;
-import vos.VueloCarga;
+import vos1.ListaReservasCarga;
+import vos1.ListaReservasPasajero;
+import vos1.ReservaCarga;
+import vos1.ReservaPasajero;
+import vos1.VueloCarga;
 
 @Path("reservasCarga")
 public class VuelAndesReservasCargaServices {

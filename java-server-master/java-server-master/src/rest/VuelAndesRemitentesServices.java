@@ -13,8 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.Remitente;
-import vos.ListaRemitentes;
+import vos1.ListaRemitentes;
+import vos1.Remitente;
 
 @Path("remitentes")
 public class VuelAndesRemitentesServices {

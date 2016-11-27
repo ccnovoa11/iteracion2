@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.ListaVuelosGeneral;
-import vos.ListaVuelosPasajero;
+import vos1.ListaVuelosGeneral;
+import vos1.ListaVuelosPasajero;
 
 @Path("vuelosGeneral")
 public class VuelAndesVuelosGeneralServices {

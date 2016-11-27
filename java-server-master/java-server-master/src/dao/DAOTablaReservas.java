@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.ReservaCarga;
-import vos.ReservaPasajero;
-import vos.Silla;
+import vos1.ReservaCarga;
+import vos1.ReservaPasajero;
+import vos1.Silla;
 
 public class DAOTablaReservas {
 

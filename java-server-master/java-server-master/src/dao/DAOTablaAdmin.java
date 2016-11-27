@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.Admin;
-import vos.Aeronave;
+import vos1.Admin;
+import vos1.Aeronave;
 
 public class DAOTablaAdmin {
 

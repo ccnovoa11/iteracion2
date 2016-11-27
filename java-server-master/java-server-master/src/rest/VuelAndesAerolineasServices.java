@@ -27,8 +27,8 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.VuelAndesMaster;
-import vos.Aerolinea;
-import vos.ListaAerolineas;
+import vos1.Aerolinea;
+import vos1.ListaAerolineas;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/VideoAndes/rest/videos/...

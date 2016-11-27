@@ -13,10 +13,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
-import vos.Admin;
-import vos.ListaAdmins;
-import vos.ListaAeronaves;
-import vos.ListaVuelosPasajero;
+import vos1.Admin;
+import vos1.ListaAdmins;
+import vos1.ListaAeronaves;
+import vos1.ListaVuelosPasajero;
 
 @Path("admins")
 public class VuelAndesAdminsServices {

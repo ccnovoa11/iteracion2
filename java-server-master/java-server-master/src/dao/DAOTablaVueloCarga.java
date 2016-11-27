@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import vos.VueloCarga;
+import vos1.VueloCarga;
 
 public class DAOTablaVueloCarga {
 
