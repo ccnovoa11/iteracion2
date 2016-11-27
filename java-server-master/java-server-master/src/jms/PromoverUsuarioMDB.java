@@ -11,13 +11,7 @@ import javax.jms.DeliveryMode;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueReceiver;
-import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
@@ -35,7 +29,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.rabbitmq.jms.admin.RMQConnectionFactory;
 import com.rabbitmq.jms.admin.RMQDestination;
 
 import dtm.VuelAndesDistributed;
@@ -43,26 +36,24 @@ import vos.ExchangeMsg;
 import vos.ListaUsuariosMsg;
 import vos.UsuarioMsg;
 
-
-
-public class PromoverUsuarioMDB implements MessageListener, ExceptionListener 
+public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
 	private final static String APP = "app1";
-	
+
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicPromoverUsuario";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQPromoverUsuarioLocal";
-	
+
 	private final static String REQUEST = "REQUEST";
 	private final static String REQUEST_ANSWER = "REQUEST_ANSWER";
-	
+
 	private TopicConnection topicConnection;
 	private TopicSession topicSession;
 	private Topic globalTopic;
 	private Topic localTopic;
-	
+
 	private List<UsuarioMsg> answer = new ArrayList<UsuarioMsg>();
-	
+
 	public PromoverUsuarioMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
 	{	
 		topicConnection = factory.createTopicConnection();
@@ -75,26 +66,26 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 		topicSubscriber.setMessageListener(this);
 		topicConnection.setExceptionListener(this);
 	}
-	
+
 	public void start() throws JMSException
 	{
 		topicConnection.start();
 	}
-	
+
 	public void close() throws JMSException
 	{
 		topicSession.close();
 		topicConnection.close();
 	}
-	
+
 	public ListaUsuariosMsg getRemoteUsuarios(int millas) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
 		String id = APP+""+System.currentTimeMillis();
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		id = DatatypeConverter.printHexBinary(md.digest(id.getBytes())).substring(0, 8);
-//		id = new String(md.digest(id.getBytes()));
-		
+		//		id = new String(md.digest(id.getBytes()));
+
 		sendMessage(""+millas, REQUEST, globalTopic, id);
 		boolean waiting = true;
 
@@ -110,14 +101,14 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 			}
 		}
 		waiting = false;
-		
+
 		if(answer.isEmpty())
 			throw new NonReplyException("Non Response");
 		ListaUsuariosMsg res = new ListaUsuariosMsg(answer);
-        return res;
+		return res;
 	}
-	
-	
+
+
 	private void sendMessage(String payload, String status, Topic dest, String id) throws JMSException, JsonGenerationException, JsonMappingException, IOException
 	{
 		ObjectMapper mapper = new ObjectMapper();
@@ -132,7 +123,7 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 		txtMsg.setText(envelope);
 		topicPublisher.publish(txtMsg);
 	}
-	
+
 	@Override
 	public void onMessage(Message message) 
 	{
@@ -151,10 +142,10 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 				if(ex.getStatus().equals(REQUEST))
 				{
 					VuelAndesDistributed dtm = VuelAndesDistributed.getInstance();
-					
-					ListaUsuariosMsg usuarios = dtm.darUsuariosPromovidos(Integer.parseInt(ex.getPayload()));
+
+					ListaUsuariosMsg usuarios = dtm.getUsuariosPromovidos(Integer.parseInt(ex.getPayload()));
 					String payload = mapper.writeValueAsString(usuarios);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), ""); //le quitamos false al final
+					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))
@@ -163,7 +154,7 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 					answer.addAll(v.getUsuarios());
 				}
 			}
-			
+
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,7 +171,7 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override

@@ -32,19 +32,19 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.rabbitmq.jms.admin.RMQDestination;
 
 import dtm.VuelAndesDistributed;
+import vos.AerolineaMsg;
 import vos.ExchangeMsg;
-import vos.ListaUsuariosMsg;
+import vos.ListaAerolineasMsg;
 import vos.ListaVuelosMsg;
-import vos.UsuarioMsg;
 import vos.VueloMsg;
 
-public class VuelosMDB implements MessageListener, ExceptionListener
+public class AerolineasMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
 	private final static String APP = "app1";
 
-	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicVuelos";
-	private final static String LOCAL_TOPIC_NAME = "java:global/RMQVuelosLocal";
+	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicIngresoAerolineas";
+	private final static String LOCAL_TOPIC_NAME = "java:global/RMQIngresoAerolineasLocal";
 
 	private final static String REQUEST = "REQUEST";
 	private final static String REQUEST_ANSWER = "REQUEST_ANSWER";
@@ -54,9 +54,9 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 	private Topic globalTopic;
 	private Topic localTopic;
 
-	private List<VueloMsg> answer = new ArrayList<VueloMsg>();
+	private List<AerolineaMsg> answer = new ArrayList<AerolineaMsg>();
 
-	public VuelosMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
+	public AerolineasMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
 	{	
 		topicConnection = factory.createTopicConnection();
 		topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -80,7 +80,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 		topicConnection.close();
 	}
 
-	public ListaVuelosMsg getRemoteVuelos(String aeropuerto) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaAerolineasMsg getRemoteAerolineas() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
 		String id = APP+""+System.currentTimeMillis();
@@ -88,7 +88,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 		id = DatatypeConverter.printHexBinary(md.digest(id.getBytes())).substring(0, 8);
 		//		id = new String(md.digest(id.getBytes()));
 
-		sendMessage(aeropuerto, REQUEST, globalTopic, id);
+		sendMessage("", REQUEST, globalTopic, id);
 		boolean waiting = true;
 
 		int count = 0;
@@ -106,7 +106,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 
 		if(answer.isEmpty())
 			throw new NonReplyException("Non Response");
-		ListaVuelosMsg res = new ListaVuelosMsg(answer);
+		ListaAerolineasMsg res = new ListaAerolineasMsg(answer);
 		return res;
 	}
 
@@ -145,15 +145,15 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 				{
 					VuelAndesDistributed dtm = VuelAndesDistributed.getInstance();
 
-					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(ex.getPayload());
-					String payload = mapper.writeValueAsString(vuelos);
+					ListaAerolineasMsg aerolineas = dtm.getIngresoAerolineas();
+					String payload = mapper.writeValueAsString(aerolineas);
 					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))
 				{
-					ListaVuelosMsg v = mapper.readValue(ex.getPayload(), ListaVuelosMsg.class);
-					answer.addAll(v.getVuelos());
+					ListaAerolineasMsg v = mapper.readValue(ex.getPayload(), ListaAerolineasMsg.class);
+					answer.addAll(v.getAerolineas());
 				}
 			}
 

@@ -11,13 +11,7 @@ import javax.jms.DeliveryMode;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueReceiver;
-import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
@@ -35,36 +29,32 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.rabbitmq.jms.admin.RMQConnectionFactory;
 import com.rabbitmq.jms.admin.RMQDestination;
 
 import dtm.VuelAndesDistributed;
 import vos.EntradaMsg;
 import vos.ExchangeMsg;
 import vos.ListaReservasMsg;
-import vos.ListaVuelosMsg;
 import vos.ReservaMsg;
-import vos.VueloMsg;
 
-
-public class RegistrarReservaMDB implements MessageListener, ExceptionListener 
+public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
 	private final static String APP = "app1";
-	
+
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicRegistrarReserva";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQRegistrarReservaLocal";
-	
+
 	private final static String REQUEST = "REQUEST";
 	private final static String REQUEST_ANSWER = "REQUEST_ANSWER";
-	
+
 	private TopicConnection topicConnection;
 	private TopicSession topicSession;
 	private Topic globalTopic;
 	private Topic localTopic;
-	
+
 	private List<ReservaMsg> answer = new ArrayList<ReservaMsg>();
-	
+
 	public RegistrarReservaMDB(TopicConnectionFactory factory, InitialContext ctx) throws JMSException, NamingException 
 	{	
 		topicConnection = factory.createTopicConnection();
@@ -77,18 +67,18 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 		topicSubscriber.setMessageListener(this);
 		topicConnection.setExceptionListener(this);
 	}
-	
+
 	public void start() throws JMSException
 	{
 		topicConnection.start();
 	}
-	
+
 	public void close() throws JMSException
 	{
 		topicSession.close();
 		topicConnection.close();
 	}
-	
+
 	public ListaReservasMsg getRemoteReservas(List<Integer> ids, String origen, String destino) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
@@ -96,8 +86,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 		String id = APP+""+System.currentTimeMillis();
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		id = DatatypeConverter.printHexBinary(md.digest(id.getBytes())).substring(0, 8);
-//		id = new String(md.digest(id.getBytes()));
-		
+		//		id = new String(md.digest(id.getBytes()));
 		EntradaMsg entrada = new EntradaMsg(ids, origen, destino);
 		String payload = mapper.writeValueAsString(entrada);
 		sendMessage(payload, REQUEST, globalTopic, id);
@@ -115,14 +104,14 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 			}
 		}
 		waiting = false;
-		
+
 		if(answer.isEmpty())
 			throw new NonReplyException("Non Response");
 		ListaReservasMsg res = new ListaReservasMsg(answer);
-        return res;
+		return res;
 	}
-	
-	
+
+
 	private void sendMessage(String payload, String status, Topic dest, String id) throws JMSException, JsonGenerationException, JsonMappingException, IOException
 	{
 		ObjectMapper mapper = new ObjectMapper();
@@ -137,7 +126,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 		txtMsg.setText(envelope);
 		topicPublisher.publish(txtMsg);
 	}
-	
+
 	@Override
 	public void onMessage(Message message) 
 	{
@@ -160,7 +149,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 					
 					ListaReservasMsg reservas = dtm.getRegistrarReservas(entrada.getUsuarios(), entrada.getOrigen(), entrada.getDestino());
 					String payload = mapper.writeValueAsString(reservas);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), ""); //le quitamos false al final
+					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))
@@ -169,7 +158,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 					answer.addAll(v.getReservas());
 				}
 			}
-			
+
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -186,7 +175,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -194,5 +183,4 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 	{
 		System.out.println(exception);
 	}
-
 }

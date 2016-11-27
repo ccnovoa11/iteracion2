@@ -1,40 +1,50 @@
 package dtm;
 
-import tm.VuelAndesMaster;
-import vos.ListaReservasMsg;
-import vos.ListaUsuariosMsg;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.jms.*;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.naming.*;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
-import com.rabbitmq.jms.admin.RMQConnectionFactory;
-import com.rabbitmq.jms.admin.RMQDestination;
+import com.rabbitmq.jms.admin.*;
 
+import jms.AerolineasMDB;
 import jms.NonReplyException;
+import jms.PromoverUsuarioMDB;
+import jms.RegistrarReservaMDB;
+import jms.VuelosMDB;
+import tm.VuelAndesMaster;
+import vos.ListaAerolineasMsg;
+import vos.ListaReservasMsg;
+import vos.ListaUsuariosMsg;
+import vos.ListaVuelosMsg;
 
-public class VuelAndesDistributed {
-
+public class VuelAndesDistributed 
+{
 	private final static String QUEUE_NAME = "java:global/RMQAppQueue";
 	private final static String MQ_CONNECTION_NAME = "java:global/RMQClient";
-	
+
 	private static VuelAndesDistributed instance;
-	
+
 	private VuelAndesMaster tm;
-	
+
 	private QueueConnectionFactory queueFactory;
-	
+
 	private TopicConnectionFactory factory;
+
+	private AerolineasMDB aerolineasMQ;
 	
-	private AllVideosMDB allVideosMQ;
+	private VuelosMDB vuelosMQ;
 	
+	private RegistrarReservaMDB reservasMQ;
+	
+	private PromoverUsuarioMDB usuariosMQ;
+
 	private static String path;
 
 
@@ -42,35 +52,44 @@ public class VuelAndesDistributed {
 	{
 		InitialContext ctx = new InitialContext();
 		factory = (RMQConnectionFactory) ctx.lookup(MQ_CONNECTION_NAME);
-		allVideosMQ = new AllVideosMDB(factory, ctx);
-		
-		allVideosMQ.start();
-		
+		aerolineasMQ = new AerolineasMDB(factory, ctx);
+		vuelosMQ = new VuelosMDB(factory, ctx);
+		reservasMQ = new RegistrarReservaMDB(factory, ctx);
+		usuariosMQ = new PromoverUsuarioMDB(factory, ctx);
+
+		aerolineasMQ.start();
+		vuelosMQ.start();
+		reservasMQ.start();
+		usuariosMQ.start();
+
 	}
-	
+
 	public void stop() throws JMSException
 	{
-		allVideosMQ.close();
+		aerolineasMQ.close();
+		vuelosMQ.close();
+		reservasMQ.close();
+		usuariosMQ.close();
 	}
-	
+
 	/**
-	 * Método que retorna el path de la carpeta WEB-INF/ConnectionData en el deploy actual dentro del servidor.
+	 * MÃ©todo que retorna el path de la carpeta WEB-INF/ConnectionData en el deploy actual dentro del servidor.
 	 * @return path de la carpeta WEB-INF/ConnectionData en el deploy actual.
 	 */
 	public static void setPath(String p) {
 		path = p;
 	}
-	
+
 	public void setUpTransactionManager(VuelAndesMaster tm)
 	{
-	   this.tm = tm;
+		this.tm = tm;
 	}
-	
+
 	private static VuelAndesDistributed getInst()
 	{
 		return instance;
 	}
-	
+
 	public static VuelAndesDistributed getInstance(VuelAndesMaster tm)
 	{
 		if(instance == null)
@@ -87,7 +106,7 @@ public class VuelAndesDistributed {
 		instance.setUpTransactionManager(tm);
 		return instance;
 	}
-	
+
 	public static VuelAndesDistributed getInstance()
 	{
 		if(instance == null)
@@ -102,18 +121,48 @@ public class VuelAndesDistributed {
 		VuelAndesMaster tm = new VuelAndesMaster(path);
 		return getInstance(tm);
 	}
-	
-	public ListaReservasMsg getRegistrarReservas(List<Integer> usuarios,String origen, String destino) throws Exception
+
+	public ListaReservasMsg getRegistrarReservas(List<Integer> ids, String origen, String destino) throws Exception
 	{
-		return tm.darVideosLocal();
+		//TODO
+		return null;
 	}
 	
-	public ListaUsuariosMsg darUsuariosPromovidos(int millas){
-		return tm.darUsuariosPromovidos(millas);
+	public ListaUsuariosMsg getUsuariosPromovidos(int millas) throws Exception
+	{
+		//TODO
+		return null;
+	}
+
+	public ListaVuelosMsg getVuelosAeropuerto(String aeropuerto) throws Exception
+	{
+		//TODO
+		return null;
 	}
 	
-	public ListaVideos getRemoteVideos() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaAerolineasMsg getIngresoAerolineas() throws Exception
 	{
-		return allVideosMQ.getRemoteVideos();
+		//TODO
+		return null;
+	}
+
+	public ListaReservasMsg getRemoteReservas(List<Integer> ids, String origen, String destino) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return reservasMQ.getRemoteReservas(ids, origen, destino);
+	}
+	
+	public ListaUsuariosMsg getRemoteUsuarios(int millas) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return usuariosMQ.getRemoteUsuarios(millas);
+	}
+	
+	public ListaVuelosMsg getRemotVuelos(String aerolinea) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return vuelosMQ.getRemoteVuelos(aerolinea);
+	}
+	
+	public ListaAerolineasMsg getRemoteAerolineas() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return aerolineasMQ.getRemoteAerolineas();
 	}
 }
