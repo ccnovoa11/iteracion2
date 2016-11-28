@@ -34,6 +34,8 @@ import dao.DAOTablaVueloGeneral;
 import dao.DAOTablaVueloPasajero;
 import dtm.VuelAndesDistributed;
 import jms.NonReplyException;
+import vos.AerolineaMsg;
+import vos.ListaAerolineasMsg;
 import vos.ListaReservasMsg;
 import vos.ListaUsuariosMsg;
 import vos.ReservaMsg;
@@ -54,6 +56,7 @@ import vos1.ListaViajeros;
 import vos1.ListaVuelosCarga;
 import vos1.ListaVuelosGeneral;
 import vos1.ListaVuelosPasajero;
+import vos1.RangoFechas;
 import vos1.Remitente;
 import vos1.ReservaCarga;
 import vos1.ReservaPasajero;
@@ -4846,5 +4849,60 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
+	}
+	
+	//ITERA5 
+	
+	public ListaAerolineasMsg ingresosRFC12 (RangoFechas rango) throws SQLException
+	{
+		ArrayList<AerolineaMsg> aerolineaP = new ArrayList<AerolineaMsg>();
+		ArrayList<AerolineaMsg> aerolineaIngresos = new ArrayList<AerolineaMsg>();
+		
+		DAOTablaAerolineas daoAero = new DAOTablaAerolineas();
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoAero.setConn(conn);
+			aerolineaIngresos = daoAero.ingresoCarga(rango);
+			aerolineaP = daoAero.ingresoPasajeros(rango);
+			aerolineaIngresos.addAll(aerolineaP);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoAero.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+
+		return new ListaAerolineasMsg(aerolineaIngresos);
+		
 	}
 }

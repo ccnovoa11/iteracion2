@@ -18,7 +18,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import jms.AerolineasMDB;
+import vos.AerolineaMsg;
+import vos.ListaAerolineasMsg;
 import vos1.Aerolinea;
+import vos1.RangoFechas;
+import vos1.VueloPasajero;
 
 /**
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
@@ -198,6 +203,68 @@ public class DAOTablaAerolineas {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+	}
+	
+	public ArrayList<AerolineaMsg> ingresoCarga (RangoFechas rango) throws SQLException
+	{
+		ArrayList<AerolineaMsg> aerolineasMsg = new ArrayList<AerolineaMsg>();
+		
+		String sql = "SELECT IATA, NOMBRE,(SELECT COUNT (ID_REMITENTE) FROM ISIS2304B041620.RESERVA_CARGA re WHERE re.ID_VUELO_CARGA = IDVC)*PRECIO_DENSIDAD AS INGRESO_CARGA, NUM_VUELOS_CARGA, (SELECT COUNT (ID_REMITENTE) FROM ISIS2304B041620.RESERVA_CARGA re WHERE re.ID_VUELO_CARGA = IDVC) AS ELEMENTOS ";
+		sql += " FROM(SELECT IATA, NOMBRE, CODIGO, PRECIO_DENSIDAD, IDVC, (SELECT COUNT(ID)FROM ISIS2304B041620.VUELO_CARGA vuc WHERE vuc.CODAEROLINEA = CODIGO) AS NUM_VUELOS_CARGA "; 
+        sql += " FROM(SELECT IATA, NOMBRE, CODAEROLINEA AS CODIGO, PRECIO_DENSIDAD, ID AS IDVC FROM ISIS2304B041620.VUELO_CARGA vc INNER JOIN ISIS2304B041620.AEROLINEA aer ON vc.CODAEROLINEA = aer.CODIGO WHERE vc.FECHASALIDA BETWEEN '"+rango.getFechaInicio()+"' AND '"+rango.getFechaFin()+"'))";
+       
+        System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String iata = rs.getString("IATA");
+			String nombre = rs.getString("NOMBRE");
+			int noVuelosCarga = rs.getInt("NUM_VUELOS_CARGA");
+			int noElementos = rs.getInt("ELEMENTOS");
+			int ingresosCarga = rs.getInt("INGRESO_CARGA");
+			int noVuelosPasajero = 0;
+			int noPasajeros = 0;
+			int ingresosPasajero = 0;
+			
+			aerolineasMsg.add(new AerolineaMsg(iata, nombre, noVuelosCarga, noElementos, ingresosCarga, noVuelosPasajero, noPasajeros, ingresosPasajero));
+		}
+		
+		return aerolineasMsg;
+	}
+	
+	public ArrayList<AerolineaMsg> ingresoPasajeros (RangoFechas rango) throws SQLException
+	{
+		ArrayList<AerolineaMsg> aerolineasMsg = new ArrayList<AerolineaMsg>();
+		
+		String sql = "SELECT IATA, NOMBRE,(SELECT COUNT (ID_VIAJERO) FROM ISIS2304B041620.RESERVA_PASAJERO re WHERE re.ID_VUELO_PASAJERO = IDVP)*PRECIO_EJECUTIVO AS INGRESO_PASAJERO, NUM_VUELOS_PASAJERO, (SELECT COUNT (ID_VIAJERO) FROM ISIS2304B041620.RESERVA_PASAJERO re WHERE re.ID_VUELO_PASAJERO = IDVP) AS PERSONAS ";
+		       sql += " FROM(SELECT IATA, NOMBRE, CODIGO, PRECIO_EJECUTIVO, IDVP, (SELECT COUNT(ID)FROM ISIS2304B041620.VUELO_PASAJERO vup WHERE vup.CODAEROLINEA = CODIGO) AS NUM_VUELOS_PASAJERO ";
+			   sql += " FROM(SELECT IATA, NOMBRE, CODAEROLINEA AS CODIGO, PRECIO_EJECUTIVO, ID AS IDVP FROM ISIS2304B041620.VUELO_PASAJERO vp INNER JOIN ISIS2304B041620.AEROLINEA aer ON vp.CODAEROLINEA = aer.CODIGO WHERE vp.FECHASALIDA BETWEEN '"+rango.getFechaInicio()+"' AND '"+rango.getFechaFin()+"'))";
+
+				
+				
+        System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String iata = rs.getString("IATA");
+			String nombre = rs.getString("NOMBRE");
+			int noVuelosCarga = 0;
+			int noElementos = 0;
+			int ingresosCarga = 0;
+			int noVuelosPasajero = rs.getInt("NUM_VUELOS_PASAJERO");
+			int noPasajeros = rs.getInt("PERSONAS");
+			int ingresosPasajero = rs.getInt("INGRESO_PASAJERO");
+			
+			aerolineasMsg.add(new AerolineaMsg(iata, nombre, noVuelosCarga, noElementos, ingresosCarga, noVuelosPasajero, noPasajeros, ingresosPasajero));
+		}
+		
+		return aerolineasMsg;
 	}
 
 //	/**
