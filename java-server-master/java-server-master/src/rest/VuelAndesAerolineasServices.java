@@ -27,8 +27,10 @@ import javax.ws.rs.core.Response;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import tm.VuelAndesMaster;
+import vos.ListaAerolineasMsg;
 import vos1.Aerolinea;
 import vos1.ListaAerolineas;
+import vos1.RangoFechas;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/VideoAndes/rest/videos/...
@@ -97,6 +99,20 @@ public class VuelAndesAerolineasServices {
 			if (name == null || name.length() == 0)
 				throw new Exception("Nombre del video no valido");
 			aerolineas = tm.buscarAerolineasPorName(name);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(aerolineas).build();
+	}
+	
+	@GET
+	@Path("/ingresosRango")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getIngresosAerolinea(RangoFechas rango) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaAerolineasMsg aerolineas;
+		try {
+			aerolineas = tm.ingresosRFC12(rango);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
