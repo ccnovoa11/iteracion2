@@ -630,6 +630,7 @@ public class DAOTablaVueloPasajero {
 		String sql = "SELECT vp.* FROM (ISIS2304B041620.VUELO_PASAJERO vp INNER JOIN ISIS2304B041620.AEROPUERTO aer ON vp.ID_AERO_ORIGEN=aer.CODIGO) INNER JOIN ISIS2304B041620.AEROPUERTO des on vp.ID_AERO_DESTINO=des.CODIGO WHERE aer.PAIS ='"+ origen + "' and des.PAIS='"+destino+"'";
 
 		System.out.println("SQL stmt:" + sql);
+		System.out.println("conn:" + conn);
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

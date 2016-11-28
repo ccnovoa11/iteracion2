@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.EntradaMsg;
+import vos.ListaReservasMsg;
 import vos1.ListaReservasPasajero;
 import vos1.ReservaPasajero;
 import vos1.Vuelo;
@@ -164,6 +166,23 @@ public class VuelAndesReservasPasajeroServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(total).build();
+	}
+	
+	@POST
+	@Path("/reservas/generar")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response generarReservas(EntradaMsg entrada) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+
+		try {
+			ListaReservasMsg reservas = tm.darReservasGlobal(entrada.getUsuarios(), entrada.getOrigen(), entrada.getDestino());
+			return Response.status(200).entity(reservas).build();
+		} catch (Exception e) {
+			System.out.println("Holaaa " + e.getMessage());
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		
 	}
 
 	/**

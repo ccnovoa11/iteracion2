@@ -4339,11 +4339,15 @@ public class VuelAndesMaster {
 
 	public ListaReservasPasajero lista(List<Integer> ids, String origen, String destino) throws SQLException, Exception{
 		DAOTablaVueloPasajero daoVuelosPasajero = new DAOTablaVueloPasajero();
+		
+		try{
+		this.conn = darConexion();
+		daoVuelosPasajero.setConn(conn);
 		ArrayList<VueloPasajero> vuelos = daoVuelosPasajero.buscarVuelosPaisOrigenDestino(origen, destino);
 		List<ReservaPasajero> reservasPasajero = new ArrayList<>();
 
-		int numeroReserva = (int) (Math.random()) + 20000;
-		int numeroSilla = (int) (Math.random()) + 5000;
+		int numeroReserva = (int) (Math.random()*30000) + 20000;
+		int numeroSilla = (int) (Math.random()*5000) + 1;
 
 		String silla = String.valueOf(numeroSilla);
 
@@ -4355,8 +4359,30 @@ public class VuelAndesMaster {
 				reservasPasajero.add(reserva);
 			}
 		}
-
+		
+		conn.commit();
 		return new ListaReservasPasajero(reservasPasajero);
+		}catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoVuelosPasajero.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}		
 	}
 
 	//Añadir una lista de reservas!!!!
@@ -4380,7 +4406,8 @@ public class VuelAndesMaster {
 			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero()){
 
 				daoReservasPasajero.addReserva(reservaPasajero);
-				reservasAnadidas.add(daoReservasPasajero.buscarReservaPorId(reservaPasajero.getId()));
+				ReservaPasajero anadir = daoReservasPasajero.buscarReservaPorId(reservaPasajero.getId());
+				reservasAnadidas.add(anadir);
 				//daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
 			}
 			conn.commit();
@@ -4429,6 +4456,7 @@ public class VuelAndesMaster {
 			ListaReservasMsg resp = dtm.getRemoteReservas(ids, origen, destino);
 			System.out.println(resp.getReservas().size());
 			remL.getReservas().addAll(resp.getReservas());
+			return remL;
 		}
 		catch(NonReplyException e)
 		{
