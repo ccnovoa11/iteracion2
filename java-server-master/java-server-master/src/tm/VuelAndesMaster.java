@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -30,6 +31,8 @@ import dao.DAOTablaSilla;
 import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloGeneral;
 import dao.DAOTablaVueloPasajero;
+import vos.ListaReservasMsg;
+import vos.ReservaMsg;
 import vos1.Admin;
 import vos1.Aerolinea;
 import vos1.Aeronave;
@@ -1021,7 +1024,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaViajeros(viajeros);
 	}
-	
+
 	public ListaVuelosPasajero buscarVuelosPorCodAerolienaViajero(int ide, String cod, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
@@ -1066,11 +1069,11 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaVuelosPasajero(vuelos);
-		
+
 	}
-	
+
 	public ListaVuelosPasajero buscarVuelosPorCodAerolienaGerente(String cod, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
@@ -1115,9 +1118,9 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaVuelosPasajero(vuelos);
-		
+
 	}
 
 	public ListaVuelosPasajero buscarVuelosPorFechaViajero(int ide, String comienzo, String fin, String clase, int distancia) throws Exception
@@ -1164,11 +1167,11 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaVuelosPasajero(vuelos);
-		
+
 	}
-	
+
 	public ListaVuelosPasajero buscarVuelosPorFechaGerente(String comienzo, String fin, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
@@ -1213,22 +1216,73 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaVuelosPasajero(vuelos);
-		
+
 	}
+
+	public ListaVuelosPasajero buscarVuelosPaisOrigenDestino(String origen, String destino) throws Exception
+	{
+		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
+		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
+
+		try
+		{
+			//////Transacci贸n
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoVuelos.setConn(conn);
+			vuelos = daoVuelos.buscarVuelosPaisOrigenDestino(origen, destino);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoVuelos.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+
+		return new ListaVuelosPasajero(vuelos);
+
+	}
+
+
 	/**
 	 * M茅todo que modela la transacci贸n que agrega un solo video a la base de datos.
 	 * <b> post: </b> se ha agregado el video que entra como par谩metro
 	 * @param video - el video a agregar. video != null
 	 * @throws Exception - cualquier error que se genera agregando el video
 	 */
-	
+
 	public void addReservasVueloGrupal (ListaViajeros viajeros,int nSilla, int idVP,int idVC) throws Exception {
 		DAOTablaReservas daoReserva = new DAOTablaReservas();
 		DAOTablaVueloPasajero daoVueloPasajero = new DAOTablaVueloPasajero();
 		DAOTablaVueloCarga daoVueloCarga = new DAOTablaVueloCarga();
-		
+
 		try{
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
@@ -1241,7 +1295,7 @@ public class VuelAndesMaster {
 			}
 			ReservaCarga reservaCarga = null;
 			ReservaPasajero reservaPasajero = null;
-			
+
 			ArrayList<ReservaCarga> res = daoReserva.buscarReservasPorVueloCarga(idVC);
 			for (int i=0; i<res.size();i++)
 			{
@@ -1251,7 +1305,7 @@ public class VuelAndesMaster {
 					reservaCarga = resC;
 				}
 			}
-			
+
 			ArrayList<ReservaPasajero> res2 = daoReserva.buscarReservasPorVuelo(idVP);
 			for (int i=0; i<res2.size();i++)
 			{
@@ -1261,10 +1315,10 @@ public class VuelAndesMaster {
 					reservaPasajero = resP;
 				}
 			}
-			
+
 			VueloCarga vueloCarga = null;
 			VueloPasajero vueloPasajero = null;
-			
+
 			ArrayList<VueloCarga> vue = daoVueloCarga.buscarVuelosPorId(idVC);
 			for (int i=0; i<vue.size();i++)
 			{
@@ -1274,7 +1328,7 @@ public class VuelAndesMaster {
 					vueloCarga = vueC;
 				}
 			}
-			
+
 			ArrayList<VueloPasajero> vueP = daoVueloPasajero.buscarVuelosPorId(idVP);
 			for (int i=0; i<vueP.size();i++)
 			{
@@ -1284,7 +1338,7 @@ public class VuelAndesMaster {
 					vueloPasajero = vuePa;
 				}
 			}
-			
+
 			if (reservaPasajero != null && reservaCarga!=null && vueloCarga.getFechaSalida().getTime() == vueloPasajero.getFechaSalida().getTime())
 			{
 				conn.commit();
@@ -1292,7 +1346,7 @@ public class VuelAndesMaster {
 			else {
 				conn.rollback();
 			}
-			
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -1316,7 +1370,7 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 	}
 	public void addViajero(Viajero viajero) throws Exception {
 		DAOTablaCliente daoViajeros = new DAOTablaCliente();
@@ -2009,7 +2063,7 @@ public class VuelAndesMaster {
 		return new ListaVuelosPasajero(vuelos);
 	}
 
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroPorAerolinea(String aerolinea) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2041,9 +2095,9 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
-	
-	
+
+
+
 	//RF12/////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
@@ -2107,13 +2161,13 @@ public class VuelAndesMaster {
 		return vuelos;
 	}
 
-	
+
 	//RF12/////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroOrigenDestino(int origen, int destino) throws Exception {
 		ArrayList<VueloPasajero> vuelos = null;
 
@@ -2220,7 +2274,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaMedianaAeropuerto(int num) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2252,7 +2306,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaAAFT(int num,String comienzo,String fin,String aerolinea,String tipo) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2284,8 +2338,8 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
-	
+
+
 	public ListaVuelosPasajero buscarVueloPasajeroAAFT(int num,String comienzo,String fin,String aerolinea,String tipo) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2317,7 +2371,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaPequenaAeropuerto(int num) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2349,7 +2403,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaGrandeAeropuerto(int num) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2381,7 +2435,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroGrandeAeropuerto(int num) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2413,7 +2467,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroMedianaAeropuerto(int num) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2445,7 +2499,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroPequenaAeropuerto(int num) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2477,7 +2531,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaAeropuertoFecha(int num, String comienzo, String fin) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2509,7 +2563,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaAeropuertoFechaNoTipo(int num, String comienzo, String fin,String tamano) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2541,7 +2595,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroAeropuertoFechaNoTipo(int num, String comienzo, String fin,String tamano) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2573,8 +2627,8 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
-	
+
+
 	public ListaVuelosCarga buscarVueloCargaAeropuertoFechaNoTipoNoAerolinea(int num, String comienzo, String fin,String tamano,String aerolinea) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2606,7 +2660,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroAeropuertoFechaNoTipoNoAerolinea(int num, String comienzo, String fin,String tamano,String aerolinea) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2638,7 +2692,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosCarga buscarVueloCargaAeropuertoFechaNoAerolinea(int num, String comienzo, String fin,String aerolinea) throws Exception {
 		ArrayList<VueloCarga> vuelos;
 		DAOTablaVueloCarga daoVuelos = new DAOTablaVueloCarga();
@@ -2702,7 +2756,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroAeropuertoFecha(int num, String comienzo, String fin) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2734,7 +2788,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroPorIdAeropuertoAerolinea(int num,String aerolinea) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2830,7 +2884,7 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosCarga(vuelos);
 	}
-	
+
 	public ListaVuelosPasajero buscarVueloPasajeroPorAeropuertoAerolineaFecha(int num,String aerolinea,String comienzo, String fin) throws Exception {
 		ArrayList<VueloPasajero> vuelos;
 		DAOTablaVueloPasajero daoVuelos = new DAOTablaVueloPasajero();
@@ -2862,8 +2916,8 @@ public class VuelAndesMaster {
 		}
 		return new ListaVuelosPasajero(vuelos);
 	}
-	
-	
+
+
 	public void asociarVueloPasajeroAeronave(String aeronave,int vuelo) throws Exception
 	{
 		DAOTablaVueloPasajero daovuelo = new DAOTablaVueloPasajero();
@@ -3333,9 +3387,9 @@ public class VuelAndesMaster {
 			}
 		}
 	}
-	
+
 	//Transaccion Vuelo General
-	
+
 	public ListaVuelosGeneral buscarVuelosPasajeroOrigenDestinoEnRango(String origen, String destino, String fecha1, String fecha2) throws SQLException
 	{
 		ArrayList<VueloGeneral> vuelosP;
@@ -3346,7 +3400,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
 			vuelosP = daoVuelos.buscarVuelosPasajeroOrigenDestinoFecha(origen, destino, fecha1, fecha2);
-	
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -3367,9 +3421,9 @@ public class VuelAndesMaster {
 			}
 		}		
 		return new ListaVuelosGeneral(vuelosP);
-		
+
 	}
-	
+
 	public ListaVuelosGeneral buscarVuelosCargaOrigenDestinoEnRango(String origen, String destino, String fecha1, String fecha2) throws SQLException
 	{
 		ArrayList<VueloGeneral> vuelosC;
@@ -3380,7 +3434,7 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			daoVuelos.setConn(conn);
 			vuelosC = daoVuelos.buscarVuelosCargaOrigenDestinoFecha(origen, destino, fecha1, fecha2);
-	
+
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -3401,12 +3455,12 @@ public class VuelAndesMaster {
 			}
 		}		
 		return new ListaVuelosGeneral(vuelosC);
-		
+
 	}
 
 
 	//Transaccion Admin
-	
+
 	public ListaAeronaves buscarAeronaveNumSerie(int ide, String num) throws Exception
 	{
 		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
@@ -3451,11 +3505,11 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaAeronaves(aeronaves);
-		
+
 	}
-	
+
 	public ListaAeronaves buscarAeronaveCapacidad(int ide, int cap) throws Exception
 	{
 		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
@@ -3500,11 +3554,11 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaAeronaves(aeronaves);
-		
+
 	}
-	
+
 	public ListaAeronaves buscarAeronaveTamano(int ide, String tam) throws Exception
 	{
 		ArrayList<Aeronave> aeronaves = new ArrayList<Aeronave>();
@@ -3549,9 +3603,9 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
-		
+
 		return new ListaAeronaves(aeronaves);
-		
+
 	}
 
 	public ListaAdmins darAdmins() throws Exception {
@@ -4206,19 +4260,57 @@ public class VuelAndesMaster {
 	 * M茅todo que modela la transacci贸n que agrega los videos que entran como par谩metro a la base de datos.
 	 * <b> post: </b> se han agregado los videos que entran como par谩metro
 	 * @param videos - objeto que modela una lista de videos y se estos se pretenden agregar. videos != null
+	 * @throws SQLException 
 	 * @throws Exception - cualquier error que se genera agregando los videos
 	 */
-	public void addReservasPasajero(ListaReservasPasajero reservasPasajero) throws Exception {
+
+
+	public ListaReservasPasajero lista(List<Integer> ids, String origen, String destino) throws SQLException, Exception{
+		DAOTablaVueloPasajero daoVuelosPasajero = new DAOTablaVueloPasajero();
+		ArrayList<VueloPasajero> vuelos = daoVuelosPasajero.buscarVuelosPaisOrigenDestino(origen, destino);
+		List<ReservaPasajero> reservasPasajero = new ArrayList<>();
+
+		int numeroReserva = (int) (Math.random()) + 20000;
+		int numeroSilla = (int) (Math.random()) + 5000;
+
+		String silla = String.valueOf(numeroSilla);
+
+		if(vuelos.size()!= 0){
+			VueloPasajero actual = vuelos.get(0);
+			for (int i = 0; i < ids.size(); i++) {
+				int idActual = ids.get(i);
+				ReservaPasajero reserva = new ReservaPasajero(numeroReserva, silla, idActual, actual.getId());
+				reservasPasajero.add(reserva);
+			}
+		}
+
+		return new ListaReservasPasajero(reservasPasajero);
+	}
+
+	//A馻dir una lista de reservas!!!!
+	//
+	//
+	//
+	//
+	//
+	//
+
+
+	public ListaReservasPasajero addReservasPasajero(ListaReservasPasajero reservasPasajero) throws Exception {
 		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
+		List<ReservaPasajero> reservasAnadidas = new ArrayList<>();
 		try 
 		{
 			//////Transacci贸n - ACID Example
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daoReservasPasajero.setConn(conn);
-			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero())
+			for(ReservaPasajero reservaPasajero : reservasPasajero.getReservasPasajero()){
+
 				daoReservasPasajero.addReserva(reservaPasajero);
-			//daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
+				reservasAnadidas.add(daoReservasPasajero.buscarReservaPorId(reservaPasajero.getId()));
+				//daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
+			}
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -4241,6 +4333,21 @@ public class VuelAndesMaster {
 				throw exception;
 			}
 		}
+		return new ListaReservasPasajero(reservasAnadidas);
+	}
+
+
+	public ListaReservasMsg darRegistrarReservas(List<Integer> ids, String origen, String destino) throws SQLException, Exception{
+		
+		ListaReservasPasajero antesDeAnadir = lista(ids,origen,destino);
+		ListaReservasPasajero despuesDe = addReservasPasajero(antesDeAnadir);
+		List<ReservaMsg> rta = new ArrayList<>();
+		for (int i = 0; i < despuesDe.getReservasPasajero().size(); i++) {
+			ReservaPasajero actual = despuesDe.getReservasPasajero().get(i);
+			ReservaMsg nuevaReserva = new ReservaMsg(actual.getId()+"-app1", actual.getIdViajero(), actual.getNumSilla(), 0.0, actual.getIdVueloPasajero()+"-app1");
+			rta.add(nuevaReserva);
+		}
+		return new ListaReservasMsg(rta);
 	}
 
 	public Vuelo addReservasVueloTotal(ListaReservasPasajero reservasPasajero) throws Exception {

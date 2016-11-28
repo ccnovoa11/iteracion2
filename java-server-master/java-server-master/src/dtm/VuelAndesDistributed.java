@@ -125,7 +125,7 @@ public class VuelAndesDistributed
 	public ListaReservasMsg getRegistrarReservas(List<Integer> ids, String origen, String destino) throws Exception
 	{
 		//TODO
-		return null;
+		return tm.darRegistrarReservas(ids, origen, destino);
 	}
 	
 	public ListaUsuariosMsg getUsuariosPromovidos(int millas) throws Exception
