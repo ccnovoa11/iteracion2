@@ -41,7 +41,7 @@ import vos.VueloMsg;
 public class VuelosMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
-	private final static String APP = "app1";
+	private final static String APP = "D03";
 
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicVuelos";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQVuelosLocal";
@@ -115,7 +115,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("usuarios.general.app1", APP, payload, status, id);
+		ExchangeMsg msg = new ExchangeMsg("vuelos.general.D03", APP, payload, status, id);
 		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
 		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 		TextMessage txtMsg = topicSession.createTextMessage();
@@ -147,7 +147,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 
 					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(ex.getPayload());
 					String payload = mapper.writeValueAsString(vuelos);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
+					Topic t = new RMQDestination("", "vuelos.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))

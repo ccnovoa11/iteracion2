@@ -40,7 +40,7 @@ import vos.ReservaMsg;
 public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
-	private final static String APP = "app1";
+	private final static String APP = "D03";
 
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicRegistrarReserva";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQRegistrarReservaLocal";
@@ -116,7 +116,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("reservas.general.app1", APP, payload, status, id);
+		ExchangeMsg msg = new ExchangeMsg("reservas.general.D03", APP, payload, status, id);
 		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
 		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 		TextMessage txtMsg = topicSession.createTextMessage();
@@ -149,7 +149,7 @@ public class RegistrarReservaMDB implements MessageListener, ExceptionListener
 					
 					ListaReservasMsg reservas = dtm.getRegistrarReservas(entrada.getUsuarios(), entrada.getOrigen(), entrada.getDestino());
 					String payload = mapper.writeValueAsString(reservas);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
+					Topic t = new RMQDestination("", "reservas.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))

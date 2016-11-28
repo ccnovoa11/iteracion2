@@ -41,7 +41,7 @@ import vos.VueloMsg;
 public class AerolineasMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
-	private final static String APP = "app1";
+	private final static String APP = "D03";
 
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicIngresoAerolineas";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQIngresoAerolineasLocal";
@@ -115,7 +115,7 @@ public class AerolineasMDB implements MessageListener, ExceptionListener
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("usuarios.general.app1", APP, payload, status, id);
+		ExchangeMsg msg = new ExchangeMsg("aerolineas.general.D03", APP, payload, status, id);
 		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
 		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 		TextMessage txtMsg = topicSession.createTextMessage();
@@ -147,7 +147,7 @@ public class AerolineasMDB implements MessageListener, ExceptionListener
 
 					ListaAerolineasMsg aerolineas = dtm.getIngresoAerolineas();
 					String payload = mapper.writeValueAsString(aerolineas);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
+					Topic t = new RMQDestination("", "aerolineas.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))

@@ -39,7 +39,7 @@ import vos.UsuarioMsg;
 public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 {
 	public final static int TIME_OUT = 5;
-	private final static String APP = "app1";
+	private final static String APP = "D03";
 
 	private final static String GLOBAL_TOPIC_NAME = "java:global/RMQTopicPromoverUsuario";
 	private final static String LOCAL_TOPIC_NAME = "java:global/RMQPromoverUsuarioLocal";
@@ -113,7 +113,7 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("usuarios.general.app1", APP, payload, status, id);
+		ExchangeMsg msg = new ExchangeMsg("usuarios.general.D03", APP, payload, status, id);
 		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
 		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 		TextMessage txtMsg = topicSession.createTextMessage();
@@ -145,7 +145,7 @@ public class PromoverUsuarioMDB implements MessageListener, ExceptionListener
 
 					ListaUsuariosMsg usuarios = dtm.getUsuariosPromovidos(Integer.parseInt(ex.getPayload()));
 					String payload = mapper.writeValueAsString(usuarios);
-					Topic t = new RMQDestination("", "videos.test", ex.getRoutingKey(), "");
+					Topic t = new RMQDestination("", "usuarios.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);
 				}
 				else if(ex.getStatus().equals(REQUEST_ANSWER))

@@ -32,6 +32,8 @@ import dao.DAOTablaSilla;
 import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloGeneral;
 import dao.DAOTablaVueloPasajero;
+import dtm.VuelAndesDistributed;
+import jms.NonReplyException;
 import vos.ListaReservasMsg;
 import vos.ListaUsuariosMsg;
 import vos.ReservaMsg;
@@ -105,6 +107,7 @@ public class VuelAndesMaster {
 	private Connection conn;
 
 
+	private VuelAndesDistributed dtm;
 	/**
 	 * Método constructor de la clase VuelAndesMaster, esta clase modela y contiene cada una de las 
 	 * transacciones y la logia de negocios que estas conllevan.
@@ -115,6 +118,7 @@ public class VuelAndesMaster {
 	public VuelAndesMaster(String contextPathP) {
 		connectionDataPath = contextPathP + CONNECTION_DATA_FILE_NAME_REMOTE;
 		initConnectionData();
+		dtm = VuelAndesDistributed.getInstance(this);
 	}
 
 	/*
@@ -4410,12 +4414,29 @@ public class VuelAndesMaster {
 		List<ReservaMsg> rta = new ArrayList<>();
 		for (int i = 0; i < despuesDe.getReservasPasajero().size(); i++) {
 			ReservaPasajero actual = despuesDe.getReservasPasajero().get(i);
-			ReservaMsg nuevaReserva = new ReservaMsg(actual.getId()+"-app1", actual.getIdViajero(), actual.getNumSilla(), 0.0, actual.getIdVueloPasajero()+"-app1");
+			ReservaMsg nuevaReserva = new ReservaMsg(actual.getId()+"-D03", actual.getIdViajero(), actual.getNumSilla(), 0.0, actual.getIdVueloPasajero()+"-D03");
 			rta.add(nuevaReserva);
 		}
 		return new ListaReservasMsg(rta);
 	}
+	
+	public ListaReservasMsg darReservas(List<Integer> ids, String origen, String destino) throws Exception {
+		ListaReservasMsg remL = darRegistrarReservas(ids, origen, destino);
+		try
+		{
+			ListaReservasMsg resp = dtm.getRemoteReservas(ids, origen, destino);
+			System.out.println(resp.getReservas().size());
+			remL.getReservas().addAll(resp.getReservas());
+		}
+		catch(NonReplyException e)
+		{
+			
+		}
+		return remL;
+	}
 
+
+	
 	public Vuelo addReservasVueloTotal(ListaReservasPasajero reservasPasajero) throws Exception {
 		DAOTablaReservas daoReservasPasajero = new DAOTablaReservas();
 		Vuelo vuelo = new Vuelo(0, 0);
