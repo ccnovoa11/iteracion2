@@ -118,7 +118,9 @@ public class VuelAndesMaster {
 	public VuelAndesMaster(String contextPathP) {
 		connectionDataPath = contextPathP + CONNECTION_DATA_FILE_NAME_REMOTE;
 		initConnectionData();
+		System.out.println("Instancing DTM...");
 		dtm = VuelAndesDistributed.getInstance(this);
+		System.out.println("Done!");
 	}
 
 	/*
@@ -4420,7 +4422,7 @@ public class VuelAndesMaster {
 		return new ListaReservasMsg(rta);
 	}
 	
-	public ListaReservasMsg darReservas(List<Integer> ids, String origen, String destino) throws Exception {
+	public ListaReservasMsg darReservasGlobal(List<Integer> ids, String origen, String destino) throws Exception {
 		ListaReservasMsg remL = darRegistrarReservas(ids, origen, destino);
 		try
 		{
