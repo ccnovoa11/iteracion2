@@ -131,7 +131,7 @@ public class VuelAndesDistributed
 	public ListaUsuariosMsg getUsuariosPromovidos(int millas) throws Exception
 	{
 		//TODO
-		return null;
+		return tm.darUsuariosPromovidos(millas);
 	}
 
 	public ListaVuelosMsg getVuelosAeropuerto(String aeropuerto) throws Exception

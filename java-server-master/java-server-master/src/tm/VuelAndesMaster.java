@@ -35,6 +35,7 @@ import dao.DAOTablaVueloPasajero;
 import vos.ListaReservasMsg;
 import vos.ListaUsuariosMsg;
 import vos.ReservaMsg;
+import vos.UsuarioMsg;
 import vos1.Admin;
 import vos1.Aerolinea;
 import vos1.Aeronave;
@@ -1042,7 +1043,7 @@ public class VuelAndesMaster {
 	//
 	//
 	
-	public ListaViajeros buscarViajerosPorId(int millas) throws Exception {
+	public ListaViajeros buscarViajerosPromovidos(int millas) throws Exception {
 		ArrayList<Viajero> viajeros=new ArrayList<>();
 		DAOTablaCliente daoViajeros = new DAOTablaCliente();
 		try 
@@ -1079,8 +1080,15 @@ public class VuelAndesMaster {
 	}
 	
 	
-	public ListaUsuariosMsg darUsuarioPromovidos(int millas){
-		
+	public ListaUsuariosMsg darUsuariosPromovidos(int millas) throws Exception{
+		List<UsuarioMsg> respuesta = new ArrayList<>();
+		ListaViajeros sinConvertir = buscarViajerosPromovidos(millas);
+		for (int i = 0; i < sinConvertir.getViajeros().size(); i++) {
+			Viajero actual = sinConvertir.getViajeros().get(i);
+			UsuarioMsg usuario = new UsuarioMsg(actual.getId(), actual.getNombre(), actual.getNacionalidad());
+			respuesta.add(usuario);
+		}
+		return new ListaUsuariosMsg(respuesta);
 	}
 	
 	public ListaVuelosPasajero buscarVuelosPorCodAerolienaViajero(int ide, String cod, String clase, int distancia) throws Exception
