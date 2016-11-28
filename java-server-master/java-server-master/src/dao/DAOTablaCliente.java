@@ -83,6 +83,22 @@ public class DAOTablaCliente {
 		return remitentes;
 	}
 
+	public ArrayList<Integer> darUsuariosMillas(int millas) throws SQLException, Exception {
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+
+		String sql ="SELECT rp.ID_VIAJERO FROM ISIS2304B041620.RESERVA_PASAJERO rp inner join ISIS2304B041620.vuelo_pasajero vp on rp.ID_VUELO_PASAJERO=vp.ID inner join ISIS2304B041620.viajero vi on vi.IDENTIFICACION=rp.ID_VIAJERO HAVING sum(distancia) >= "+12000+ "group by rp.ID_VIAJERO";
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+		while (rs.next()) {
+			int id = rs.getInt("ID_VIAJERO");
+			ids.add(id);
+		}
+		return ids;
+	}
+	
 	public ArrayList<Viajero> darViajeros() throws SQLException, Exception {
 		ArrayList<Viajero> viajeros = new ArrayList<Viajero>();
 
@@ -189,6 +205,31 @@ public class DAOTablaCliente {
 		}
 
 		return viajeros;
+	}
+	
+	public Viajero buscarViajeroPorId(int id1) throws SQLException, Exception {
+		Viajero viajero = null;
+
+		String sql = "SELECT * FROM ISIS2304B041620.VIAJERO WHERE IDENTIFICACION =" + id1;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+
+
+		while (rs.next()) {
+			int id = rs.getInt("IDENTIFICACION");
+			String nombre = rs.getString("NOMBRE");
+			String tipo = rs.getString("TIPO_IDENT");
+			String nacionalidad = rs.getString("NACIONALIDAD");
+			int esFrecuente = rs.getInt("ESFRECUENTE");
+
+			viajero= new Viajero(id, nombre, tipo,nacionalidad,esFrecuente);
+		}
+
+		return viajero;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -32,6 +33,7 @@ import dao.DAOTablaVueloCarga;
 import dao.DAOTablaVueloGeneral;
 import dao.DAOTablaVueloPasajero;
 import vos.ListaReservasMsg;
+import vos.ListaUsuariosMsg;
 import vos.ReservaMsg;
 import vos1.Admin;
 import vos1.Aerolinea;
@@ -1024,7 +1026,63 @@ public class VuelAndesMaster {
 		}
 		return new ListaViajeros(viajeros);
 	}
+	
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	// MILLAS
+	//
+	//
+	//
+	//
+	
+	public ListaViajeros buscarViajerosPorId(int millas) throws Exception {
+		ArrayList<Viajero> viajeros=new ArrayList<>();
+		DAOTablaCliente daoViajeros = new DAOTablaCliente();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoViajeros.setConn(conn);
+			List<Integer> idsViajeros= daoViajeros.darUsuariosMillas(millas);
+			for (Integer idActual : idsViajeros) {
+				Viajero viajero= daoViajeros.buscarViajeroPorId(idActual);
+				viajeros.add(viajero);
+			}
 
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoViajeros.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return new ListaViajeros(viajeros);
+	}
+	
+	
+	public ListaUsuariosMsg darUsuarioPromovidos(int millas){
+		
+	}
+	
 	public ListaVuelosPasajero buscarVuelosPorCodAerolienaViajero(int ide, String cod, String clase, int distancia) throws Exception
 	{
 		ArrayList<VueloPasajero> vuelos = new ArrayList<VueloPasajero>();
