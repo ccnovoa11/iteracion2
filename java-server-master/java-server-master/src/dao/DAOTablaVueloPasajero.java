@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import vos.ListaVuelosMsg;
+import vos.VueloMsg;
 import vos1.Aeronave;
 import vos1.Aeropuerto;
 import vos1.VueloCarga;
@@ -809,5 +811,114 @@ public class DAOTablaVueloPasajero {
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
+	}
+	
+	public ArrayList<VueloMsg> vueloPasajeroAerDestinoRFC11 (int aer) throws SQLException
+	{
+		ArrayList<VueloMsg> vuelos = new ArrayList<VueloMsg>();
+
+		String sql = "SELECT ID, FECHASALIDA, ORIGEN,  PAIS AS DESTINO,CODAEROLINEA, PRECIO_ECONOMICO AS PRECIO  FROM (SELECT ID, FECHASALIDA, PAIS AS ORIGEN, CODAEROLINEA,ID_AERO_DESTINO, PRECIO_ECONOMICO FROM ISIS2304B041620.VUELO_PASAJERO vp INNER JOIN ISIS2304B041620.AEROPUERTO ori ON vp.ID_AERO_ORIGEN = ori.CODIGO)T1 "; 
+               sql += " INNER JOIN ISIS2304B041620.AEROPUERTO des ON des.CODIGO = T1.ID_AERO_DESTINO WHERE CODIGO ="+ aer ;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String id = rs.getInt("ID") + "D03";
+			String fecha = rs.getDate("FECHASALIDA").toString();
+			String tipo = "Pasajero";
+			String origen = rs.getString("ORIGEN");
+			String destino = rs.getString("DESTINO");
+			String codaerolinea = rs.getString("CODAEROLINEA");
+			double precio = rs.getInt("PRECIO");
+			vuelos.add(new VueloMsg(id, fecha, tipo, origen, destino, codaerolinea, precio));
+		}
+		
+		return vuelos;		
+	}
+	
+	public ArrayList<VueloMsg> vueloPasajeroAerOrigenRFC11 (int aer) throws SQLException
+	{
+		ArrayList<VueloMsg> vuelos = new ArrayList<VueloMsg>();
+
+		String sql = "SELECT ID, FECHASALIDA, ORIGEN,  PAIS AS DESTINO,CODAEROLINEA, PRECIO_ECONOMICO AS PRECIO  FROM (SELECT ID, FECHASALIDA, PAIS AS ORIGEN, CODAEROLINEA,ID_AERO_DESTINO, PRECIO_ECONOMICO FROM ISIS2304B041620.VUELO_PASAJERO vp INNER JOIN ISIS2304B041620.AEROPUERTO ori ON vp.ID_AERO_ORIGEN = ori.CODIGO WHERE CODIGO ="+ aer+ ")T1"; 
+               sql += " INNER JOIN ISIS2304B041620.AEROPUERTO des ON des.CODIGO = T1.ID_AERO_DESTINO";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String id = rs.getInt("ID") + "D03";
+			String fecha = rs.getDate("FECHASALIDA").toString();
+			String tipo = "Pasajero";
+			String origen = rs.getString("ORIGEN");
+			String destino = rs.getString("DESTINO");
+			String codaerolinea = rs.getString("CODAEROLINEA");
+			double precio = rs.getInt("PRECIO");
+			vuelos.add(new VueloMsg(id, fecha, tipo, origen, destino, codaerolinea, precio));
+		}
+		
+		return vuelos;		
+	}
+	
+	
+	public ArrayList<VueloMsg> vueloCargaAerDestinoRFC11 (int aer) throws SQLException
+	{
+		ArrayList<VueloMsg> vuelos = new ArrayList<VueloMsg>();
+
+		String sql = "SELECT ID, FECHASALIDA, ORIGEN,  PAIS AS DESTINO,CODAEROLINEA, PRECIO_DENSIDAD AS PRECIO  FROM (SELECT ID, FECHASALIDA, PAIS AS ORIGEN, CODAEROLINEA,ID_AERO_DESTINO, PRECIO_DENSIDAD FROM ISIS2304B041620.VUELO_CARGA vp INNER JOIN ISIS2304B041620.AEROPUERTO ori ON vp.ID_AERO_ORIGEN = ori.CODIGO)T1 "; 
+               sql += " INNER JOIN ISIS2304B041620.AEROPUERTO des ON des.CODIGO = T1.ID_AERO_DESTINO WHERE CODIGO ="+ aer ;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String id = rs.getInt("ID") + "D03";
+			String fecha = rs.getDate("FECHASALIDA").toString();
+			String tipo = "Carga";
+			String origen = rs.getString("ORIGEN");
+			String destino = rs.getString("DESTINO");
+			String codaerolinea = rs.getString("CODAEROLINEA");
+			double precio = rs.getInt("PRECIO");
+			vuelos.add(new VueloMsg(id, fecha, tipo, origen, destino, codaerolinea, precio));
+		}
+		
+		return vuelos;		
+	}
+	
+	public ArrayList<VueloMsg> vueloCargaAerOrigenRFC11 (int aer) throws SQLException
+	{
+		ArrayList<VueloMsg> vuelos = new ArrayList<VueloMsg>();
+
+		String sql = "SELECT ID, FECHASALIDA, ORIGEN,  PAIS AS DESTINO,CODAEROLINEA, PRECIO_DENSIDAD AS PRECIO  FROM (SELECT ID, FECHASALIDA, PAIS AS ORIGEN, CODAEROLINEA,ID_AERO_DESTINO, PRECIO_DENSIDAD FROM ISIS2304B041620.VUELO_CARGA vp INNER JOIN ISIS2304B041620.AEROPUERTO ori ON vp.ID_AERO_ORIGEN = ori.CODIGO WHERE CODIGO ="+ aer+ ")T1"; 
+               sql += " INNER JOIN ISIS2304B041620.AEROPUERTO des ON des.CODIGO = T1.ID_AERO_DESTINO";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		
+		while (rs.next()) {
+			String id = rs.getInt("ID") + "D03";
+			String fecha = rs.getDate("FECHASALIDA").toString();
+			String tipo = "Carga";
+			String origen = rs.getString("ORIGEN");
+			String destino = rs.getString("DESTINO");
+			String codaerolinea = rs.getString("CODAEROLINEA");
+			double precio = rs.getInt("PRECIO");
+			vuelos.add(new VueloMsg(id, fecha, tipo, origen, destino, codaerolinea, precio));
+		}
+		
+		return vuelos;		
 	}
 }

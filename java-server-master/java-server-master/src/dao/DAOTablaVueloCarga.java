@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import vos.VueloMsg;
 import vos1.VueloCarga;
 
 public class DAOTablaVueloCarga {
@@ -601,4 +602,5 @@ public class DAOTablaVueloCarga {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
+
 }

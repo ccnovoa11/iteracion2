@@ -38,8 +38,10 @@ import vos.AerolineaMsg;
 import vos.ListaAerolineasMsg;
 import vos.ListaReservasMsg;
 import vos.ListaUsuariosMsg;
+import vos.ListaVuelosMsg;
 import vos.ReservaMsg;
 import vos.UsuarioMsg;
+import vos.VueloMsg;
 import vos1.Admin;
 import vos1.Aerolinea;
 import vos1.Aeronave;
@@ -4949,5 +4951,64 @@ public class VuelAndesMaster {
 			
 		}
 		return remL;
+	}
+	
+	public ListaVuelosMsg listaVuelosPasajeroRFC11 (int aer) throws SQLException
+	{
+		ArrayList<VueloMsg> vueloP = new ArrayList<VueloMsg>();
+		ArrayList<VueloMsg> vuelosTotales = new ArrayList<VueloMsg>();
+		ArrayList<VueloMsg> vuelosCaDe = new ArrayList<VueloMsg>();
+		ArrayList<VueloMsg> vuelosCaOr = new ArrayList<VueloMsg>();
+		
+		DAOTablaVueloPasajero daoVue = new DAOTablaVueloPasajero();
+
+
+		try
+		{
+			//////Transacción
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoVue.setConn(conn);
+			vuelosTotales = daoVue.vueloPasajeroAerDestinoRFC11(aer);
+			vueloP = daoVue.vueloPasajeroAerOrigenRFC11(aer);
+			vuelosCaDe = daoVue.vueloCargaAerDestinoRFC11(aer);
+			vuelosCaOr = daoVue.vueloCargaAerOrigenRFC11(aer);
+			vuelosTotales.addAll(vueloP);
+			vuelosTotales.addAll(vuelosCaDe);
+			vuelosTotales.addAll(vuelosCaOr);
+			conn.commit();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		catch (Exception e)
+		{
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		}
+		finally
+		{
+			try
+			{
+				daoVue.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			}
+			catch (SQLException exception)
+			{
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+
+		return new ListaVuelosMsg(vuelosTotales);		
 	}
 }

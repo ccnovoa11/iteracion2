@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.ListaVuelosMsg;
 import vos1.Aerolinea;
 import vos1.Aeropuerto;
 import vos1.ListaAerolineas;
@@ -482,6 +483,26 @@ public class VuelAndesAeropuertosServices {
 			if (id<=0)
 				throw new Exception("Nombre del aeropuerto no valido");
 			vuelos = tm.buscarVueloPasajeroAeropuertoFecha(id, comienzo, fin);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(vuelos).build();
+	}
+	
+	//
+	//RFC11
+	//
+	
+	@GET
+	@Path("/vuelosPorCodigo/id/{id}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getVuelosAeropuertoCodigoRFC11(@javax.ws.rs.PathParam("id") int id) {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaVuelosMsg vuelos;
+		try {
+			if (id<=0)
+				throw new Exception("id del aeropuerto no valido");
+			vuelos = tm.listaVuelosPasajeroRFC11(id);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
