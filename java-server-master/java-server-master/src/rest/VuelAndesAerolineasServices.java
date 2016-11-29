@@ -108,11 +108,11 @@ public class VuelAndesAerolineasServices {
 	@GET
 	@Path("/ingresosRango")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getIngresosAerolinea(RangoFechas rango) {
+	public Response getIngresosAerolinea() {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		ListaAerolineasMsg aerolineas;
 		try {
-			aerolineas = tm.ingresosRFC12(rango);
+			aerolineas = tm.ingresosRFC12();
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

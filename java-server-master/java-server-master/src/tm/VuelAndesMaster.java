@@ -4410,7 +4410,7 @@ public class VuelAndesMaster {
 
 				daoReservasPasajero.addReserva(reservaPasajero);
 				ReservaPasajero anadir = daoReservasPasajero.buscarReservaPorId(reservaPasajero.getId());
-				reservasAnadidas.add(anadir);
+				reservasAnadidas.add(reservaPasajero);
 				//daoReservasPasajero.createSavepoint(String.valueOf(reservasPasajero.getReservasPasajero().get(0).getId()));
 			}
 			conn.commit();
@@ -4881,7 +4881,7 @@ public class VuelAndesMaster {
 	
 	//ITERA5 
 	
-	public ListaAerolineasMsg ingresosRFC12 (RangoFechas rango) throws SQLException
+	public ListaAerolineasMsg ingresosRFC12 () throws SQLException
 	{
 		ArrayList<AerolineaMsg> aerolineaP = new ArrayList<AerolineaMsg>();
 		ArrayList<AerolineaMsg> aerolineaIngresos = new ArrayList<AerolineaMsg>();
@@ -4894,8 +4894,8 @@ public class VuelAndesMaster {
 			this.conn = darConexion();
 			conn.setAutoCommit(false);
 			daoAero.setConn(conn);
-			aerolineaIngresos = daoAero.ingresoCarga(rango);
-			aerolineaP = daoAero.ingresoPasajeros(rango);
+			aerolineaIngresos = daoAero.ingresoCarga();
+			aerolineaP = daoAero.ingresoPasajeros();
 			aerolineaIngresos.addAll(aerolineaP);
 			conn.commit();
 
@@ -4932,5 +4932,22 @@ public class VuelAndesMaster {
 
 		return new ListaAerolineasMsg(aerolineaIngresos);
 		
+	}
+	
+	
+	public ListaAerolineasMsg darIngresosGlobal() throws Exception {
+		ListaAerolineasMsg remL = ingresosRFC12();
+		try
+		{
+			ListaAerolineasMsg resp = dtm.getIngresoAerolineas();
+			System.out.println(resp.getAerolineas().size());
+			remL.getAerolineas().addAll(resp.getAerolineas());
+			return remL;
+		}
+		catch(NonReplyException e)
+		{
+			
+		}
+		return remL;
 	}
 }

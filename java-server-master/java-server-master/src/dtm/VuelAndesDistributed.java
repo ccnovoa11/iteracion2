@@ -23,6 +23,7 @@ import vos.ListaAerolineasMsg;
 import vos.ListaReservasMsg;
 import vos.ListaUsuariosMsg;
 import vos.ListaVuelosMsg;
+import vos1.RangoFechas;
 
 public class VuelAndesDistributed 
 {
@@ -143,7 +144,7 @@ public class VuelAndesDistributed
 	public ListaAerolineasMsg getIngresoAerolineas() throws Exception
 	{
 		//TODO
-		return null;
+		return tm.ingresosRFC12();
 	}
 
 	public ListaReservasMsg getRemoteReservas(List<Integer> ids, String origen, String destino) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException

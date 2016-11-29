@@ -129,50 +129,50 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 	@Override
 	public void onMessage(Message message) 
 	{
-//		TextMessage txt = (TextMessage) message;
-//		try 
-//		{
-//			String body = txt.getText();
-//			System.out.println(body);
-//			ObjectMapper mapper = new ObjectMapper();
-//			ExchangeMsg ex = mapper.readValue(body, ExchangeMsg.class);
-//			String id = ex.getMsgId();
-//			System.out.println(ex.getSender());
-//			System.out.println(ex.getStatus());
-//			if(!ex.getSender().equals(APP))
-//			{
-//				if(ex.getStatus().equals(REQUEST))
-//				{
-//					VuelAndesDistributed dtm = VuelAndesDistributed.getInstance();
-//
-//					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(ex.getPayload());
-//					String payload = mapper.writeValueAsString(vuelos);
-//					Topic t = new RMQDestination("", "vuelos.test", ex.getRoutingKey(), "");
-//					sendMessage(payload, REQUEST_ANSWER, t, id);
-//				}
-//				else if(ex.getStatus().equals(REQUEST_ANSWER))
-//				{
-//					ListaVuelosMsg v = mapper.readValue(ex.getPayload(), ListaVuelosMsg.class);
-//					answer.addAll(v.getVuelos());
-//				}
-//			}
-//
-//		} catch (JMSException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (JsonParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		TextMessage txt = (TextMessage) message;
+		try 
+		{
+			String body = txt.getText();
+			System.out.println(body);
+			ObjectMapper mapper = new ObjectMapper();
+			ExchangeMsg ex = mapper.readValue(body, ExchangeMsg.class);
+			String id = ex.getMsgId();
+			System.out.println(ex.getSender());
+			System.out.println(ex.getStatus());
+			if(!ex.getSender().equals(APP))
+			{
+				if(ex.getStatus().equals(REQUEST))
+				{
+					VuelAndesDistributed dtm = VuelAndesDistributed.getInstance();
+
+					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(ex.getPayload());
+					String payload = mapper.writeValueAsString(vuelos);
+					Topic t = new RMQDestination("", "vuelos.test", ex.getRoutingKey(), "");
+					sendMessage(payload, REQUEST_ANSWER, t, id);
+				}
+				else if(ex.getStatus().equals(REQUEST_ANSWER))
+				{
+					ListaVuelosMsg v = mapper.readValue(ex.getPayload(), ListaVuelosMsg.class);
+					answer.addAll(v.getVuelos());
+				}
+			}
+
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
