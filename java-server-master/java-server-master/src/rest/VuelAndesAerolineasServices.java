@@ -112,7 +112,7 @@ public class VuelAndesAerolineasServices {
 		VuelAndesMaster tm = new VuelAndesMaster(getPath());
 		ListaAerolineasMsg aerolineas;
 		try {
-			aerolineas = tm.ingresosRFC12();
+			aerolineas = tm.darIngresosGlobal();
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

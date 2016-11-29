@@ -80,7 +80,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 		topicConnection.close();
 	}
 
-	public ListaVuelosMsg getRemoteVuelos(String aeropuerto) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaVuelosMsg getRemoteVuelos(int aeropuerto) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
 		answer.clear();
 		String id = APP+""+System.currentTimeMillis();
@@ -88,7 +88,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 		id = DatatypeConverter.printHexBinary(md.digest(id.getBytes())).substring(0, 8);
 		//		id = new String(md.digest(id.getBytes()));
 
-		sendMessage(aeropuerto, REQUEST, globalTopic, id);
+		sendMessage(aeropuerto+"", REQUEST, globalTopic, id);
 		boolean waiting = true;
 
 		int count = 0;
@@ -145,7 +145,7 @@ public class VuelosMDB implements MessageListener, ExceptionListener
 				{
 					VuelAndesDistributed dtm = VuelAndesDistributed.getInstance();
 
-					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(ex.getPayload());
+					ListaVuelosMsg vuelos = dtm.getVuelosAeropuerto(Integer.parseInt(ex.getPayload()));
 					String payload = mapper.writeValueAsString(vuelos);
 					Topic t = new RMQDestination("", "vuelos.test", ex.getRoutingKey(), "");
 					sendMessage(payload, REQUEST_ANSWER, t, id);

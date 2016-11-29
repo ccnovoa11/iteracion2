@@ -219,7 +219,7 @@ public class DAOTablaAerolineas {
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		
-		while (rs.next()) {
+		while (rs.next() && aerolineasMsg.size()<=10) {
 			String iata = rs.getString("IATA");
 			String nombre = rs.getString("NOMBRE");
 			int noVuelosCarga = rs.getInt("NUM_VUELOS_CARGA");
@@ -251,7 +251,7 @@ public class DAOTablaAerolineas {
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		
-		while (rs.next()) {
+		while (rs.next() && aerolineasMsg.size()<=10) {
 			String iata = rs.getString("IATA");
 			String nombre = rs.getString("NOMBRE");
 			int noVuelosCarga = 0;

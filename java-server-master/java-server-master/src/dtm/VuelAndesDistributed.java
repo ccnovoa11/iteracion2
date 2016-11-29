@@ -135,7 +135,7 @@ public class VuelAndesDistributed
 		return tm.darUsuariosPromovidos(millas);
 	}
 
-	public ListaVuelosMsg getVuelosAeropuerto(String aeropuerto) throws Exception
+	public ListaVuelosMsg getVuelosAeropuerto(int aeropuerto) throws Exception
 	{
 		//TODO
 		return null;
@@ -157,9 +157,9 @@ public class VuelAndesDistributed
 		return usuariosMQ.getRemoteUsuarios(millas);
 	}
 	
-	public ListaVuelosMsg getRemotVuelos(String aerolinea) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	public ListaVuelosMsg getRemotVuelos(int aeropuerto) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
 	{
-		return vuelosMQ.getRemoteVuelos(aerolinea);
+		return vuelosMQ.getRemoteVuelos(aeropuerto);
 	}
 	
 	public ListaAerolineasMsg getRemoteAerolineas() throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException

@@ -4939,7 +4939,7 @@ public class VuelAndesMaster {
 		ListaAerolineasMsg remL = ingresosRFC12();
 		try
 		{
-			ListaAerolineasMsg resp = dtm.getIngresoAerolineas();
+			ListaAerolineasMsg resp = dtm.getRemoteAerolineas();
 			System.out.println(resp.getAerolineas().size());
 			remL.getAerolineas().addAll(resp.getAerolineas());
 			return remL;
