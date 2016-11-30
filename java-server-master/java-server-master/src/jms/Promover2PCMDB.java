@@ -120,7 +120,7 @@ public class Promover2PCMDB implements MessageListener, ExceptionListener
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		System.out.println(id);
-		ExchangeMsg msg = new ExchangeMsg("usuarios.general.D03", APP, payload, status, id);
+		ExchangeMsg msg = new ExchangeMsg("usuarios2pc.general.D03", APP, payload, status, id);
 		TopicPublisher topicPublisher = topicSession.createPublisher(dest);
 		topicPublisher.setDeliveryMode(DeliveryMode.PERSISTENT);
 		TextMessage txtMsg = topicSession.createTextMessage();
@@ -152,7 +152,7 @@ public class Promover2PCMDB implements MessageListener, ExceptionListener
 					millas = Integer.parseInt(ex.getPayload());
 					ListaUsuariosMsg usuarios = dtm.getUsuariosPromovidos(millas);
 					String payload = mapper.writeValueAsString(usuarios);
-					Topic t = new RMQDestination("", "usuarios.test", ex.getRoutingKey(), "");
+					Topic t = new RMQDestination("", "usuarios2pc.test", ex.getRoutingKey(), "");
 					sendMessage(payload, WAITING, t, id);
 					waiting = true;
 				}
@@ -175,7 +175,7 @@ public class Promover2PCMDB implements MessageListener, ExceptionListener
 						answer.addAll(dtm.getUsuariosPromovidos(millas).getUsuarios());
 						ListaUsuariosMsg promovidosGlobal = new ListaUsuariosMsg(answer);
 						String payload = mapper.writeValueAsString(promovidosGlobal);
-						Topic t = new RMQDestination("", "usuarios.test", ex.getRoutingKey(), "");
+						Topic t = new RMQDestination("", "usuarios2pc.test", ex.getRoutingKey(), "");
 						sendMessage(payload, REQUEST, t, id);
 					}
 				}

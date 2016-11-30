@@ -173,6 +173,23 @@ public class VuelAndesViajerosServices {
 		return Response.status(200).entity(usuarios).build();
 	}
 	
+	@GET
+	@Path("/promovidos2PC/{millas}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response darUsuariosPromovidos2PC(@javax.ws.rs.PathParam("millas")int millas) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaUsuariosMsg usuarios;
+		try {
+			if (millas <=-1 )
+				throw new Exception("Id del usuario no valido");
+			usuarios = tm.darUsuariosGlobal2PC(millas);
+			tm.promoverUsuarios(usuarios);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(usuarios).build();
+	}
+	
 //    /**
 //     * Método que expone servicio REST usando GET que busca el video mas alquilado
 //     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/videos/MayorAlquilado

@@ -5047,6 +5047,21 @@ public class VuelAndesMaster {
 		return remL;
 	}
 	
+	public ListaUsuariosMsg darUsuariosGlobal2PC(int millas) throws Exception {
+		ListaUsuariosMsg remL = darUsuariosPromovidos(millas);
+		try
+		{
+			ListaUsuariosMsg resp = dtm.getRemoteUsuarios2(millas);
+			System.out.println(resp.getUsuarios().size());
+			remL.getUsuarios().addAll(resp.getUsuarios());
+			return remL;
+		}
+		catch(NonReplyException e)
+		{
+			
+		}
+		return remL;
+	}
 	public void promoverUsuarios(ListaUsuariosMsg promovidos) throws Exception{
 		
 		DAOTablaPromovidos daoPromovidos = new DAOTablaPromovidos();

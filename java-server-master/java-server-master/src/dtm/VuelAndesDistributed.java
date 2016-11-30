@@ -15,6 +15,7 @@ import com.rabbitmq.jms.admin.*;
 
 import jms.AerolineasMDB;
 import jms.NonReplyException;
+import jms.Promover2PCMDB;
 import jms.PromoverUsuarioMDB;
 import jms.RegistrarReservaMDB;
 import jms.VuelosMDB;
@@ -45,6 +46,8 @@ public class VuelAndesDistributed
 	private RegistrarReservaMDB reservasMQ;
 	
 	private PromoverUsuarioMDB usuariosMQ;
+	
+	private Promover2PCMDB usuarios2MQ;
 
 	private static String path;
 
@@ -57,11 +60,13 @@ public class VuelAndesDistributed
 		vuelosMQ = new VuelosMDB(factory, ctx);
 		reservasMQ = new RegistrarReservaMDB(factory, ctx);
 		usuariosMQ = new PromoverUsuarioMDB(factory, ctx);
+		usuarios2MQ = new Promover2PCMDB(factory, ctx);
 
 		aerolineasMQ.start();
 		vuelosMQ.start();
 		reservasMQ.start();
 		usuariosMQ.start();
+		usuarios2MQ.start();
 
 	}
 
@@ -71,6 +76,7 @@ public class VuelAndesDistributed
 		vuelosMQ.close();
 		reservasMQ.close();
 		usuariosMQ.close();
+		usuarios2MQ.close();
 	}
 
 	/**
@@ -149,6 +155,11 @@ public class VuelAndesDistributed
 	
 	public void promover(ListaUsuariosMsg promovidos) throws Exception{
 		tm.promoverUsuarios(promovidos);
+	}
+	
+	public ListaUsuariosMsg getRemoteUsuarios2(int millas) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
+	{
+		return usuarios2MQ.getRemoteUsuarios(millas);
 	}
 
 	public ListaReservasMsg getRemoteReservas(List<Integer> ids, String origen, String destino) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException
