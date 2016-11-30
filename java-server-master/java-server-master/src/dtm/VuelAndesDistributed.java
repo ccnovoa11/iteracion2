@@ -138,13 +138,17 @@ public class VuelAndesDistributed
 	public ListaVuelosMsg getVuelosAeropuerto(int aeropuerto) throws Exception
 	{
 		//TODO
-		return null;
+		return tm.darVuelosGlobal(aeropuerto);
 	}
 	
 	public ListaAerolineasMsg getIngresoAerolineas() throws Exception
 	{
 		//TODO
 		return tm.ingresosRFC12();
+	}
+	
+	public void promover(ListaUsuariosMsg promovidos) throws Exception{
+		tm.promoverUsuarios(promovidos);
 	}
 
 	public ListaReservasMsg getRemoteReservas(List<Integer> ids, String origen, String destino) throws JsonGenerationException, JsonMappingException, JMSException, IOException, NonReplyException, InterruptedException, NoSuchAlgorithmException

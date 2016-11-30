@@ -27,6 +27,7 @@ import dao.DAOTablaAerolineas;
 import dao.DAOTablaAeronaves;
 import dao.DAOTablaAeropuertos;
 import dao.DAOTablaCliente;
+import dao.DAOTablaPromovidos;
 import dao.DAOTablaReservas;
 import dao.DAOTablaSilla;
 import dao.DAOTablaVueloCarga;
@@ -1091,16 +1092,7 @@ public class VuelAndesMaster {
 	}
 	
 	
-	public ListaUsuariosMsg darUsuariosPromovidos(int millas) throws Exception{
-		List<UsuarioMsg> respuesta = new ArrayList<>();
-		ListaViajeros sinConvertir = buscarViajerosPromovidos(millas);
-		for (int i = 0; i < sinConvertir.getViajeros().size(); i++) {
-			Viajero actual = sinConvertir.getViajeros().get(i);
-			UsuarioMsg usuario = new UsuarioMsg(actual.getId(), actual.getNombre(), actual.getNacionalidad());
-			respuesta.add(usuario);
-		}
-		return new ListaUsuariosMsg(respuesta);
-	}
+
 	
 	public ListaVuelosPasajero buscarVuelosPorCodAerolienaViajero(int ide, String cod, String clase, int distancia) throws Exception
 	{
@@ -5010,5 +5002,83 @@ public class VuelAndesMaster {
 		}
 
 		return new ListaVuelosMsg(vuelosTotales);		
+	}
+	
+	public ListaVuelosMsg darVuelosGlobal(int aer) throws Exception {
+		ListaVuelosMsg remL = listaVuelosPasajeroRFC11(aer);
+		try
+		{
+			ListaVuelosMsg resp = dtm.getRemotVuelos(aer);
+			System.out.println(resp.getVuelos().size());
+			remL.getVuelos().addAll(resp.getVuelos());
+			return remL;
+		}
+		catch(NonReplyException e)
+		{
+			
+		}
+		return remL;
+	}
+	
+	public ListaUsuariosMsg darUsuariosPromovidos(int millas) throws Exception{
+		List<UsuarioMsg> respuesta = new ArrayList<>();
+		ListaViajeros sinConvertir = buscarViajerosPromovidos(millas);
+		for (int i = 0; i < sinConvertir.getViajeros().size(); i++) {
+			Viajero actual = sinConvertir.getViajeros().get(i);
+			UsuarioMsg usuario = new UsuarioMsg(actual.getId(), actual.getNombre(), actual.getNacionalidad());
+			respuesta.add(usuario);
+		}
+		return new ListaUsuariosMsg(respuesta);
+	}
+	
+	public ListaUsuariosMsg darUsuariosGlobal(int millas) throws Exception {
+		ListaUsuariosMsg remL = darUsuariosPromovidos(millas);
+		try
+		{
+			ListaUsuariosMsg resp = dtm.getRemoteUsuarios(millas);
+			System.out.println(resp.getUsuarios().size());
+			remL.getUsuarios().addAll(resp.getUsuarios());
+			return remL;
+		}
+		catch(NonReplyException e)
+		{
+			
+		}
+		return remL;
+	}
+	
+	public void promoverUsuarios(ListaUsuariosMsg promovidos) throws Exception{
+		
+		DAOTablaPromovidos daoPromovidos = new DAOTablaPromovidos();
+		try 
+		{
+			//////Transacción - ACID Example
+			this.conn = darConexion();
+			conn.setAutoCommit(false);
+			daoPromovidos.setConn(conn);
+			for(UsuarioMsg usuario : promovidos.getUsuarios())
+				daoPromovidos.addPromovido(usuario);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoPromovidos.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
 	}
 }

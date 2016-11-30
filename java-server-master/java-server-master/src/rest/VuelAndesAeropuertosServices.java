@@ -502,7 +502,7 @@ public class VuelAndesAeropuertosServices {
 		try {
 			if (id<=0)
 				throw new Exception("id del aeropuerto no valido");
-			vuelos = tm.listaVuelosPasajeroRFC11(id);
+			vuelos = tm.darVuelosGlobal(id);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

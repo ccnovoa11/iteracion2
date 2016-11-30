@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.VuelAndesMaster;
+import vos.ListaUsuariosMsg;
 import vos1.ListaReservasPasajero;
 import vos1.ListaViajeros;
 import vos1.ListaVuelosPasajero;
@@ -153,6 +154,23 @@ public class VuelAndesViajerosServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(vuelos).build();
+	}
+	
+	@GET
+	@Path("/promovidos/{millas}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response darUsuariosPromovidos(@javax.ws.rs.PathParam("millas")int millas) throws Exception {
+		VuelAndesMaster tm = new VuelAndesMaster(getPath());
+		ListaUsuariosMsg usuarios;
+		try {
+			if (millas <=-1 )
+				throw new Exception("Id del usuario no valido");
+			usuarios = tm.darUsuariosGlobal(millas);
+			tm.promoverUsuarios(usuarios);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(usuarios).build();
 	}
 	
 //    /**
